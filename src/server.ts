@@ -4,37 +4,37 @@ import express from "express";
 const app: Application = express();
 const PORT = 3000;
 
-app.set('view engine', 'ejs')
+app.set("view engine", "ejs");
 
-app.use(express.static('public'))
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  res.render('index')
+  res.render("index");
 });
 
 app.get("/about", (req, res) => {
-  res.render('about')
-})
+  res.render("about");
+});
 
 app.get("/shop", (req, res) => {
-  res.render('shop')
-})
+  res.render("shop");
+});
 
 app.get("/single-product", (req, res) => {
-  res.render('single-product')
-})
+  res.render("single-product");
+});
 
 app.get("/cart", (req, res) => {
-  res.render('cart')
-})
+  res.render("cart");
+});
 
 app.get("/checkout", (req, res) => {
-  res.render('checkout')
-})
+  res.render("checkout");
+});
 
 app.get("/thankyou", (req, res) => {
-  res.render('thankyou')
-})
+  res.render("thankyou");
+});
 
 app.listen(PORT, () => {
   console.log(`🔥[Server] listening on port ${PORT}`);
