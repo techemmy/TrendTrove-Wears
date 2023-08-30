@@ -14,9 +14,12 @@ const sequelize = new Sequelize(
       idle: dbConfig.pool.idle,
       acquire: dbConfig.pool.acquire,
     },
+    define: {
+      freezeTableName: true // prevents Sequelize from auto-pluralization of model names
+    }
   }
 );
 
-const db = { sequelize, Sequelize };
+const dbConnection = { sequelize };
 
-export default db;
+export default dbConnection;
