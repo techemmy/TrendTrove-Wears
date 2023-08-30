@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import { UserAttributes } from "../types/models/userType";
+import { type UserAttributes } from "../types/models/userType";
 
 class User extends Model<UserAttributes> implements UserAttributes {
   id: number;
@@ -9,7 +9,7 @@ class User extends Model<UserAttributes> implements UserAttributes {
   readonly updatedAt: Date;
 }
 
-export default (sequelize) => {
+export default (sequelize): typeof User => {
   return User.init(
     {
       id: {

@@ -1,5 +1,5 @@
 import { Model, DataTypes } from "sequelize";
-import { RoleAttributes } from "../types/models/roleType";
+import { type RoleAttributes } from "../types/models/roleType";
 
 class Role extends Model<RoleAttributes> implements RoleAttributes {
   id: number;
@@ -7,7 +7,7 @@ class Role extends Model<RoleAttributes> implements RoleAttributes {
   permissions: number;
 }
 
-export default (sequelize) => {
+export default (sequelize): typeof Role => {
   return Role.init(
     {
       id: {
