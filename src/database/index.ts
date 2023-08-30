@@ -23,4 +23,4 @@ const sequelize = new Sequelize(
 
 const db = { sequelize, users: User(sequelize), roles: Role(sequelize) };
 
-export { db };
+export default db;
