@@ -1,5 +1,6 @@
 import { dbConfig } from "../config";
 import { Sequelize } from "sequelize";
+import { User, Role } from "../models";
 
 const sequelize = new Sequelize(
   dbConfig.DATABASE,
@@ -15,11 +16,11 @@ const sequelize = new Sequelize(
       acquire: dbConfig.pool.acquire,
     },
     define: {
-      freezeTableName: true // prevents Sequelize from auto-pluralization of model names
-    }
+      freezeTableName: true, // prevents Sequelize from auto-pluralization of model names
+    },
   }
 );
 
-const dbConnection = { sequelize };
+const db = { sequelize, users: User(sequelize), roles: Role(sequelize) };
 
-export default dbConnection;
+export { db };
