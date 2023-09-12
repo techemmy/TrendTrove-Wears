@@ -7,3 +7,10 @@ export interface CartItemAttributes {
     productId: number;
     cartId: number;
 }
+
+export interface CartAttributes {
+    id?: number;
+    couponId: number;
+    cartTotal: number;
+    userId: number;
+}
