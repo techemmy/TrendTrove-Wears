@@ -1,10 +1,8 @@
-import dotenv from 'dotenv';
-
+import 'dotenv/config';
 import { appConfig } from './config';
 
 import app from './app';
 import db from './database';
-dotenv.config();
 
 (async () => {
     await db.sequelize.sync({ alter: true });
