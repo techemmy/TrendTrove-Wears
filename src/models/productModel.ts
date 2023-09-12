@@ -3,7 +3,7 @@ import { PRODUCT_CATEGORIES, PRODUCT_SIZES } from "../constants";
 import { type ProductAttributes } from "../types/models/productTypes";
 
 class Product extends Model<ProductAttributes> implements ProductAttributes {
-  id!: number;
+  id: number;
   name: string;
   price: string;
   category: string;
