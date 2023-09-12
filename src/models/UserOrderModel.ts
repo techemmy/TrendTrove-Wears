@@ -8,6 +8,7 @@ class UserOrder
     id: number;
     cartId: number;
     addressId: number;
+    userId: number;
 }
 
 export default (sequelize): typeof UserOrder => {
@@ -23,6 +24,10 @@ export default (sequelize): typeof UserOrder => {
                 allowNull: false,
             },
             addressId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            userId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
