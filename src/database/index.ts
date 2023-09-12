@@ -1,6 +1,6 @@
 import { dbConfig } from "../config";
 import { Sequelize } from "sequelize";
-import { User, Role } from "../models";
+import { User, Role, Product } from "../models";
 
 const sequelize = new Sequelize(
   dbConfig.DATABASE,
@@ -21,6 +21,11 @@ const sequelize = new Sequelize(
   }
 );
 
-const db = { sequelize, users: User(sequelize), roles: Role(sequelize) };
+const db = {
+  sequelize,
+  users: User(sequelize),
+  roles: Role(sequelize),
+  products: Product(sequelize),
+};
 
 export default db;
