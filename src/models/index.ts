@@ -3,5 +3,6 @@ import Role from "./roleModel";
 import User from "./userModel";
 import Product from "./productModel";
 import Address from "./addressModel";
+import UserOrder from "./UserOrderModel";
 
-export { User, Role, Product, Address };
+export { User, Role, Product, Address, UserOrder };
