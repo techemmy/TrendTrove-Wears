@@ -1,6 +1,14 @@
 import { dbConfig } from '../config';
 import { Sequelize } from 'sequelize';
-import { User, Role, Product, Address, UserOrder, CartItem } from '../models';
+import {
+    User,
+    Role,
+    Product,
+    Address,
+    UserOrder,
+    CartItem,
+    Cart,
+} from '../models';
 
 const sequelize = new Sequelize(
     dbConfig.DATABASE,
@@ -29,6 +37,7 @@ const db = {
     address: Address(sequelize),
     userOrder: UserOrder(sequelize),
     cartItem: CartItem(sequelize),
+    cart: Cart(sequelize),
 };
 
 export default db;

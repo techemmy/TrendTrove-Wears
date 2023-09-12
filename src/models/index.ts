@@ -5,5 +5,6 @@ import Product from './productModel';
 import Address from './addressModel';
 import UserOrder from './UserOrderModel';
 import CartItem from './cartItemModel';
+import Cart from './cartModel';
 
-export { User, Role, Product, Address, UserOrder, CartItem };
+export { User, Role, Product, Address, UserOrder, CartItem, Cart };
