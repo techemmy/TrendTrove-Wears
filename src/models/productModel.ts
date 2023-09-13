@@ -18,7 +18,7 @@ export class Product
     available: boolean;
 }
 
-export default (sequelize): typeof Product => {
+export function ProductFactory(sequelize): typeof Product {
     return Product.init(
         {
             id: {
@@ -61,4 +61,4 @@ export default (sequelize): typeof Product => {
         },
         { sequelize }
     );
-};
+}

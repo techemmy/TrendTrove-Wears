@@ -8,7 +8,7 @@ export class Cart extends Model<CartAttributes> implements CartAttributes {
     userId: number;
 }
 
-export default (sequelize): typeof Cart => {
+export function CartFactory(sequelize): typeof Cart {
     return Cart.init(
         {
             id: {
@@ -28,4 +28,4 @@ export default (sequelize): typeof Cart => {
         },
         { sequelize }
     );
-};
+}

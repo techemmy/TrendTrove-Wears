@@ -14,7 +14,7 @@ export class CartItem
     cartId: number;
 }
 
-export default (sequelize): typeof CartItem => {
+export function CartItemFactory(sequelize): typeof CartItem {
     return CartItem.init(
         {
             id: {
@@ -49,4 +49,4 @@ export default (sequelize): typeof CartItem => {
         },
         { sequelize }
     );
-};
+}

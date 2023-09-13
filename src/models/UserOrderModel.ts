@@ -11,7 +11,7 @@ export class UserOrder
     userId: number;
 }
 
-export default (sequelize): typeof UserOrder => {
+export function UserOrderFactory(sequelize): typeof UserOrder {
     return UserOrder.init(
         {
             id: {
@@ -34,4 +34,4 @@ export default (sequelize): typeof UserOrder => {
         },
         { sequelize }
     );
-};
+}

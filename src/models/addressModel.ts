@@ -11,7 +11,7 @@ export class Address
     country: string;
 }
 
-export default (sequelize): typeof Address => {
+export function AddressFactory(sequelize): typeof Address {
     return Address.init(
         {
             id: {
@@ -34,4 +34,4 @@ export default (sequelize): typeof Address => {
         },
         { sequelize }
     );
-};
+}
