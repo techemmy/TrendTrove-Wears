@@ -21,9 +21,6 @@ export function CartFactory(sequelize): typeof Cart {
             cartTotal: {
                 type: DataTypes.INTEGER,
             },
-            userId: {
-                type: DataTypes.INTEGER,
-            },
             state: {
                 type: DataTypes.ENUM(...Object.values(CART_STATES)),
                 defaultValue: CART_STATES.PENDING,

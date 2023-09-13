@@ -49,35 +49,31 @@ const db = {
 
 // MODEL RELATIONSHIPS
 // User <=> Role
-User.belongsToMany(Role, { through: 'UserRoles' });
-Role.belongsToMany(User, { through: 'UserRoles' });
+User.belongsToMany(Role, { through: 'userRoles' });
+Role.belongsToMany(User, { through: 'userRoles' });
 
 // User <=> Product
-User.hasMany(Product);
-Product.belongsTo(User);
+User.hasMany(Product, { foreignKey: 'userId' });
+Product.belongsTo(User, { foreignKey: 'userId' });
 
 // User <=> Cart
-User.hasMany(Cart);
-Cart.belongsTo(User);
+User.hasMany(Cart, { foreignKey: 'userId' });
+Cart.belongsTo(User, { foreignKey: 'userId' });
 
 // User <=> Address
-User.hasOne(Address);
-Address.belongsTo(User);
+User.hasOne(Address, { foreignKey: 'userId' });
+Address.belongsTo(User, { foreignKey: 'userId' });
 
 // Product <=> CartItem
-Product.hasMany(CartItem);
-CartItem.belongsTo(Product);
+Product.hasMany(CartItem, { foreignKey: 'productId' });
+CartItem.belongsTo(Product, { foreignKey: 'productId' });
 
 // Cart <=> CartItem
-Cart.hasMany(CartItem);
-CartItem.belongsTo(Cart);
-
-// Cart <=> Address
-Cart.hasOne(Address);
-Address.belongsTo(Cart);
+Cart.hasMany(CartItem, { foreignKey: 'cartId' });
+CartItem.belongsTo(Cart, { foreignKey: 'cartId' });
 
 // Coupon <=> Cart
-Coupon.hasMany(Cart);
-Cart.belongsTo(Coupon);
+Coupon.hasMany(Cart, { foreignKey: 'couponId' });
+Cart.belongsTo(Coupon, { foreignKey: 'couponId' });
 
 export default db;

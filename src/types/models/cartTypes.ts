@@ -4,14 +4,14 @@ export interface CartItemAttributes {
     quantity: string;
     color: string;
     totalPrice: number;
-    productId: number;
-    cartId: number;
+    productId?: number;
+    cartId?: number;
 }
 
 export interface CartAttributes {
     id?: number;
     couponId?: number;
     cartTotal: number;
-    userId: number;
+    userId?: number;
     state: string;
 }
