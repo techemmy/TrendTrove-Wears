@@ -8,6 +8,7 @@ import {
     UserOrder,
     CartItem,
     Cart,
+    Coupon,
 } from '../models';
 
 const sequelize = new Sequelize(
@@ -38,6 +39,7 @@ const db = {
     userOrder: UserOrder(sequelize),
     cartItem: CartItem(sequelize),
     cart: Cart(sequelize),
+    coupon: Coupon(sequelize),
 };
 
 export default db;
