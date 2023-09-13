@@ -3,7 +3,7 @@ import Role from './roleModel';
 import User from './userModel';
 import Product from './productModel';
 import Address from './addressModel';
-import UserOrder from './UserOrderModel';
+import UserOrder from './userOrderModel';
 import CartItem from './cartItemModel';
 import Cart from './cartModel';
 
