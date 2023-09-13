@@ -1,14 +1,14 @@
 import { dbConfig } from '../config';
 import { Sequelize } from 'sequelize';
 import {
-    User,
-    Role,
-    Product,
-    Address,
-    UserOrder,
-    CartItem,
-    Cart,
-    Coupon,
+    UserFactory,
+    RoleFactory,
+    ProductFactory,
+    AddressFactory,
+    UserOrderFactory,
+    CartItemFactory,
+    CartFactory,
+    CouponFactory,
 } from '../models';
 
 const sequelize = new Sequelize(
@@ -32,14 +32,14 @@ const sequelize = new Sequelize(
 
 const db = {
     sequelize,
-    users: User(sequelize),
-    roles: Role(sequelize),
-    products: Product(sequelize),
-    address: Address(sequelize),
-    userOrder: UserOrder(sequelize),
-    cartItem: CartItem(sequelize),
-    cart: Cart(sequelize),
-    coupon: Coupon(sequelize),
+    users: UserFactory(sequelize),
+    roles: RoleFactory(sequelize),
+    products: ProductFactory(sequelize),
+    address: AddressFactory(sequelize),
+    userOrder: UserOrderFactory(sequelize),
+    cartItem: CartItemFactory(sequelize),
+    cart: CartFactory(sequelize),
+    coupon: CouponFactory(sequelize),
 };
 
 export default db;
