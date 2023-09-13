@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { type CartAttributes } from '../types/models/cartTypes';
 
-class Cart extends Model<CartAttributes> implements CartAttributes {
+export class Cart extends Model<CartAttributes> implements CartAttributes {
     id: number;
     couponId: number;
     cartTotal: number;

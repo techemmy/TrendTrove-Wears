@@ -1,7 +1,10 @@
 import { DataTypes, Model } from 'sequelize';
 import { type AddressAttributes } from '../types/models/addressTypes';
 
-class Address extends Model<AddressAttributes> implements AddressAttributes {
+export class Address
+    extends Model<AddressAttributes>
+    implements AddressAttributes
+{
     id: number;
     street: string;
     city: string;

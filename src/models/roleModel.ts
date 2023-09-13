@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import { type RoleAttributes } from '../types/models/roleTypes';
 
-class Role extends Model<RoleAttributes> implements RoleAttributes {
+export class Role extends Model<RoleAttributes> implements RoleAttributes {
     id: number;
     name: string;
     permissions: number;

@@ -1,7 +1,10 @@
 import { DataTypes, Model } from 'sequelize';
 import { type CouponAttributes } from '../types/models/couponTypes';
 
-class Coupon extends Model<CouponAttributes> implements CouponAttributes {
+export class Coupon
+    extends Model<CouponAttributes>
+    implements CouponAttributes
+{
     id: number;
     maxUsuage: number;
     usage: number;

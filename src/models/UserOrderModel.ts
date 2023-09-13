@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { type UserOrderAttributes } from '../types/models/userOrderTypes';
 
-class UserOrder
+export class UserOrder
     extends Model<UserOrderAttributes>
     implements UserOrderAttributes
 {

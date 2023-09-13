@@ -2,7 +2,10 @@ import { DataTypes, Model } from 'sequelize';
 import { PRODUCT_CATEGORIES, PRODUCT_SIZES } from '../constants';
 import { type ProductAttributes } from '../types/models/productTypes';
 
-class Product extends Model<ProductAttributes> implements ProductAttributes {
+export class Product
+    extends Model<ProductAttributes>
+    implements ProductAttributes
+{
     id: number;
     name: string;
     price: string;
