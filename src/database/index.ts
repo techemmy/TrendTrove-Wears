@@ -5,10 +5,16 @@ import {
     RoleFactory,
     ProductFactory,
     AddressFactory,
-    UserOrderFactory,
     CartItemFactory,
     CartFactory,
     CouponFactory,
+    User,
+    Role,
+    Product,
+    Cart,
+    Address,
+    CartItem,
+    Coupon,
 } from '../models';
 
 const sequelize = new Sequelize(
@@ -30,16 +36,58 @@ const sequelize = new Sequelize(
     }
 );
 
+// const User = UserFactory(sequelize);
+// const Role = RoleFactory(sequelize);
+// const Product = ProductFactory(sequelize);
+// const Address = AddressFactory(sequelize);
+// const UserOrder = UserOrderFactory(sequelize);
+// const CartItem = CartItemFactory(sequelize);
+// const Cart = CartFactory(sequelize);
+// const Coupon = CouponFactory(sequelize);
+
 const db = {
     sequelize,
     users: UserFactory(sequelize),
     roles: RoleFactory(sequelize),
     products: ProductFactory(sequelize),
     address: AddressFactory(sequelize),
-    userOrder: UserOrderFactory(sequelize),
     cartItem: CartItemFactory(sequelize),
     cart: CartFactory(sequelize),
     coupon: CouponFactory(sequelize),
 };
+
+// Model Relationships
+
+// User <=> Role
+User.belongsToMany(Role, { through: 'UserRoles' });
+Role.belongsToMany(User, { through: 'UserRoles' });
+
+// User <=> Product
+User.hasMany(Product);
+Product.belongsTo(User);
+
+// User <=> Cart
+User.hasMany(Cart);
+Cart.belongsTo(User);
+
+// User <=> Address
+User.hasOne(Address);
+Address.belongsTo(User);
+
+// Product <=> CartItem
+Product.hasMany(CartItem);
+CartItem.belongsTo(Product);
+
+// Cart <=> CartItem
+Cart.hasMany(CartItem);
+CartItem.belongsTo(Cart);
+
+// Cart <=> Address
+Cart.hasOne(Address);
+Address.belongsTo(Cart);
+
+// Coupon <=> Cart
+Coupon.hasMany(Cart);
+Cart.belongsTo(Coupon);
 
 export default db;

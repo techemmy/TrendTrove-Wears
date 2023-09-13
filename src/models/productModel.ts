@@ -35,14 +35,14 @@ export function ProductFactory(sequelize): typeof Product {
                 allowNull: false,
             },
             category: {
-                type: DataTypes.ENUM(...PRODUCT_CATEGORIES),
+                type: DataTypes.ENUM(...Object.values(PRODUCT_CATEGORIES)),
                 allowNull: false,
             },
             size: {
                 type: DataTypes.INTEGER,
             },
             sizes: {
-                type: DataTypes.ENUM(...Object.keys(PRODUCT_SIZES)),
+                type: DataTypes.ENUM(...Object.values(PRODUCT_SIZES)),
             },
             color: {
                 type: DataTypes.STRING,
