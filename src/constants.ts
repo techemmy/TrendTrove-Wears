@@ -4,7 +4,11 @@ export const PRODUCT_SIZES = {
     L: 'LARGE',
 };
 
-export const PRODUCT_CATEGORIES = ['MEN', 'WOMEN', 'CHILDREN'];
+export const PRODUCT_CATEGORIES = {
+    MEN: 'MEN',
+    WOMEN: 'WOMEN',
+    CHILDREN: 'CHILDREN',
+};
 
 export const CART_STATES = {
     PENDING: 'PENDING',
