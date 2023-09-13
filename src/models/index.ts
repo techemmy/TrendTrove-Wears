@@ -1,20 +1,28 @@
 // import sequelize from "../database";
-import RoleFactory from './roleModel';
-import UserFactory from './userModel';
-import ProductFactory from './productModel';
-import AddressFactory from './addressModel';
-import UserOrderFactory from './userOrderModel';
-import CartItemFactory from './cartItemModel';
-import CartFactory from './cartModel';
-import CouponFactory from './couponModel';
+import RoleFactory, { Role } from './roleModel';
+import UserFactory, { User } from './userModel';
+import ProductFactory, { Product } from './productModel';
+import AddressFactory, { Address } from './addressModel';
+import UserOrderFactory, { UserOrder } from './userOrderModel';
+import CartItemFactory, { CartItem } from './cartItemModel';
+import CartFactory, { Cart } from './cartModel';
+import CouponFactory, { Coupon } from './couponModel';
 
 export {
+    User,
     UserFactory,
+    Role,
     RoleFactory,
+    Product,
     ProductFactory,
+    Address,
     AddressFactory,
+    UserOrder,
     UserOrderFactory,
+    CartItem,
     CartItemFactory,
+    Cart,
     CartFactory,
+    Coupon,
     CouponFactory,
 };
