@@ -10,7 +10,8 @@ export interface CartItemAttributes {
 
 export interface CartAttributes {
     id?: number;
-    couponId: number;
+    couponId?: number;
     cartTotal: number;
     userId: number;
+    state: string;
 }

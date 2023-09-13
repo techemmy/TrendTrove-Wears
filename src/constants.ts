@@ -5,3 +5,9 @@ export const PRODUCT_SIZES = {
 };
 
 export const PRODUCT_CATEGORIES = ['MEN', 'WOMEN', 'CHILDREN'];
+
+export const CART_STATES = {
+    PENDING: 'PENDING',
+    DELIVERED: 'DELIVERED',
+    CANCELLED: 'CANCELLED',
+};
