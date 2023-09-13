@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import { type UserAttributes } from '../types/models/userType';
+import { type UserAttributes } from '../types/models/userTypes';
 
 class User extends Model<UserAttributes> implements UserAttributes {
     id: number;
