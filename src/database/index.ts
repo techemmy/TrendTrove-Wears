@@ -1,13 +1,13 @@
 import { dbConfig } from '../config';
 import { Sequelize } from 'sequelize';
 import {
-    UserFactory,
-    RoleFactory,
-    ProductFactory,
-    AddressFactory,
-    CartItemFactory,
-    CartFactory,
-    CouponFactory,
+    userFactory,
+    roleFactory,
+    productFactory,
+    addressFactory,
+    cartItemFactory,
+    cartFactory,
+    couponFactory,
     User,
     Role,
     Product,
@@ -38,13 +38,13 @@ const sequelize = new Sequelize(
 
 const db = {
     sequelize,
-    users: UserFactory(sequelize),
-    roles: RoleFactory(sequelize),
-    products: ProductFactory(sequelize),
-    address: AddressFactory(sequelize),
-    cartItem: CartItemFactory(sequelize),
-    cart: CartFactory(sequelize),
-    coupon: CouponFactory(sequelize),
+    users: userFactory(sequelize),
+    roles: roleFactory(sequelize),
+    products: productFactory(sequelize),
+    address: addressFactory(sequelize),
+    cartItem: cartItemFactory(sequelize),
+    cart: cartFactory(sequelize),
+    coupon: couponFactory(sequelize),
 };
 
 // MODEL RELATIONSHIPS

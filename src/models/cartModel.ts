@@ -10,7 +10,7 @@ export class Cart extends Model<CartAttributes> implements CartAttributes {
     state: string;
 }
 
-export function CartFactory(sequelize): typeof Cart {
+export function cartFactory(sequelize): typeof Cart {
     return Cart.init(
         {
             id: {

@@ -9,7 +9,7 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     readonly updatedAt: Date;
 }
 
-export function UserFactory(sequelize): typeof User {
+export function userFactory(sequelize): typeof User {
     return User.init(
         {
             id: {

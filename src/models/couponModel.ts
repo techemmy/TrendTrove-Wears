@@ -11,7 +11,7 @@ export class Coupon
     code: string;
 }
 
-export function CouponFactory(sequelize): typeof Coupon {
+export function couponFactory(sequelize): typeof Coupon {
     return Coupon.init(
         {
             id: {

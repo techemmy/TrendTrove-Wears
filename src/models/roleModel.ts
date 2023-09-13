@@ -7,7 +7,7 @@ export class Role extends Model<RoleAttributes> implements RoleAttributes {
     permissions: number;
 }
 
-export function RoleFactory(sequelize): typeof Role {
+export function roleFactory(sequelize): typeof Role {
     return Role.init(
         {
             id: {
