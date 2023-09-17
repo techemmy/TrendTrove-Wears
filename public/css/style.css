@@ -623,13 +623,6 @@ a {
   transform: translateY(-50%);
   right: 3px; }
 
-.block-8 .post-meta {
-  color: #c4c7ce; }
-
-.block-8 .block-8-sep {
-  margin-left: 10px;
-  margin-right: 10px; }
-
 .site-blocks-table {
   overflow: auto; }
   .site-blocks-table .product-thumbnail {
@@ -735,20 +728,3 @@ a {
       -webkit-transform: translate(-50%, -45%);
       -ms-transform: translate(-50%, -45%);
       transform: translate(-50%, -45%); }
-
-.block-38 .block-38-header .block-38-heading {
-  color: #000;
-  margin: 0;
-  font-weight: 300; }
-
-.block-38 .block-38-header .block-38-subheading {
-  color: #b3b3b3;
-  margin: 0 0 20px 0;
-  text-transform: uppercase;
-  font-size: 15px;
-  letter-spacing: .1em; }
-
-.block-38 .block-38-header img {
-  width: 120px;
-  border-radius: 50%;
-  margin-bottom: 20px; }
