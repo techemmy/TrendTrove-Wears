@@ -1,4 +1,4 @@
-# TrendTrove-Wears
+# TrendTrove-Wears (Docs still in the works 🚧)
 ## About this project
 
 TrendTroove is a functional and user-friendly B-2-C e-commerce app designed to provide a seamless shopping experience for customers with robust administrative capabilities. It sells clothing and wears for different categories (Men, Women and Children). It contains the following features
