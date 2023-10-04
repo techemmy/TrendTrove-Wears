@@ -7,33 +7,22 @@
 </head>
 
 <body>
-    <header class="site-navbar" role="banner">
-        <%- include('./partials/header.ejs') %>
-            <nav class="site-navigation text-right text-md-center" role="navigation">
-                <div class="container">
-                    <ul class="site-menu js-clone-nav d-none d-md-block">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/shop">Shop</a></li>
-                    </ul>
-                </div>
-            </nav>
-    </header>
-    <div class="site-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <i class="fa-solid fa-circle-check fa-shake display-3 text-success"></i>
-                    <h2 class="display-3 text-black">Thank you!</h2>
-                    <p class="lead mb-5">You order was successfuly completed.</p>
-                    <p><a href="/shop" class="btn btn-sm btn-primary">Back to shop</a></p>
+    <%- include('./partials/header.ejs') %>
+        <div class="site-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <i class="fa-solid fa-circle-check fa-shake display-3 text-success"></i>
+                        <h2 class="display-3 text-black">Thank you!</h2>
+                        <p class="lead mb-5">You order was successfuly completed.</p>
+                        <p><a href="/shop" class="btn btn-sm btn-primary">Back to shop</a></p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <%- include('./partials/footer.ejs') %>
-        </div>
-        <%- include("./partials/scripts.ejs") %>
+        <%- include('./partials/footer.ejs') %>
+            </div>
+            <%- include("./partials/scripts.ejs") %>
 
 </body>
 
