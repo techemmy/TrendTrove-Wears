@@ -33,6 +33,7 @@ const sequelize = new Sequelize(
         define: {
             freezeTableName: true, // prevents Sequelize from auto-pluralization of model names
         },
+        logging: false,
     }
 );
 
