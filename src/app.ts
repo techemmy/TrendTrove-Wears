@@ -1,10 +1,38 @@
 import type { Application } from 'express';
 import express from 'express';
+import passport from 'passport';
+import session from 'express-session';
+import { appConfig } from './config';
+import authRouter from './routes/authRoute';
 
 const app: Application = express();
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+app.use(
+    session({
+        secret: appConfig.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        cookie: { secure: false },
+    })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function (user, cb) {
+    process.nextTick(function () {
+        cb(null, user);
+    });
+});
+
+passport.deserializeUser(function (user, cb) {
+    process.nextTick(function () {
+        return cb(null, user);
+    });
+});
+
+app.use('/auth', authRouter);
 
 app.get('/', (req, res) => {
     res.render('index');
