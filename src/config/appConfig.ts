@@ -1,3 +1,4 @@
 export default {
-    PORT: 3000,
+    PORT: process.env.APP_PORT,
+    SESSION_SECRET: process.env.SESSION_SECRET,
 };
