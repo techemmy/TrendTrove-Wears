@@ -14,6 +14,11 @@ authRouter.get('/login', (req, res) => {
     res.render('auth/login');
 });
 
+authRouter.get('/logout', (req: any, res) => {
+    console.log(req.session.destroy());
+    res.redirect('/');
+});
+
 authRouter.get(
     '/google',
     passport.authenticate('google', { scope: ['email', 'profile'] })
