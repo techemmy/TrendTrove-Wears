@@ -17,6 +17,7 @@ export default (): void => {
                     const [user] = await User.findOrCreate({
                         where: { email: profile.email },
                         defaults: {
+                            name: profile.displayName,
                             email: profile.email,
                             providerIdentity: profile.provider,
                         },

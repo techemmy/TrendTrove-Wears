@@ -3,6 +3,7 @@ import { type UserAttributes } from '../types/models/userTypes';
 
 export class User extends Model<UserAttributes> implements UserAttributes {
     id: number;
+    name: string;
     email: string;
     providerIdentity: string;
     readonly createdAt: Date;
@@ -16,6 +17,9 @@ export function userFactory(sequelize): typeof User {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
+            },
+            name: {
+                type: DataTypes.STRING,
             },
             email: {
                 type: DataTypes.STRING,
