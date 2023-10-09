@@ -1,13 +1,11 @@
 <header class="site-navbar" role="banner">
-
     <div class="site-navbar-top">
         <div class="container">
             <div class="row align-items-center">
-
                 <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
                     <form action="" class="site-block-top-search">
                         <i class="icon fa-solid fa-magnifying-glass"></i>
-                        <input type="text" class="form-control border-0" placeholder="Search">
+                        <input type="text" class="form-control border-0" placeholder="Search" />
                     </form>
                 </div>
 
@@ -20,20 +18,24 @@
                 <div class="col-6 col-md-4 order-3 order-md-3 text-right">
                     <div class="site-top-icons">
                         <ul>
-                            <li><a href="#"><i class="icon fa-solid fa-user"></i></a></li>
-                            <li><a href="#"><i class="icon fa-regular fa-heart"></i></a></li>
+                            <li>
+                                <a href="#"><i class="icon fa-solid fa-user"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon fa-regular fa-heart"></i></a>
+                            </li>
                             <li>
                                 <a href="/cart" class="site-cart">
                                     <i class="icon fa-solid fa-cart-shopping"></i>
                                     <i class="count">2</i>
                                 </a>
                             </li>
-                            <li class="d-inline-block d-md-none ml-md-0"><a href="#"
-                                    class="site-menu-toggle js-menu-toggle"><i class="fa-solid fa-bars"></i></a></li>
+                            <li class="d-inline-block d-md-none ml-md-0">
+                                <a href="#" class="site-menu-toggle js-menu-toggle"><i class="fa-solid fa-bars"></i></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -44,8 +46,12 @@
                 <li class="active"><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="/shop">Shop</a></li>
-                <li><a href="/auth/login">Login</a></li>
-                <li><a href="/auth/signup">Signup</a></li>
+                <% if (!req.isAuthenticated() ) { %>
+                    <li><a href="/auth/login">Login</a></li>
+                    <li><a href="/auth/signup">Signup</a></li>
+                    <% } else { %>
+                        <li><a href="/auth/logout">Logout</a></li>
+                        <% } %>
             </ul>
         </div>
     </nav>
