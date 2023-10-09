@@ -24,8 +24,6 @@ export function userFactory(sequelize): typeof User {
             },
             providerIdentity: {
                 type: DataTypes.STRING,
-                allowNull: false,
-                unique: true,
             },
         },
         { sequelize }
