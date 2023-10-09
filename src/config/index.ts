@@ -1,5 +1,11 @@
 import appConfig from './appConfig';
 import databaseConfig from './databaseConfig';
 import googleOAuthConfig from './googleOAuthConfig';
+import sessionConfig from './sessionConfig';
 
-export { databaseConfig as dbConfig, appConfig, googleOAuthConfig };
+export {
+    databaseConfig as dbConfig,
+    appConfig,
+    googleOAuthConfig,
+    sessionConfig,
+};

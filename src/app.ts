@@ -2,21 +2,21 @@ import type { Application } from 'express';
 import express from 'express';
 import passport from 'passport';
 import session from 'express-session';
-import { appConfig } from './config';
+import { appConfig, sessionConfig } from './config';
 import authRouter from './routes/authRoute';
 
 const app: Application = express();
 
 app.set('view engine', 'ejs');
+
+if (appConfig.ENV === 'production') {
+    app.set('trust proxy', 1);
+    sessionConfig.cookie.secure = true;
+}
+
 app.use(express.static('public'));
-app.use(
-    session({
-        secret: appConfig.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-        cookie: { secure: false },
-    })
-);
+app.use(session(sessionConfig));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
