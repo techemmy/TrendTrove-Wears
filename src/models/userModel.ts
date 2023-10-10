@@ -5,7 +5,8 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     id: number;
     name: string;
     email: string;
-    providerIdentity: string;
+    password?: string;
+    providerIdentity?: string;
     readonly createdAt: Date;
     readonly updatedAt: Date;
 }
@@ -25,6 +26,9 @@ export function userFactory(sequelize): typeof User {
                 type: DataTypes.STRING,
                 allowNull: false,
                 unique: true,
+            },
+            password: {
+                type: DataTypes.STRING,
             },
             providerIdentity: {
                 type: DataTypes.STRING,
