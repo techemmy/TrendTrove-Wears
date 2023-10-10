@@ -18,7 +18,6 @@ export default (): void => {
                         email,
                         provider: providerIdentity,
                     } = profile;
-                    console.log(name, email, providerIdentity);
                     const [user] = await User.findOrCreate({
                         where: { email },
                         defaults: {
@@ -27,6 +26,7 @@ export default (): void => {
                             providerIdentity,
                         },
                     });
+
                     return done(null, user);
                 } catch (error) {
                     return done(error, profile);
