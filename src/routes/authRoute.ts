@@ -1,23 +1,20 @@
-import router, { type Router } from 'express';
+import router from 'express';
+import type { Router } from 'express';
 import passport from 'passport';
 import googleAuthStrategyMiddleware from '../middlewares/googleAuthStrategyMiddleware';
+import * as authController from '../controllers/authController';
 
 const authRouter: Router = router();
 
 googleAuthStrategyMiddleware();
 
-authRouter.get('/signup', (req, res) => {
-    res.render('auth/signup');
-});
+authRouter.get('/signup', authController.getSignup);
 
-authRouter.get('/login', (req, res) => {
-    res.render('auth/login');
-});
+authRouter.get('/login', authController.getLogin);
 
-authRouter.get('/logout', (req: any, res) => {
-    req.session.destroy();
-    res.redirect('/');
-});
+authRouter.post('/signup', authController.postSignup);
+
+authRouter.get('/logout', authController.getLogout);
 
 authRouter.get(
     '/google',
