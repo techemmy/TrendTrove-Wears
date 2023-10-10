@@ -4,6 +4,7 @@ import passport from 'passport';
 import session from 'express-session';
 import { appConfig, sessionConfig } from './config';
 import authRouter from './routes/authRoute';
+import bodyParser from 'body-parser';
 
 const app: Application = express();
 
@@ -14,6 +15,7 @@ if (appConfig.ENV === 'production') {
     sessionConfig.cookie.secure = true;
 }
 
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use(session(sessionConfig));
 
