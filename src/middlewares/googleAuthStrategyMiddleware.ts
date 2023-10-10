@@ -10,16 +10,21 @@ export default (): void => {
                 clientID: googleOAuthConfig.CLIENT_ID,
                 clientSecret: googleOAuthConfig.CLIENT_SECRET,
                 callbackURL: googleOAuthConfig.CALLBACK_URL,
-                passReqToCallback: true,
             },
-            async function (request, accessToken, refreshToken, profile, done) {
+            async function (accessToken, refreshToken, profile, done) {
                 try {
+                    const {
+                        displayName: name,
+                        email,
+                        provider: providerIdentity,
+                    } = profile;
+                    console.log(name, email, providerIdentity);
                     const [user] = await User.findOrCreate({
-                        where: { email: profile.email },
+                        where: { email },
                         defaults: {
-                            name: profile.displayName,
-                            email: profile.email,
-                            providerIdentity: profile.provider,
+                            name,
+                            email,
+                            providerIdentity,
                         },
                     });
                     return done(null, user);
