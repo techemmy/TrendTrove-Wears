@@ -1,5 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { type UserAttributes } from '../types/models/userTypes';
+import bcrypt from 'bcrypt';
+import { appConfig } from '../config';
 
 export class User extends Model<UserAttributes> implements UserAttributes {
     id: number;
@@ -12,7 +14,7 @@ export class User extends Model<UserAttributes> implements UserAttributes {
 }
 
 export function userFactory(sequelize): typeof User {
-    return User.init(
+    const user = User.init(
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -34,6 +36,15 @@ export function userFactory(sequelize): typeof User {
                 type: DataTypes.STRING,
             },
         },
-        { sequelize }
+        {
+            sequelize,
+        }
     );
+
+    user.beforeCreate(async (user): Promise<void> => {
+        const plainTextPassword = user.password as string;
+        user.password = await bcrypt.hash(plainTextPassword, 10);
+    });
+
+    return user;
 }
