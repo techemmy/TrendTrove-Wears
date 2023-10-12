@@ -12,10 +12,27 @@ export interface IRequestWithAuthenticatedUser
 }
 
 export interface IRequestWithUserForm extends Request {
-    name?: string;
-    email: string;
-    password: string;
-    confirmPassword?: string;
+    body: {
+        name?: string;
+        email: string;
+        password: string;
+        confirmPassword?: string;
+    };
     user?: UserAttributes;
     isAuthenticated: () => boolean | null;
 }
+
+export interface IRequestWithRequiredName {
+    body: {
+        name: string;
+    };
+}
+
+export interface IRequestWithFlashMessages extends Request {
+    session: {
+        flashMessages?: Array<{ type: string; message: string }>;
+    };
+}
+
+export type IRequestWithUserSignupForm = IRequestWithRequiredName &
+    IRequestWithUserForm;
