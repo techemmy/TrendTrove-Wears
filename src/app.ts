@@ -36,9 +36,9 @@ passport.deserializeUser(function (user: IUser, cb) {
     });
 });
 
-// middleware to enable usage of req object in ejs conditional tag
-// to prevent passing the req object to multiple route responses
 app.use((req: IRequestWithFlashMessages, res, next) => {
+    // middleware to enable usage of req object in ejs conditional tag
+    // to prevent passing the req object to multiple route responses
     res.locals.req = req;
 
     // handle flash messages
