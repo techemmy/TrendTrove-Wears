@@ -1,12 +1,6 @@
 import type { Request } from 'express';
 import type { UserAttributes } from './models/userTypes';
-
-export interface IRequestWithSessionObject extends Request {
-    session: any;
-}
-
-export interface IRequestWithAuthenticatedUser
-    extends IRequestWithSessionObject {
+export interface IRequestWithAuthenticatedUser extends Request {
     user: UserAttributes;
     isAuthenticated: () => boolean;
 }
@@ -28,11 +22,12 @@ export interface IRequestWithRequiredName {
     };
 }
 
-export interface IRequestWithFlashMessages extends Request {
+export interface FlashMessages {
     session: {
         flashMessages?: Array<{ type: string; message: string }>;
     };
 }
+export type IRequestWithFlashMessages = Request & FlashMessages;
 
 export type IRequestWithUserSignupForm = IRequestWithRequiredName &
     IRequestWithUserForm;
