@@ -5,7 +5,8 @@ import session from 'express-session';
 import { appConfig, sessionConfig } from './config';
 import authRouter from './routes/authRoute';
 import bodyParser from 'body-parser';
-import { IRequestWithFlashMessages } from './types/requestTypes';
+import type { IRequestWithFlashMessages } from './types/requestTypes';
+import type { IUser } from './types/models/userTypes';
 
 const app: Application = express();
 
@@ -29,7 +30,7 @@ passport.serializeUser(function (user, cb) {
     });
 });
 
-passport.deserializeUser(function (user, cb) {
+passport.deserializeUser(function (user: IUser, cb) {
     process.nextTick(function () {
         return cb(null, user);
     });
