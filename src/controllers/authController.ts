@@ -1,8 +1,12 @@
 import type { NextFunction, Request, Response } from 'express';
 import type {
-    IRequestWithSessionObject,
+    IRequestWithAuthenticatedUser,
     IRequestWithUserForm,
+    IRequestWithUserSignupForm,
 } from '../types/requestTypes';
+import { User } from '../models';
+import { matchedData } from 'express-validator';
+import { setFlashMessages } from '../utilities';
 
 export function getSignup(
     req: Request,
@@ -17,13 +21,45 @@ export function getSignup(
 }
 
 export async function postSignup(
-    req: IRequestWithUserForm,
+    req: IRequestWithUserSignupForm,
     res: Response,
     next: NextFunction
 ): Promise<void> {
     try {
+        if (req.isAuthenticated()) {
+            res.redirect('/shop');
+            return;
+        }
 
-        res.redirect('auth/login');
+        const { name, email, password } = matchedData(req);
+        const newAccount = (
+            await User.findOrCreate({
+                where: {
+                    email,
+                },
+                defaults: {
+                    name,
+                    email,
+                    password,
+                },
+            })
+        ).at(-1) as boolean;
+
+        if (!newAccount) {
+            setFlashMessages(req, [
+                { type: 'danger', message: 'User account exists!' },
+            ]);
+            res.redirect('/auth/login');
+            return;
+        }
+
+        setFlashMessages(req, [
+            {
+                type: 'success',
+                message: `Account created!. We've reserved a space for you in our store :) `,
+            },
+        ]);
+        res.redirect('/auth/login');
     } catch (error) {
         next(error);
     }
@@ -42,24 +78,31 @@ export function getLogin(
 }
 
 export function postLogin(
-    req: Request,
+    req: IRequestWithUserForm,
     res: Response,
     next: NextFunction
 ): void {
     try {
-        res.redirect('auth/login');
+        const { email, password } = matchedData(req.body);
+
+        console.log(email, password);
+        res.redirect('/auth/login');
     } catch (error) {
         next(error);
     }
 }
 
 export function getLogout(
-    req: IRequestWithSessionObject,
+    req: IRequestWithAuthenticatedUser,
     res: Response,
     next: NextFunction
 ): void {
     try {
-        req.session.destroy();
-        res.redirect('/');
+        req.session.destroy((err: Error) => {
+            if (err !== undefined) {
+                next(err);
+            }
+            res.redirect('/');
+        });
     } catch (error) {}
 }
