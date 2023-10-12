@@ -36,8 +36,12 @@ passport.deserializeUser(function (user, cb) {
 
 // middleware to enable usage of req object in ejs conditional tag
 // to prevent passing the req object to multiple route responses
-app.use((req, res, next) => {
+app.use((req: any, res, next) => {
     res.locals.req = req;
+
+    // handle flash messages
+    res.locals.flashMessages = req.session.flashMessages;
+    delete req.session.flashMessages;
     next();
 });
 
