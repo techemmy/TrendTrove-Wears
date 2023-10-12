@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Strategy } from 'passport-google-oauth2';
 import { User } from '../models';
 import { googleOAuthConfig } from '../config';
+import { IUser } from '../types/models/userTypes';
 
 export default (): void => {
     passport.use(
@@ -18,7 +19,7 @@ export default (): void => {
                         email,
                         provider: providerIdentity,
                     } = profile;
-                    const [user] = await User.findOrCreate({
+                    const [_] = await User.findOrCreate({
                         where: { email },
                         defaults: {
                             name,
@@ -27,6 +28,11 @@ export default (): void => {
                         },
                     });
 
+                    const user: IUser = {
+                        id: _.id,
+                        name: _.name,
+                        email: _.email,
+                    };
                     return done(null, user);
                 } catch (error) {
                     return done(error, profile);
