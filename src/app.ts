@@ -5,6 +5,7 @@ import session from 'express-session';
 import { appConfig, sessionConfig } from './config';
 import authRouter from './routes/authRoute';
 import bodyParser from 'body-parser';
+import { IRequestWithFlashMessages } from './types/requestTypes';
 
 const app: Application = express();
 
@@ -36,7 +37,7 @@ passport.deserializeUser(function (user, cb) {
 
 // middleware to enable usage of req object in ejs conditional tag
 // to prevent passing the req object to multiple route responses
-app.use((req: any, res, next) => {
+app.use((req: IRequestWithFlashMessages, res, next) => {
     res.locals.req = req;
 
     // handle flash messages
