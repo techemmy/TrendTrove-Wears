@@ -11,6 +11,7 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     providerIdentity?: string;
     readonly createdAt: Date;
     readonly updatedAt: Date;
+    verifyPassword: (password) => Promise<boolean>;
 }
 
 export function userFactory(sequelize): typeof User {
@@ -42,9 +43,16 @@ export function userFactory(sequelize): typeof User {
     );
 
     user.beforeCreate(async (user): Promise<void> => {
-        const plainTextPassword = user.password as string;
-        user.password = await bcrypt.hash(plainTextPassword, 10);
+        if (user.providerIdentity === null) {
+            const plainTextPassword = user.password as string;
+            user.password = await bcrypt.hash(plainTextPassword, 10);
+        }
     });
 
+    user.prototype.verifyPassword = async function (
+        password
+    ): Promise<boolean> {
+        return bcrypt.compare(password, this.password);
+    };
     return user;
 }
