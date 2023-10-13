@@ -1,6 +1,13 @@
 import type { Request } from 'express';
 import type { UserAttributes } from './models/userTypes';
-export interface IRequestWithAuthenticatedUser extends Request {
+import type { Session } from 'express-session';
+
+export interface IRequestWithSessionObject extends Request {
+    session: Session;
+}
+
+export interface IRequestWithAuthenticatedUser
+    extends IRequestWithSessionObject {
     user: UserAttributes;
     isAuthenticated: () => boolean;
 }
@@ -13,7 +20,7 @@ export interface IRequestWithUserForm extends Request {
         confirmPassword?: string;
     };
     user?: UserAttributes;
-    isAuthenticated: () => boolean | null;
+    isAuthenticated: () => boolean;
 }
 
 export interface IRequestWithRequiredName {
