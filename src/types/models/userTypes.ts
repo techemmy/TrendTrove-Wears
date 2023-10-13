@@ -7,3 +7,9 @@ export interface UserAttributes {
     createdAt?: Date;
     updatedAt?: Date;
 }
+
+export interface IUser {
+    id: number;
+    name: string;
+    email: string;
+}
