@@ -43,7 +43,7 @@ export function userFactory(sequelize): typeof User {
     );
 
     user.beforeCreate(async (user): Promise<void> => {
-        if (user.providerIdentity === null) {
+        if (user.providerIdentity === undefined) {
             const plainTextPassword = user.password as string;
             user.password = await bcrypt.hash(plainTextPassword, 10);
         }
@@ -52,7 +52,7 @@ export function userFactory(sequelize): typeof User {
     user.prototype.verifyPassword = async function (
         password
     ): Promise<boolean> {
-        return bcrypt.compare(password, this.password);
+        return await bcrypt.compare(password, this.password);
     };
     return user;
 }
