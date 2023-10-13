@@ -1,7 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { type UserAttributes } from '../types/models/userTypes';
 import bcrypt from 'bcrypt';
-import { appConfig } from '../config';
 
 export class User extends Model<UserAttributes> implements UserAttributes {
     id: number;

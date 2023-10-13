@@ -70,7 +70,7 @@ export function getLogin(
     next: NextFunction
 ): void {
     try {
-        if (req.isAuthenticated() === true) {
+        if (req.isAuthenticated()) {
             res.redirect('/shop');
             return;
         }

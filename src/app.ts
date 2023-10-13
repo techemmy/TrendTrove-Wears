@@ -37,7 +37,7 @@ passport.deserializeUser(function (userData: UserAttributes, cb) {
             name: userData.name,
             email: userData.email,
         };
-        return cb(null, user);
+        cb(null, user);
     });
 });
 
