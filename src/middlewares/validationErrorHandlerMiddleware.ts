@@ -1,13 +1,11 @@
 import type { NextFunction, Response } from 'express';
 import { validationResult } from 'express-validator';
-import type {
-    IRequestWithFlashMessages,
-    IRequestWithSessionObject,
-} from '../types/requestTypes';
+import type { IRequestWithFlashMessages } from '../types/requestTypes';
 import { setFlashMessages } from '../utilities';
+import type { flashMessage } from '../types/flashMessageType';
 
 export default (
-    req: IRequestWithSessionObject & IRequestWithFlashMessages,
+    req: IRequestWithFlashMessages,
     res: Response,
     next: NextFunction
 ): void => {
@@ -17,9 +15,9 @@ export default (
         return;
     }
 
-    const errors = result.array().map((error) => {
+    const errors = result.array().map((error): flashMessage => {
         return { type: 'warning', message: error.msg };
     });
-    setFlashMessages(errors, req);
+    setFlashMessages(req, errors);
     res.redirect(req.originalUrl);
 };
