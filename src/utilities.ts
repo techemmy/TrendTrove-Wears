@@ -1,5 +1,9 @@
+import type { flashMessage } from './types/flashMessageType';
 import type { IRequestWithFlashMessages } from './types/requestTypes';
 
-export function setFlashMessages(messages, req: IRequestWithFlashMessages): void {
+export function setFlashMessages(
+    req: IRequestWithFlashMessages,
+    messages: flashMessage[]
+): void {
     req.session.flashMessages = messages;
 }
