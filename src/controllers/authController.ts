@@ -1,7 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import type {
     IRequestWithAuthenticatedUser,
-    IRequestWithUserForm,
     IRequestWithUserSignupForm,
 } from '../types/requestTypes';
 import { User } from '../models';
@@ -71,22 +70,11 @@ export function getLogin(
     next: NextFunction
 ): void {
     try {
+        if (req.isAuthenticated() === true) {
+            res.redirect('/shop');
+            return;
+        }
         res.render('auth/login');
-    } catch (error) {
-        next(error);
-    }
-}
-
-export function postLogin(
-    req: IRequestWithUserForm,
-    res: Response,
-    next: NextFunction
-): void {
-    try {
-        const { email, password } = matchedData(req.body);
-
-        console.log(email, password);
-        res.redirect('/auth/login');
     } catch (error) {
         next(error);
     }

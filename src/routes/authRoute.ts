@@ -6,10 +6,12 @@ import googleAuthStrategyMiddleware from '../middlewares/googleAuthStrategyMiddl
 import * as authController from '../controllers/authController';
 import { body } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
+import passportLoginStrategyMiddleware from '../middlewares/passportLoginStrategyMiddleware';
 
 const authRouter: Router = router();
 
 googleAuthStrategyMiddleware();
+passportLoginStrategyMiddleware();
 
 authRouter.get('/signup', authController.getSignup);
 authRouter.post(
@@ -45,7 +47,10 @@ authRouter.post(
         body('password', 'Password is invalid or empty').escape().notEmpty(),
     ],
     validationErrorHandlerMiddleware,
-    authController.postLogin
+    passport.authenticate('local', {
+        failureRedirect: '/auth/login',
+        successRedirect: '/shop',
+    })
 );
 
 authRouter.get('/logout', authController.getLogout);
