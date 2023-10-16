@@ -7,11 +7,29 @@ import * as authController from '../controllers/authController';
 import { body } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
 import passportLoginStrategyMiddleware from '../middlewares/passportLoginStrategyMiddleware';
+import { IUser, UserAttributes } from '../types/models/userTypes';
 
 const authRouter: Router = router();
 
 googleAuthStrategyMiddleware();
 passportLoginStrategyMiddleware();
+
+passport.serializeUser(function (user, cb) {
+    process.nextTick(function () {
+        cb(null, user);
+    });
+});
+
+passport.deserializeUser(function (userData: UserAttributes, cb) {
+    process.nextTick(function () {
+        const user: IUser = {
+            id: userData.id as number,
+            name: userData.name,
+            email: userData.email,
+        };
+        cb(null, user);
+    });
+});
 
 authRouter.get('/signup', authController.getSignup);
 authRouter.post(

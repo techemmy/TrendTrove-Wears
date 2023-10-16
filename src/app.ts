@@ -7,6 +7,7 @@ import authRouter from './routes/authRoute';
 import bodyParser from 'body-parser';
 import type { IRequestWithFlashMessages } from './types/requestTypes';
 import type { IUser, UserAttributes } from './types/models/userTypes';
+import { ensureLoggedIn } from 'connect-ensure-login';
 
 const app: Application = express();
 
@@ -23,23 +24,6 @@ app.use(session(sessionConfig));
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-passport.serializeUser(function (user, cb) {
-    process.nextTick(function () {
-        cb(null, user);
-    });
-});
-
-passport.deserializeUser(function (userData: UserAttributes, cb) {
-    process.nextTick(function () {
-        const user: IUser = {
-            id: userData.id as number,
-            name: userData.name,
-            email: userData.email,
-        };
-        cb(null, user);
-    });
-});
 
 app.use((req: IRequestWithFlashMessages, res, next) => {
     // middleware to enable usage of req object in ejs conditional tag
@@ -70,7 +54,7 @@ app.get('/single-product', (req, res) => {
     res.render('single-product');
 });
 
-app.get('/cart', (req, res) => {
+app.get('/cart', ensureLoggedIn('/auth/login'), (req, res) => {
     res.render('cart');
 });
 

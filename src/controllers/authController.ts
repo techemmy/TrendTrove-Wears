@@ -90,7 +90,9 @@ export function getLogout(
             if (err !== undefined) {
                 next(err);
             }
-            res.redirect('/');
+            res.redirect('/shop');
         });
-    } catch (error) {}
+    } catch (error) {
+        next(error);
+    }
 }
