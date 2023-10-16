@@ -7,27 +7,30 @@ import * as authController from '../controllers/authController';
 import { body } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
 import passportLoginStrategyMiddleware from '../middlewares/passportLoginStrategyMiddleware';
-import { IUser, UserAttributes } from '../types/models/userTypes';
+import type { IUser, UserAttributes } from '../types/models/userTypes';
+import { User } from '../models';
 
 const authRouter: Router = router();
 
 googleAuthStrategyMiddleware();
 passportLoginStrategyMiddleware();
 
-passport.serializeUser(function (user, cb) {
+passport.serializeUser(function (user: UserAttributes, cb) {
     process.nextTick(function () {
-        cb(null, user);
+        cb(null, user.id);
     });
 });
 
-passport.deserializeUser(function (userData: UserAttributes, cb) {
-    process.nextTick(function () {
-        const user: IUser = {
-            id: userData.id as number,
-            name: userData.name,
-            email: userData.email,
-        };
-        cb(null, user);
+passport.deserializeUser(function (userId: string, cb) {
+    process.nextTick(async function () {
+        const { id, name, email } = (await User.findOne({
+            where: { id: userId },
+        })) as IUser;
+        cb(null, {
+            id,
+            name,
+            email,
+        });
     });
 });
 

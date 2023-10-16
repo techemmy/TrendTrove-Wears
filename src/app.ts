@@ -6,7 +6,6 @@ import { appConfig, sessionConfig } from './config';
 import authRouter from './routes/authRoute';
 import bodyParser from 'body-parser';
 import type { IRequestWithFlashMessages } from './types/requestTypes';
-import type { IUser, UserAttributes } from './types/models/userTypes';
 import { ensureLoggedIn } from 'connect-ensure-login';
 
 const app: Application = express();
