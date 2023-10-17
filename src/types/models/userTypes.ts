@@ -3,6 +3,8 @@ export interface UserAttributes {
     name: string;
     email: string;
     password?: string;
+    phoneNumber?: number;
+    profileImage?: string;
     providerIdentity?: string;
     createdAt?: Date;
     updatedAt?: Date;
