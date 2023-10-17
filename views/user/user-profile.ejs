@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>User Profile - TrendTrove</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
+        integrity="sha512-1cK78a1o+ht2JcaW6g8OXYwqpev9+6GqOkz9xmBN9iUUhIndKtxwILGWYOSibOKjLsEdjyjZvYDq/cZwNeak0w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <%- include('../partials/static-head-elements.ejs') %>
+</head>
+
+<body>
+    <%- include('../partials/header.ejs') %>
+        <div class="site-wrap">
+            <div class="bg-light py-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
+                                class="text-black">User Profile Page</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="site-section border-bottom" data-aos="fade">
+                <div class="container px-4">
+                    <div class="row">
+                        <div class="col-xl-4">
+                            <!-- Profile picture card-->
+                            <div class="card mb-4 mb-xl-0">
+                                <div class="card-header">Profile Picture</div>
+                                <div class="card-body text-center">
+                                    <!-- Profile picture image-->
+                                    <img class="img-account-profile rounded-circle mb-2 w-50"
+                                        src="images/user_avatar.png" alt="Profile Image placeholder">
+                                    <!-- Profile picture help block-->
+                                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                                    <!-- Profile picture upload button-->
+                                    <button class="btn btn-primary" type="button">Upload new image</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-8">
+                            <!-- Account details card-->
+                            <div class="card mb-4">
+                                <div class="card-header">Account Details</div>
+                                <div class="card-body">
+                                    <form>
+                                        <!-- Form Group (username)-->
+                                        <div class="mb-3">
+                                            <label class="small mb-1" for="name">Full name</label>
+                                            <input class="form-control" id="name" type="text"
+                                                placeholder="Enter your full name" value="Jane doe">
+                                        </div>
+                                        <!-- Form Row-->
+                                        <div class="row gx-3 mb-3">
+                                            <!-- Form Group (first name)-->
+                                            <div class="col-md-6">
+                                                <label class="small mb-1" for="email">Email</label>
+                                                <input class="form-control" id="email" type="email"
+                                                    placeholder="Enter your email" value="janedoe@gmail.com">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="small mb-1" for="inputPhone">Phone number</label>
+                                                <input class="form-control" id="inputPhone" type="tel"
+                                                    placeholder="Enter your phone number" value="555-123-4567">
+                                            </div>
+
+                                        </div>
+                                        <div class="row gx-3 mb-3">
+                                            <div class="col-md-6">
+                                                <label class="small mb-1" for="streetAddress">Street</label>
+                                                <input class="form-control" id="streetAddress" type="text"
+                                                    placeholder="Enter your street address" value="No 2, NoZone, Ikeja">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="small mb-1" for="state">State</label>
+                                                <input class="form-control" id="state" type="text"
+                                                    placeholder="Enter your state" value="Lagos, NG">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div><label class="small mb-1" for="country">Country</label></div>
+                                            <select class="form-select form-control" id="country" name="country">
+                                                <option value="Nigeria">Nigeria</option>
+                                                <option value="United States">United States</option>
+                                                <option value="United Kingdom">United Kingdom</option>
+                                            </select>
+                                        </div>
+                                        <button class="btn btn-primary" type="button">Save changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <%- include("../partials/footer.ejs") %>
+                <%- include("../partials/scripts.ejs") %>
+
+</body>
+
+</html>
