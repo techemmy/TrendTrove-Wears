@@ -4,6 +4,7 @@ import passport from 'passport';
 import session from 'express-session';
 import { appConfig, sessionConfig } from './config';
 import authRouter from './routes/authRoute';
+import userRouter from './routes/userRoute';
 import bodyParser from 'body-parser';
 import type { IRequestWithFlashMessages } from './types/requestTypes';
 import { ensureLoggedIn } from 'connect-ensure-login';
@@ -35,11 +36,12 @@ app.use((req: IRequestWithFlashMessages, res, next) => {
     next();
 });
 
-app.use('/auth', authRouter);
-
 app.get('/', (req, res) => {
     res.render('index');
 });
+
+app.use('/auth', authRouter);
+app.use('/user', userRouter);
 
 app.get('/about', (req, res) => {
     res.render('about');
