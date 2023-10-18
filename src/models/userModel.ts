@@ -7,7 +7,7 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     name: string;
     email: string;
     password?: string;
-    phoneNumber?: number;
+    phoneNumber?: string;
     profileImage?: string;
     providerIdentity?: string;
     readonly createdAt: Date;
