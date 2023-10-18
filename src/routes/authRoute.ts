@@ -23,13 +23,16 @@ passport.serializeUser(function (user: UserAttributes, cb) {
 
 passport.deserializeUser(function (userId: string, cb) {
     process.nextTick(async function () {
-        const { id, name, email } = (await User.findOne({
-            where: { id: userId },
-        })) as IUser;
+        const { id, name, email, phoneNumber, profileImageURL } =
+            (await User.findOne({
+                where: { id: userId },
+            })) as IUser;
         cb(null, {
             id,
             name,
             email,
+            phoneNumber,
+            profileImageURL,
         });
     });
 });
