@@ -3,7 +3,7 @@ export interface UserAttributes {
     name: string;
     email: string;
     password?: string;
-    phoneNumber?: number;
+    phoneNumber?: string;
     profileImage?: string;
     providerIdentity?: string;
     createdAt?: Date;
@@ -14,4 +14,6 @@ export interface IUser {
     id: number;
     name: string;
     email: string;
+    phoneNumber?: string;
+    profileImage?: string;
 }
