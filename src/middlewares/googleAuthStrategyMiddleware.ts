@@ -17,6 +17,7 @@ export default (): void => {
                         displayName: name,
                         email,
                         provider: providerIdentity,
+                        picture: profileImageURL,
                     } = profile;
                     const [user] = await User.findOrCreate({
                         where: { email },
@@ -24,6 +25,7 @@ export default (): void => {
                             name,
                             email,
                             providerIdentity,
+                            profileImageURL,
                         },
                     });
 
