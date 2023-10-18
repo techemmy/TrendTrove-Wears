@@ -4,7 +4,7 @@ export interface UserAttributes {
     email: string;
     password?: string;
     phoneNumber?: string;
-    profileImage?: string;
+    profileImageURL?: string;
     providerIdentity?: string;
     createdAt?: Date;
     updatedAt?: Date;
@@ -15,5 +15,5 @@ export interface IUser {
     name: string;
     email: string;
     phoneNumber?: string;
-    profileImage?: string;
+    profileImageURL?: string;
 }

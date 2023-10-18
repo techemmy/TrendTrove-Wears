@@ -8,7 +8,7 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     email: string;
     password?: string;
     phoneNumber?: string;
-    profileImage?: string;
+    profileImageURL?: string;
     providerIdentity?: string;
     readonly createdAt: Date;
     readonly updatedAt: Date;
@@ -40,7 +40,7 @@ export function userFactory(sequelize): typeof User {
             phoneNumber: {
                 type: DataTypes.STRING,
             },
-            profileImage: {
+            profileImageURL: {
                 type: DataTypes.STRING,
             },
         },
