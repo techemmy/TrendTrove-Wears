@@ -7,7 +7,7 @@ import { body } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
 import passportLoginStrategyMiddleware from '../middlewares/passportLoginStrategyMiddleware';
 import type { IUser, UserAttributes } from '../types/models/userTypes';
-import { User } from '../models';
+import { Address, User } from '../models';
 
 const authRouter: Router = router();
 
@@ -22,17 +22,11 @@ passport.serializeUser(function (user: UserAttributes, cb) {
 
 passport.deserializeUser(function (userId: string, cb) {
     process.nextTick(async function () {
-        const { id, name, email, phoneNumber, profileImageURL } =
-            (await User.findOne({
-                where: { id: userId },
-            })) as IUser;
-        cb(null, {
-            id,
-            name,
-            email,
-            phoneNumber,
-            profileImageURL,
+        const user = await User.findOne({
+            where: { id: userId },
+            include: Address,
         });
+        cb(null, user?.toJSON());
     });
 });
 

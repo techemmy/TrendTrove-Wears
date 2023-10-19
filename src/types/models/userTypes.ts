@@ -1,3 +1,5 @@
+import { AddressAttributes } from './addressTypes';
+
 export interface UserAttributes {
     id?: number;
     name: string;
@@ -16,4 +18,5 @@ export interface IUser {
     email: string;
     phoneNumber?: string;
     profileImageURL?: string;
+    Address?: AddressAttributes;
 }

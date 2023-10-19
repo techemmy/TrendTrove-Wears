@@ -17,7 +17,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
-                                class="text-black">User Profile Page</strong></div>
+                                class="text-black">Profile Page</strong></div>
                     </div>
                 </div>
             </div>
@@ -83,17 +83,20 @@
                                                 <label class="small mb-1" for="streetAddress">Street</label>
                                                 <input class="form-control" id="streetAddress" type="text"
                                                     placeholder="Enter your street address" name="street"
-                                                    value="No 2, No Zone, Ikeja">
+                                                    value="<%= user.Address.street %>">
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="state">State</label>
                                                 <input class="form-control" id="state" type="text" name="state"
-                                                    placeholder="Enter your state" value="Lagos, NG">
+                                                    placeholder="Enter your state" value="<%= user.Address.state %>">
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <div><label class="small mb-1" for="country">Country</label></div>
                                             <select class="form-select form-control" id="country" name="country">
+                                                <option value="<%= user.Address.country %>">
+                                                    Current: <%= user.Address.country %>
+                                                </option>
                                                 <option value="Nigeria">Nigeria</option>
                                                 <option value="United States">United States</option>
                                                 <option value="United Kingdom">United Kingdom</option>
