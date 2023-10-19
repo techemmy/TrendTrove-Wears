@@ -36,7 +36,7 @@
                                             src="<%= user.profileImageURL %>" alt="Profile Image placeholder">
                                         <% } else { %>
                                             <img class="img-account-profile rounded-circle mb-2 w-50"
-                                                src="images/user_avatar.png" alt="Profile Image placeholder">
+                                                src="/images/user_avatar.png" alt="Profile Image placeholder">
                                             <% } %>
                                                 <!-- Profile picture help block-->
                                                 <div class="small font-italic text-muted mb-4">JPG or PNG no larger
@@ -53,11 +53,11 @@
                             <div class="card mb-4">
                                 <div class="card-header">Account Details</div>
                                 <div class="card-body">
-                                    <form>
+                                    <form method="POST" action="/user/profile">
                                         <!-- Form Group (username)-->
                                         <div class="mb-3">
                                             <label class="small mb-1" for="name">Full name</label>
-                                            <input class="form-control" id="name" type="text"
+                                            <input class="form-control" id="name" type="text" name="name"
                                                 placeholder="Enter your full name" value="<%= user.name %>">
                                         </div>
                                         <!-- Form Row-->
@@ -65,13 +65,15 @@
                                             <!-- Form Group (first name)-->
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="email">Email</label>
-                                                <input class="form-control" id="email" type="email"
-                                                    placeholder="Enter your email" value="<%= user.email %>">
+                                                <input class="form-control" id="email" type="email" name="email"
+                                                    placeholder="Enter your email" value="<%= user.email %>"
+                                                    title="Email cannot be changed. Contact the admin for support at emmanueltopea@gmail.com"
+                                                    disabled>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="inputPhone">Phone number</label>
                                                 <input class="form-control" id="inputPhone" type="tel"
-                                                    placeholder="Enter your phone number"
+                                                    placeholder="Enter your phone number" name="phoneNumber"
                                                     value="<%= user.phoneNumber %>">
                                             </div>
 
@@ -80,12 +82,12 @@
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="streetAddress">Street</label>
                                                 <input class="form-control" id="streetAddress" type="text"
-                                                    placeholder="Enter your street address"
+                                                    placeholder="Enter your street address" name="street"
                                                     value="No 2, No Zone, Ikeja">
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="state">State</label>
-                                                <input class="form-control" id="state" type="text"
+                                                <input class="form-control" id="state" type="text" name="state"
                                                     placeholder="Enter your state" value="Lagos, NG">
                                             </div>
                                         </div>
@@ -97,7 +99,7 @@
                                                 <option value="United Kingdom">United Kingdom</option>
                                             </select>
                                         </div>
-                                        <button class="btn btn-primary" type="button">Save changes</button>
+                                        <button class="btn btn-primary" type="submit">Save changes</button>
                                     </form>
                                 </div>
                             </div>
