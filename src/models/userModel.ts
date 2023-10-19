@@ -22,9 +22,9 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     readonly updatedAt: Date;
     verifyPassword: (password) => Promise<boolean>;
 
-    declare getAddress: HasOneGetAssociationMixin<Address>;
-    declare setAddress: HasOneSetAssociationMixin<Address, number>;
-    declare createAddress: HasOneCreateAssociationMixin<Address>;
+    getAddress: HasOneGetAssociationMixin<Address>;
+    setAddress: HasOneSetAssociationMixin<Address, number>;
+    createAddress: HasOneCreateAssociationMixin<Address>;
 }
 
 export function userFactory(sequelize): typeof User {
