@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import router from 'express';
 import type { Router } from 'express';
 import passport from 'passport';
