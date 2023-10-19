@@ -7,7 +7,7 @@ export class Address
 {
     id: number;
     street: string;
-    city: string;
+    state: string;
     country: string;
 }
 
@@ -23,7 +23,7 @@ export function addressFactory(sequelize): typeof Address {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            city: {
+            state: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
