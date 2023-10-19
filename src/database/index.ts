@@ -8,13 +8,6 @@ import {
     cartItemFactory,
     cartFactory,
     couponFactory,
-    User,
-    Role,
-    Product,
-    Cart,
-    Address,
-    CartItem,
-    Coupon,
 } from '../models';
 
 const sequelize = new Sequelize(

@@ -1,14 +1,12 @@
-import {
-    DataTypes,
+import { DataTypes, Model } from 'sequelize';
+import type {
     HasOneCreateAssociationMixin,
     HasOneGetAssociationMixin,
     HasOneSetAssociationMixin,
-    Model,
 } from 'sequelize';
 import { type UserAttributes } from '../types/models/userTypes';
 import bcrypt from 'bcrypt';
-import { Address } from '.';
-import { AddressAttributes } from '../types/models/addressTypes';
+import type { Address } from '.';
 
 export class User extends Model<UserAttributes> implements UserAttributes {
     id: number;

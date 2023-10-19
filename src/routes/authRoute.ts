@@ -6,7 +6,7 @@ import * as authController from '../controllers/authController';
 import { body } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
 import passportLoginStrategyMiddleware from '../middlewares/passportLoginStrategyMiddleware';
-import type { IUser, UserAttributes } from '../types/models/userTypes';
+import type { UserAttributes } from '../types/models/userTypes';
 import { Address, User } from '../models';
 
 const authRouter: Router = router();
