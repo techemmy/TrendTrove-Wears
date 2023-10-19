@@ -1,6 +1,14 @@
-import { DataTypes, Model } from 'sequelize';
+import {
+    DataTypes,
+    HasOneCreateAssociationMixin,
+    HasOneGetAssociationMixin,
+    HasOneSetAssociationMixin,
+    Model,
+} from 'sequelize';
 import { type UserAttributes } from '../types/models/userTypes';
 import bcrypt from 'bcrypt';
+import { Address } from '.';
+import { AddressAttributes } from '../types/models/addressTypes';
 
 export class User extends Model<UserAttributes> implements UserAttributes {
     id: number;
@@ -13,6 +21,10 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     readonly createdAt: Date;
     readonly updatedAt: Date;
     verifyPassword: (password) => Promise<boolean>;
+
+    declare getAddress: HasOneGetAssociationMixin<Address>;
+    declare setAddress: HasOneSetAssociationMixin<Address, number>;
+    declare createAddress: HasOneCreateAssociationMixin<Address>;
 }
 
 export function userFactory(sequelize): typeof User {
