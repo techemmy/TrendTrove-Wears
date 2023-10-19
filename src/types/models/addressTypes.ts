@@ -1,6 +1,6 @@
 export interface AddressAttributes {
     id?: number;
     street: string;
-    city: string;
+    state: string;
     country: string;
 }
