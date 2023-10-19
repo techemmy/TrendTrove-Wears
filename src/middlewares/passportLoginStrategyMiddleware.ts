@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { User } from '../models';
-import { setFlashMessages } from '../utilities';
+import { setFlashMessage } from '../utilities';
 
 export default (): void => {
     passport.use(
@@ -19,31 +19,28 @@ export default (): void => {
                 });
 
                 if (user === null) {
-                    setFlashMessages(req, [
-                        {
-                            type: 'danger',
-                            message: `We couldn't find an account with that email. <a href='/auth/signup'>Create one now</a>`,
-                        },
-                    ]);
+                    setFlashMessage(req, {
+                        type: 'danger',
+                        message: `We couldn't find an account with that email. <a href='/auth/signup'>Create one now</a>`,
+                    });
                     done(null, false);
                     return;
                 }
 
                 if (user.providerIdentity === 'google') {
-                    setFlashMessages(req, [
-                        {
-                            type: 'info',
-                            message: `Your google account is linked already. Log in with Google instead.`,
-                        },
-                    ]);
+                    setFlashMessage(req, {
+                        type: 'info',
+                        message: `Your google account is linked already. Log in with Google instead.`,
+                    });
                     done(null, false);
                     return;
                 }
 
                 if (!(await user.verifyPassword(password))) {
-                    setFlashMessages(req, [
-                        { type: 'warning', message: 'Incorrect password' },
-                    ]);
+                    setFlashMessage(req, {
+                        type: 'warning',
+                        message: 'Incorrect password',
+                    });
                     done(null, false);
                     return;
                 }

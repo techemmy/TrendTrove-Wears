@@ -5,7 +5,7 @@ import type {
 } from '../types/requestTypes';
 import { User } from '../models';
 import { matchedData } from 'express-validator';
-import { setFlashMessages } from '../utilities';
+import { setFlashMessage } from '../utilities';
 
 export function getSignup(
     req: Request,
@@ -45,19 +45,18 @@ export async function postSignup(
         ).at(-1) as boolean;
 
         if (!newAccount) {
-            setFlashMessages(req, [
-                { type: 'danger', message: 'User account exists!' },
-            ]);
+            setFlashMessage(req, {
+                type: 'danger',
+                message: 'User account exists!',
+            });
             res.redirect('/auth/login');
             return;
         }
 
-        setFlashMessages(req, [
-            {
-                type: 'success',
-                message: `Account created!. We've reserved a space for you in our store :) `,
-            },
-        ]);
+        setFlashMessage(req, {
+            type: 'success',
+            message: `Account created!. We've reserved a space for you in our store :) `,
+        });
         res.redirect('/auth/login');
     } catch (error) {
         next(error);

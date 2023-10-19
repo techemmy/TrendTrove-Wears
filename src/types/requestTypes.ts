@@ -29,12 +29,14 @@ export interface IRequestWithRequiredName {
     };
 }
 
-export interface FlashMessages {
+export interface FlashMessage {
     session: {
-        flashMessages?: Array<{ type: string; message: string }>;
+        flashMessages?:
+            | { type: string; message: string }
+            | Array<{ type: string; message: string }>;
     };
 }
-export type IRequestWithFlashMessages = Request & FlashMessages;
+export type IRequestWithFlashMessages = Request & FlashMessage;
 
 export type IRequestWithUserSignupForm = IRequestWithRequiredName &
     IRequestWithUserForm;

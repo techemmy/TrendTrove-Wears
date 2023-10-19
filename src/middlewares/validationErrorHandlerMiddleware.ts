@@ -1,7 +1,7 @@
 import type { NextFunction, Response } from 'express';
 import { validationResult } from 'express-validator';
 import type { IRequestWithFlashMessages } from '../types/requestTypes';
-import { setFlashMessages } from '../utilities';
+import { setFlashMessage } from '../utilities';
 import type { flashMessage } from '../types/flashMessageType';
 
 export default (
@@ -18,6 +18,6 @@ export default (
     const errors = result.array().map((error): flashMessage => {
         return { type: 'warning', message: error.msg };
     });
-    setFlashMessages(req, errors);
+    setFlashMessage(req, errors);
     res.redirect(req.originalUrl);
 };

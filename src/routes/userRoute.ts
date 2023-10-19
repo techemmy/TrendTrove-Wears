@@ -3,7 +3,7 @@ import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
 import { body, matchedData } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
 import db from '../database';
-import { setFlashMessages } from '../utilities';
+import { setFlashMessage } from '../utilities';
 
 const userRouter = Router();
 
@@ -34,7 +34,7 @@ userRouter.post(
         const user = await db.users.findByPk(req.user.id);
 
         if (user === null) {
-            setFlashMessages(req, [
+            setFlashMessage(req, [
                 { message: 'User not found', type: 'danger' },
             ]);
             res.redirect('/');
@@ -53,7 +53,7 @@ userRouter.post(
         }
 
         await user.update({ ...user, name, phoneNumber });
-        setFlashMessages(req, [
+        setFlashMessage(req, [
             {
                 type: 'success',
                 message: 'Your details were updated successfully!',
