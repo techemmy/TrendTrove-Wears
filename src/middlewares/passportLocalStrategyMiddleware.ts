@@ -10,7 +10,6 @@ export default (): void => {
                 usernameField: 'email',
                 passReqToCallback: true,
             },
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             async function (req, email, password, done) {
                 const user = await User.findOne({
                     where: {

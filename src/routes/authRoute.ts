@@ -5,14 +5,14 @@ import googleAuthStrategyMiddleware from '../middlewares/googleAuthStrategyMiddl
 import * as authController from '../controllers/authController';
 import { body } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
-import passportLoginStrategyMiddleware from '../middlewares/passportLoginStrategyMiddleware';
-import type { IUser, UserAttributes } from '../types/models/userTypes';
+import passportLocalStrategyMiddleware from '../middlewares/passportLocalStrategyMiddleware';
+import type { UserAttributes } from '../types/models/userTypes';
 import { Address, User } from '../models';
 
 const authRouter: Router = router();
 
 googleAuthStrategyMiddleware();
-passportLoginStrategyMiddleware();
+passportLocalStrategyMiddleware();
 
 passport.serializeUser(function (user: UserAttributes, cb) {
     process.nextTick(function () {
