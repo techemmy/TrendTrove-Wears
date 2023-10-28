@@ -8,6 +8,7 @@ import userRouter from './routes/userRoute';
 import bodyParser from 'body-parser';
 import type { IRequestWithFlashMessages } from './types/requestTypes';
 import { ensureLoggedIn } from 'connect-ensure-login';
+import appErrorHandlerMiddleware from './middlewares/appErrorHandlerMiddleware';
 
 const app: Application = express();
 
@@ -66,5 +67,16 @@ app.get('/checkout', (req, res) => {
 app.get('/thankyou', (req, res) => {
     res.render('thankyou');
 });
+
+app.use((req, res) => {
+    res.status(404).render('error', {
+        error: {
+            title: 'Page not found.',
+            message: 'Click the link below :)',
+        },
+    });
+});
+
+app.use(appErrorHandlerMiddleware);
 
 export default app;
