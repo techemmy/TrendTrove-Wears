@@ -38,13 +38,19 @@
                                             <img class="img-account-profile rounded-circle mb-2 w-50"
                                                 src="/images/user_avatar.png" alt="Profile Image placeholder">
                                             <% } %>
-                                                <!-- Profile picture help block-->
-                                                <div class="small font-italic text-muted mb-4">JPG or PNG no larger
-                                                    than
-                                                    5 MB</div>
-                                                <!-- Profile picture upload button-->
-                                                <button class="btn btn-primary" type="button">Upload new
-                                                    image</button>
+                                                <form action="/user/upload-profile-img" method="POST"
+                                                    enctype="multipart/form-data">
+                                                    <!-- Profile picture help block-->
+                                                    <div class="small font-italic text-muted">JPG or PNG no larger
+                                                        than
+                                                        5 MB</div>
+                                                    <!-- Profile picture upload button-->
+                                                    <input class="form-control mb-4 btn-outline" type="file"
+                                                        name="userAvatar">
+                                                    <button class="btn btn-primary" type="submit">Upload new
+                                                        image</button>
+
+                                                </form>
                                 </div>
                             </div>
                         </div>

@@ -1,3 +1,5 @@
+import type { AddressAttributes } from './addressTypes';
+
 export interface UserAttributes {
     id?: number;
     name: string;
