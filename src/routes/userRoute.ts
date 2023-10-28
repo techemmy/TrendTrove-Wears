@@ -4,7 +4,7 @@ import { body, matchedData } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
 import db from '../database';
 import { setFlashMessage } from '../utilities';
-import multer from 'multer';
+import multer, { MulterError } from 'multer';
 import path from 'node:path';
 import DatauriParser from 'datauri/parser';
 import {
@@ -17,7 +17,9 @@ import { User } from '../models';
 import { cloudinaryConfig } from '../config';
 
 const userRouter = Router();
-const getFileFromForm = multer({});
+const getUserAvatarFromForm = multer({
+    limits: { fileSize: profileImageUploadLimitInMb * ONE_MB_IN_BYTES },
+}).single('userAvatar');
 
 cloudinary.config({
     cloud_name: cloudinaryConfig.CLOUD_NAME,
@@ -31,23 +33,32 @@ userRouter.get('/profile', (req: IRequestWithAuthenticatedUser, res) => {
 
 userRouter.post(
     '/upload-profile-img',
-    getFileFromForm.single('userAvatar'),
+    (req, res, next) => {
+        getUserAvatarFromForm(req, res, (err) => {
+            if (err && err.code === 'LIMIT_FILE_SIZE') {
+                setFlashMessage(req, {
+                    type: 'warning',
+                    message: `Upload failed because the size is greater than ${profileImageUploadLimitInMb} MB. Try another file.`,
+                });
+                res.redirect('./profile');
+                return;
+            } else if (err instanceof MulterError) {
+                setFlashMessage(req, {
+                    type: 'warning',
+                    message: err.message,
+                });
+                res.redirect('./profile');
+                return;
+            }
+            next();
+        });
+    },
     async (req: any, res, next) => {
         try {
             if (req.file === undefined) {
                 setFlashMessage(req, {
                     type: 'info',
                     message: 'No file was detected. Choose a file',
-                });
-                res.redirect('./profile');
-                return;
-            }
-
-            const imageSizeInMB = req.file.size / ONE_MB_IN_BYTES;
-            if (imageSizeInMB > profileImageUploadLimitInMb) {
-                setFlashMessage(req, {
-                    type: 'warning',
-                    message: `Upload failed because the size is greater than ${profileImageUploadLimitInMb} MB. Try another file.`,
                 });
                 res.redirect('./profile');
                 return;
@@ -90,6 +101,7 @@ userRouter.post(
             });
             res.redirect('./profile');
         } catch (error) {
+            console.log('Here:', error.message, error);
             if (error.message) {
                 setFlashMessage(req, {
                     type: 'danger',
