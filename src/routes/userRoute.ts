@@ -1,35 +1,17 @@
 import { Router } from 'express';
-import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
-import { body, matchedData } from 'express-validator';
+import { body } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
-import db from '../database';
 import { setFlashMessage } from '../utilities';
 import multer, { MulterError } from 'multer';
-import path from 'node:path';
-import DatauriParser from 'datauri/parser';
-import {
-    ALLOWED_IMAGE_TYPES,
-    ONE_MB_IN_BYTES,
-    profileImageUploadLimitInMb,
-} from '../constants';
-import { v2 as cloudinary } from 'cloudinary';
-import { User } from '../models';
-import { cloudinaryConfig } from '../config';
+import { ONE_MB_IN_BYTES, profileImageUploadLimitInMb } from '../constants';
+import * as UserController from '../controllers/userController';
 
 const userRouter = Router();
 const getUserAvatarFromForm = multer({
     limits: { fileSize: profileImageUploadLimitInMb * ONE_MB_IN_BYTES },
 }).single('userAvatar');
 
-cloudinary.config({
-    cloud_name: cloudinaryConfig.CLOUD_NAME,
-    api_key: cloudinaryConfig.API_KEY,
-    api_secret: cloudinaryConfig.API_SECRET,
-});
-
-userRouter.get('/profile', (req: IRequestWithAuthenticatedUser, res) => {
-    res.render('user/user-profile', { user: req.user });
-});
+userRouter.get('/profile', UserController.getProfile);
 
 userRouter.post(
     '/upload-profile-img',
@@ -53,66 +35,7 @@ userRouter.post(
             next();
         });
     },
-    async (req: any, res, next) => {
-        try {
-            if (req.file === undefined) {
-                setFlashMessage(req, {
-                    type: 'info',
-                    message: 'No file was detected. Choose a file',
-                });
-                res.redirect('./profile');
-                return;
-            }
-
-            const imageType = req.file.mimetype.split('/').at(-1);
-            if (!ALLOWED_IMAGE_TYPES.includes(imageType)) {
-                setFlashMessage(req, {
-                    type: 'warning',
-                    message: `Unallowed file type. Only pictures of "${ALLOWED_IMAGE_TYPES.join(
-                        ', '
-                    )}" type are allowed`,
-                });
-                res.redirect('./profile');
-                return;
-            }
-
-            const dUri = new DatauriParser();
-            const fileToUpload = dUri.format(
-                path.extname(req.file.originalname).toString(),
-                req.file.buffer
-            ).content;
-
-            const uploadedImg = await cloudinary.uploader.upload(
-                fileToUpload as string,
-                {
-                    public_id: req.user.email,
-                    overwrite: true,
-                    folder: '/trendtrove/profile-image',
-                    resource_type: 'image',
-                }
-            );
-
-            const user = await User.findByPk(req.user.id);
-            await user?.update({ profileImageURL: uploadedImg.url });
-
-            setFlashMessage(req, {
-                type: 'success',
-                message: 'Profile image uploaded succesfully!',
-            });
-            res.redirect('./profile');
-        } catch (error) {
-            console.log('Here:', error.message, error);
-            if (typeof error.message === 'string' && error.message.length > 0) {
-                setFlashMessage(req, {
-                    type: 'danger',
-                    message: error.message,
-                });
-                res.redirect('./profile');
-                return;
-            }
-            next();
-        }
-    }
+    UserController.postUploadProfileImage
 );
 
 userRouter.post(
@@ -128,39 +51,6 @@ userRouter.post(
         body('country', 'Country cannot be empty').trim().escape().notEmpty(),
     ],
     validationErrorHandlerMiddleware,
-    async (req, res) => {
-        const { name, phoneNumber, street, state, country } = matchedData(req);
-
-        const user = await db.users.findByPk(req.user.id);
-
-        if (user === null) {
-            setFlashMessage(req, [
-                { message: 'User not found', type: 'danger' },
-            ]);
-            res.redirect('/');
-            return;
-        }
-
-        let address = await user.getAddress({ where: { userId: user.id } });
-        if (address === null) {
-            address = await user.createAddress({
-                state,
-                street,
-                country,
-            });
-        } else {
-            await address.update({ ...address, street, state, country });
-        }
-
-        await user.update({ ...user, name, phoneNumber });
-        setFlashMessage(req, [
-            {
-                type: 'success',
-                message: 'Your details were updated successfully!',
-            },
-        ]);
-
-        res.redirect('/user/profile');
-    }
+    UserController.postUpdateProfileInformation
 );
 export default userRouter;
