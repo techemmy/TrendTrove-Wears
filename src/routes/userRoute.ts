@@ -35,7 +35,7 @@ userRouter.post(
     '/upload-profile-img',
     (req, res, next) => {
         getUserAvatarFromForm(req, res, (err) => {
-            if (err && err.code === 'LIMIT_FILE_SIZE') {
+            if (err !== undefined && err?.code === 'LIMIT_FILE_SIZE') {
                 setFlashMessage(req, {
                     type: 'warning',
                     message: `Upload failed because the size is greater than ${profileImageUploadLimitInMb} MB. Try another file.`,
@@ -102,7 +102,7 @@ userRouter.post(
             res.redirect('./profile');
         } catch (error) {
             console.log('Here:', error.message, error);
-            if (error.message) {
+            if (typeof error.message === 'string' && error.message.length > 0) {
                 setFlashMessage(req, {
                     type: 'danger',
                     message: error.message,

@@ -11,7 +11,7 @@ export default (
         next(error);
         return;
     }
-    if (error.message) {
+    if (typeof error.message === 'string' && error.message.length > 0) {
         setFlashMessage(req, {
             type: 'danger',
             message: error.message,
