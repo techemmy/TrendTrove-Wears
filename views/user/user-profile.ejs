@@ -38,11 +38,13 @@
                                             <% } %>
                                                 <form action="/user/profile/img-upload" method="POST"
                                                     enctype="multipart/form-data">
-                                                    <div class="small font-italic text-muted">JPG or PNG no larger
+                                                    <label for="uploadImgInput"
+                                                        class="form-label small font-italic text-muted">JPG or PNG no
+                                                        larger
                                                         than
-                                                        5 MB</div>
-                                                    <input class="form-control mb-4 btn-outline" type="file"
-                                                        name="userAvatar">
+                                                        5 MB</label>
+                                                    <input class=" form-control form-control-lg mb-4 btn-outline"
+                                                        type="file" id="uploadImgInput" name="userAvatar">
                                                     <button id="uploadProfileImgBtn" class="btn btn-primary"
                                                         type="submit">Upload new
                                                         image</button>
