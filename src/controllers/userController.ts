@@ -1,20 +1,12 @@
 import type { NextFunction, Response } from 'express';
 import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
-import { setFlashMessage } from '../utilities';
+import { cloudinaryAPI, setFlashMessage } from '../utilities';
 import db from '../database';
 import { matchedData } from 'express-validator';
 import { ALLOWED_IMAGE_TYPES } from '../constants';
 import DatauriParser from 'datauri/parser';
 import { User } from '../models';
-import { v2 as cloudinary } from 'cloudinary';
-import { cloudinaryConfig } from '../config';
 import path from 'node:path';
-
-cloudinary.config({
-    cloud_name: cloudinaryConfig.CLOUD_NAME,
-    api_key: cloudinaryConfig.API_KEY,
-    api_secret: cloudinaryConfig.API_SECRET,
-});
 
 export function getProfile(
     req: IRequestWithAuthenticatedUser,
@@ -89,7 +81,7 @@ export async function postUploadProfileImage(
             req.file.buffer
         ).content;
 
-        const uploadedImg = await cloudinary.uploader.upload(
+        const uploadedImg = await cloudinaryAPI().uploader.upload(
             fileToUpload as string,
             {
                 public_id: req.user.email,
