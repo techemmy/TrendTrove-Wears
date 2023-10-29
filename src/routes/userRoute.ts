@@ -11,10 +11,13 @@ const getUserAvatarFromForm = multer({
     limits: { fileSize: profileImageUploadLimitInMb * ONE_MB_IN_BYTES },
 }).single('userAvatar');
 
+userRouter.get('/', (req, res) => {
+    res.redirect('/user/profile');
+});
 userRouter.get('/profile', UserController.getProfile);
 
 userRouter.post(
-    '/upload-profile-img',
+    '/profile/img-upload',
     (req, res, next) => {
         getUserAvatarFromForm(req, res, (err) => {
             if (err !== undefined && err?.code === 'LIMIT_FILE_SIZE') {
@@ -22,14 +25,14 @@ userRouter.post(
                     type: 'warning',
                     message: `Upload failed because the size is greater than ${profileImageUploadLimitInMb} MB. Try another file.`,
                 });
-                res.redirect('./profile');
+                res.redirect('/user/profile');
                 return;
             } else if (err instanceof MulterError) {
                 setFlashMessage(req, {
                     type: 'warning',
                     message: err.message,
                 });
-                res.redirect('./profile');
+                res.redirect('/user/profile');
                 return;
             }
             next();

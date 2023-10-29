@@ -67,7 +67,7 @@ export async function postUploadProfileImage(
                 type: 'info',
                 message: 'No file was detected. Choose a file',
             });
-            res.redirect('./profile');
+            res.redirect('/user/profile');
             return;
         }
 
@@ -79,7 +79,7 @@ export async function postUploadProfileImage(
                     ', '
                 )}" type are allowed`,
             });
-            res.redirect('./profile');
+            res.redirect('/user/profile');
             return;
         }
 
@@ -106,15 +106,14 @@ export async function postUploadProfileImage(
             type: 'success',
             message: 'Profile image uploaded succesfully!',
         });
-        res.redirect('./profile');
+        res.redirect('/user/profile');
     } catch (error) {
-        console.log('Here:', error.message, error);
         if (typeof error.message === 'string' && error.message.length > 0) {
             setFlashMessage(req, {
                 type: 'danger',
                 message: error.message,
             });
-            res.redirect('./profile');
+            res.redirect('./');
             return;
         }
         next(error);
