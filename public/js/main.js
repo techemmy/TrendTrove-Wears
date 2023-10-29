@@ -4,9 +4,12 @@ AOS.init({
 	once: true
 });
 
-document.querySelector('#uploadProfileImgBtn').addEventListener('click', function() {
-	this.innerHTML = '<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>';
-})
+const uploadImgBtn = document.querySelector('#uploadProfileImgBtn');
+if (uploadImgBtn) {
+	uploadImgBtn.addEventListener('click', function () {
+		this.innerHTML = '<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>';
+	})
+}
 
 jQuery(document).ready(function ($) {
 
