@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import { PRODUCT_CATEGORIES, PRODUCT_SIZES } from '../constants';
+import { PRODUCT_CATEGORIES } from '../constants';
 import { type ProductAttributes } from '../types/models/productTypes';
 
 export class Product
@@ -10,9 +10,7 @@ export class Product
     name: string;
     price: string;
     category: string;
-    size: string;
     sizes: string[];
-    color: string;
     shortDescription: string;
     longDescription: any;
     available: boolean;
@@ -39,14 +37,8 @@ export function productFactory(sequelize): typeof Product {
                 type: DataTypes.ENUM(...Object.values(PRODUCT_CATEGORIES)),
                 allowNull: false,
             },
-            size: {
-                type: DataTypes.INTEGER,
-            },
             sizes: {
                 type: DataTypes.ARRAY(DataTypes.STRING),
-            },
-            color: {
-                type: DataTypes.STRING,
             },
             shortDescription: {
                 type: DataTypes.STRING(200),

@@ -72,12 +72,12 @@
                                         <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                                             <div class="block-4 text-center h-100 d-flex flex-column border">
                                                 <figure class="block-4-image">
-                                                    <a href="/single-product"><img src="<%= product.imageURL %>"
-                                                            alt="Image placeholder"
+                                                    <a href="/products/<%= product.id %>"><img
+                                                            src="<%= product.imageURL %>" alt="Image placeholder"
                                                             class="img-fluid h-100 w-100 object-fit-cover"></a>
                                                 </figure>
                                                 <div class="block-4-text p-4">
-                                                    <h3><a href="/single-product">
+                                                    <h3><a href="/products/<%= product.id %>">
                                                             <%= product.name %>
                                                         </a></h3>
                                                     <p class="mb-0">
@@ -149,29 +149,6 @@
                                             (1,392)</span>
                                     </label>
                                 </div>
-
-                                <div class="mb-4">
-                                    <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
-                                    <a href="#" class="d-flex color-item align-items-center">
-                                        <span class="bg-danger color d-inline-block rounded-circle me-2"></span> <span
-                                            class="text-black">Red
-                                            (2,429)</span>
-                                    </a>
-                                    <a href="#" class="d-flex color-item align-items-center">
-                                        <span class="bg-success color d-inline-block rounded-circle me-2"></span> <span
-                                            class="text-black">Green (2,298)</span>
-                                    </a>
-                                    <a href="#" class="d-flex color-item align-items-center">
-                                        <span class="bg-info color d-inline-block rounded-circle me-2"></span> <span
-                                            class="text-black">Blue
-                                            (1,075)</span>
-                                    </a>
-                                    <a href="#" class="d-flex color-item align-items-center">
-                                        <span class="bg-primary color d-inline-block rounded-circle me-2"></span> <span
-                                            class="text-black">Purple (1,075)</span>
-                                    </a>
-                                </div>
-
                             </div>
                         </div>
                     </div>
