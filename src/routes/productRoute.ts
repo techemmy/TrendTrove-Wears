@@ -1,16 +1,14 @@
 import router, { type Router } from 'express';
-import db from '../database';
+import * as productController from '../controllers/productController';
 
 const productRouter: Router = router();
-const Product = db.products;
 
 productRouter.get('/', (req, res) => {
     res.redirect('/shop/products');
 });
 
-productRouter.get('/products', async (req, res) => {
-    const products = await Product.findAll();
-    res.render('shop', { products });
-});
+productRouter.get('/', productController.getAllProduct);
+
+productRouter.get('/:productId', productController.getProductById);
 
 export default productRouter;
