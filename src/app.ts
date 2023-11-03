@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import type { IRequestWithFlashMessages } from './types/requestTypes';
 import { ensureLoggedIn } from 'connect-ensure-login';
 import appErrorHandlerMiddleware from './middlewares/appErrorHandlerMiddleware';
+import productRouter from './routes/productRoute';
 
 const app: Application = express();
 
@@ -43,6 +44,7 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRouter);
 app.use('/user', ensureLoggedIn('/auth/login'), userRouter);
+app.use('/shop', productRouter);
 
 app.get('/about', (req, res) => {
     res.render('about');
