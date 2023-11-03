@@ -5,8 +5,9 @@ import db from '../database';
 import { matchedData } from 'express-validator';
 import { ALLOWED_IMAGE_TYPES } from '../constants';
 import DatauriParser from 'datauri/parser';
-import { User } from '../models';
 import path from 'node:path';
+
+const User = db.users;
 
 export function getProfile(
     req: IRequestWithAuthenticatedUser,
@@ -18,7 +19,7 @@ export function getProfile(
 export async function postUpdateProfileInformation(req, res): Promise<void> {
     const { name, phoneNumber, street, state, country } = matchedData(req);
 
-    const user = await db.users.findByPk(req.user.id);
+    const user = await User.findByPk(req.user.id);
 
     if (user === null) {
         setFlashMessage(req, [{ message: 'User not found', type: 'danger' }]);
