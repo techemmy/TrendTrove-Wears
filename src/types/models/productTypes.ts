@@ -9,4 +9,5 @@ export interface ProductAttributes {
     shortDescription: string;
     longDescription?: string;
     available: boolean;
+    imageURL: string;
 }

@@ -16,6 +16,7 @@ export class Product
     shortDescription: string;
     longDescription: any;
     available: boolean;
+    imageURL: string;
 }
 
 export function productFactory(sequelize): typeof Product {
@@ -58,6 +59,7 @@ export function productFactory(sequelize): typeof Product {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
             },
+            imageURL: DataTypes.STRING,
         },
         { sequelize }
     );
