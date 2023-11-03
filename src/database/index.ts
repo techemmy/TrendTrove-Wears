@@ -43,8 +43,8 @@ const db = {
 
 // MODEL RELATIONSHIPS
 // User <=> Role
-db.users.belongsToMany(db.roles, { through: 'userRoles' });
-db.roles.belongsToMany(db.users, { through: 'userRoles' });
+db.users.belongsToMany(db.roles, { through: 'UserRoles' });
+db.roles.belongsToMany(db.users, { through: 'UserRoles' });
 
 // User <=> Product
 db.users.hasMany(db.products, { foreignKey: 'userId' });
