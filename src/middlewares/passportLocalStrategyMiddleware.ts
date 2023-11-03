@@ -20,7 +20,7 @@ export default (): void => {
                 if (user === null) {
                     setFlashMessage(req, {
                         type: 'danger',
-                        message: `We couldn't find an account with that email.Signup to continue`,
+                        message: `We couldn't find an account with that email. Signup to continue`,
                     });
                     done(null, false);
                     return;
