@@ -101,10 +101,12 @@
                                                         Current:
                                                         <%= user.Address.country %>
                                                     </option>
-                                                    <% } %>
-                                                        <option value="Nigeria">Nigeria</option>
-                                                        <option value="United States">United States</option>
-                                                        <option value="United Kingdom">United Kingdom</option>
+                                                    <% } else { %>
+                                                        <option value="">Select a Country</option>
+                                                        <% } %>
+                                                            <option value="Nigeria">Nigeria</option>
+                                                            <option value="United States">United States</option>
+                                                            <option value="United Kingdom">United Kingdom</option>
                                             </select>
                                         </div>
                                         <button class="btn btn-primary" type="submit">Save changes</button>
