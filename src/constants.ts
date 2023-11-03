@@ -1,7 +1,7 @@
 export const PRODUCT_SIZES = {
-    S: 'SMALL',
-    M: 'MEDIUM',
-    L: 'LARGE',
+    SMALL: 'SMALL',
+    MEDIUM: 'MEDIUM',
+    LARGE: 'LARGE',
 };
 
 export const PRODUCT_CATEGORIES = {

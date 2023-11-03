@@ -43,7 +43,7 @@ export function productFactory(sequelize): typeof Product {
                 type: DataTypes.INTEGER,
             },
             sizes: {
-                type: DataTypes.ENUM(...Object.values(PRODUCT_SIZES)),
+                type: DataTypes.ARRAY(DataTypes.STRING),
             },
             color: {
                 type: DataTypes.STRING,
