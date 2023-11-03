@@ -50,14 +50,6 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
-app.get('/shop', (req, res) => {
-    res.render('shop');
-});
-
-app.get('/single-product', (req, res) => {
-    res.render('single-product');
-});
-
 app.get('/cart', ensureLoggedIn('/auth/login'), (req, res) => {
     res.render('cart');
 });
