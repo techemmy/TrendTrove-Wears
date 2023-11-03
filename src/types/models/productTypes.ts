@@ -3,7 +3,7 @@ export interface ProductAttributes {
     name: string;
     price: string;
     category: string;
-    sizes: string[];
+    sizes?: string[];
     shortDescription: string;
     longDescription?: string;
     available: boolean;
