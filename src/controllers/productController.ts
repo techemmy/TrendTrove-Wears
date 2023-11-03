@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express';
 import db from '../database';
+import { setFlashMessage } from '../utilities';
 const Product = db.products;
 
 export async function getAllProduct(
@@ -16,5 +17,14 @@ export async function getProductById(
 ): Promise<void> {
     const { productId } = req.params;
     const product = await Product.findByPk(productId);
-    res.send(product);
+    if (product === null) {
+        setFlashMessage(req, {
+            message: `Product doesn't exist`,
+            type: 'info',
+        });
+        res.redirect('/products');
+        return;
+    }
+
+    res.render('single-product', { product });
 }
