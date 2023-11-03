@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRouter);
 app.use('/user', ensureLoggedIn('/auth/login'), userRouter);
-app.use('/shop/products', productRouter);
+app.use('/products', productRouter);
 
 app.get('/about', (req, res) => {
     res.render('about');
