@@ -58,7 +58,7 @@
     <% if (flashMessages) { %>
         <% flashMessages.forEach((flashedMessage)=> { %>
             <div class="container alert alert-<%= flashedMessage.type %>" role="alert">
-                <%- flashedMessage.message %>
+                <%= flashedMessage.message %>
             </div>
             <% }) %>
                 <% } %>
