@@ -3,9 +3,11 @@ import type {
     IRequestWithAuthenticatedUser,
     IRequestWithUserSignupForm,
 } from '../types/requestTypes';
-import { User } from '../models';
 import { matchedData } from 'express-validator';
 import { setFlashMessage } from '../utilities';
+import db from '../database';
+
+const User = db.users;
 
 export function getSignup(
     req: Request,
