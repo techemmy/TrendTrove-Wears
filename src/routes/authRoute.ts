@@ -66,7 +66,7 @@ authRouter.post(
     validationErrorHandlerMiddleware,
     passport.authenticate('local', {
         failureRedirect: '/auth/login',
-        successRedirect: '/shop',
+        successRedirect: '/products',
     })
 );
 
@@ -80,7 +80,7 @@ authRouter.get(
 authRouter.get(
     '/google/callback',
     passport.authenticate('google', {
-        successRedirect: '/shop',
+        successRedirect: '/products',
         failureRedirect: '/auth/signup',
     })
 );

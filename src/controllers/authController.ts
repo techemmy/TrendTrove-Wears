@@ -26,7 +26,7 @@ export async function postSignup(
 ): Promise<void> {
     try {
         if (req.isAuthenticated()) {
-            res.redirect('/shop');
+            res.redirect('/products');
             return;
         }
 
@@ -70,7 +70,7 @@ export function getLogin(
 ): void {
     try {
         if (req.isAuthenticated()) {
-            res.redirect('/shop');
+            res.redirect('/products');
             return;
         }
         res.render('auth/login');
@@ -89,7 +89,7 @@ export function getLogout(
             if (err !== undefined) {
                 next(err);
             }
-            res.redirect('/shop');
+            res.redirect('/products');
         });
     } catch (error) {
         next(error);
