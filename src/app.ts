@@ -10,6 +10,7 @@ import type { IRequestWithFlashMessages } from './types/requestTypes';
 import { ensureLoggedIn } from 'connect-ensure-login';
 import appErrorHandlerMiddleware from './middlewares/appErrorHandlerMiddleware';
 import productRouter from './routes/productRoute';
+import adminRouter from './routes/adminRoute';
 
 const app: Application = express();
 
@@ -45,6 +46,7 @@ app.get('/', (req, res) => {
 app.use('/auth', authRouter);
 app.use('/user', ensureLoggedIn('/auth/login'), userRouter);
 app.use('/products', productRouter);
+app.use('/admin', ensureLoggedIn('/auth/login'), adminRouter);
 
 app.get('/about', (req, res) => {
     res.render('about');
