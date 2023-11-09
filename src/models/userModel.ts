@@ -56,8 +56,8 @@ export function userFactory(sequelize): typeof User {
                 type: DataTypes.STRING,
             },
             role: {
-                type: DataTypes.ENUM(...USER_ROLES),
-                defaultValue: UserRoleEnum.Customer,
+                type: DataTypes.ENUM(...Object.values(USER_ROLES)),
+                defaultValue: UserRoleEnum.customer,
             },
         },
         {

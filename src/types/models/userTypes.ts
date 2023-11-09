@@ -1,8 +1,6 @@
-import type { AddressAttributes } from './addressTypes';
-
 export enum UserRoleEnum {
-    Admin = 'admin',
-    Customer = 'customer',
+    admin = 'admin',
+    customer = 'customer',
 }
 
 export interface UserAttributes {

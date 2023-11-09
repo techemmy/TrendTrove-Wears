@@ -1,6 +1,10 @@
 import { UserRoleEnum } from './types/models/userTypes';
 
-export const USER_ROLES = Object.values(UserRoleEnum) as UserRoleEnum[];
+export const USER_ROLES = {} as const as Record<UserRoleEnum, string>;
+const userRoles = Object.keys(UserRoleEnum) as UserRoleEnum[];
+userRoles.forEach((role) => {
+    USER_ROLES[role] = role.toLowerCase();
+});
 
 export const PRODUCT_SIZES = {
     S: 'SMALL',
