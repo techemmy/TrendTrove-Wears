@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import { setFlashMessage } from '../utilities';
 
-export function ensureLoggedIn(
+export function ensureLoggedInMiddleware(
     req: Request,
     res: Response,
     next: NextFunction
