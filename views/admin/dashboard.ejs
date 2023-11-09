@@ -155,63 +155,59 @@
                             <h1 class="modal-title fs-5" id="newProductModalLabel">Add a new product</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form>
+                        <form action="/products" method="POST">
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Enter product name">
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter product name" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="price" class="form-label">Price</label>
-                                    <input type="number" class="form-control" id="price" placeholder="Enter product price">
+                                    <input type="number" class="form-control" name="price" id="price" placeholder="Enter product price" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Category</label>
-                                    <select class="form-select" id="category" aria-label="Product Category select input">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                    <select class="form-select" name="category" id="category" required>
+                                        <option value="">Choose the product category</option>
+                                        <% for (const category of productCategories) { %>
+                                            <option value="<%= category %>"><%= category %></option>
+                                        <% } %>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="sizes" class="form-label">Sizes</label>
+                                    <% for (const [value, size] of Object.entries(productSizes)) { %>
                                     <div class="form-check text-black">
-                                        <input class="form-check-input" type="checkbox" value="SMALL" id="small" name="sizes">
-                                        <label class="form-check-label" for="small">
-                                        Small
+                                        <input class="form-check-input" type="checkbox" value="<%= value %>" id="<%= value %>" name="sizes">
+                                        <label class="form-check-label" for="<%= value %>">
+                                        <%= size %>
                                         </label>
                                     </div>
-                                    <div class="form-check text-black">
-                                        <input class="form-check-input" type="checkbox" value="MEDIUM" id="medium" name="sizes">
-                                        <label class="form-check-label" for="medium">
-                                        Medium
-                                        </label>
-                                    </div>
+                                    <% } %>
                                 </div>
                                 <div class="mb-3">
                                     <label for="shortDescription" class="form-label">Short Description</label>
-                                    <input type="text" class="form-control" id="shortDescription" placeholder="Enter short description">
+                                    <input type="text" class="form-control" name="shortDescription" id="shortDescription" placeholder="Enter short description" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="longDescription" class="form-label">Long Description</label>
-                                    <textarea class="form-control" id="longDescription" rows="3" placeholder="Enter long description"></textarea>
+                                    <textarea class="form-control" name="longDescription" id="longDescription" rows="3" placeholder="Enter long description" required></textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label for="availability" class="form-label">Available?</label>
-                                    <select class="form-select" aria-label="Product availability select input">
+                                    <select class="form-select" aria-label="Product availability select input" name="available" required>
                                         <option value="1" selected>Yes</option>
                                         <option value="0">No</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="image" class="form-label"> Upload product image</label>
-                                    <input class="form-control" type="file" id="image">
+                                    <input class="form-control" type="file" name="image" id="image" required>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
                             </div>
 
                         </form>
