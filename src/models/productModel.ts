@@ -12,7 +12,7 @@ export class Product
     category: string;
     sizes: string[];
     shortDescription: string;
-    longDescription: any;
+    longDescription: string;
     available: boolean;
     imageURL: string;
 }
