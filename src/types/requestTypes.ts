@@ -1,5 +1,5 @@
 import type { Request } from 'express';
-import type { IUser, UserAttributes } from './models/userTypes';
+import type { UserAttributes } from './models/userTypes';
 import type { Session } from 'express-session';
 
 export interface IRequestWithSessionObject extends Request {
@@ -8,7 +8,7 @@ export interface IRequestWithSessionObject extends Request {
 
 export interface IRequestWithAuthenticatedUser
     extends IRequestWithSessionObject {
-    user: IUser;
+    user: UserAttributes;
     isAuthenticated: () => boolean;
 }
 
