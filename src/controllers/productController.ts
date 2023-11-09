@@ -28,3 +28,12 @@ export async function getProductById(
 
     res.render('single-product', { product });
 }
+
+export async function postCreateProduct(
+    req: Request,
+    res: Response
+): Promise<void> {
+    const product = req.body;
+    console.log('Product', product);
+    res.redirect(req.originalUrl);
+}
