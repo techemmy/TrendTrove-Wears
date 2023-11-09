@@ -35,5 +35,5 @@ export async function postCreateProduct(
 ): Promise<void> {
     const product = req.body;
     console.log('Product', product);
-    res.redirect(req.originalUrl);
+    res.redirect('/admin');
 }
