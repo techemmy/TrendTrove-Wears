@@ -10,7 +10,10 @@ import type { IRequestWithFlashMessages } from './types/requestTypes';
 import appErrorHandlerMiddleware from './middlewares/appErrorHandlerMiddleware';
 import productRouter from './routes/productRoute';
 import adminRouter from './routes/adminRoute';
-import { ensureLoggedInMiddleware } from './middlewares/authenticationMiddlewares';
+import {
+    ensureAdminUserMiddleware,
+    ensureLoggedInMiddleware,
+} from './middlewares/authenticationMiddlewares';
 
 const app: Application = express();
 
@@ -46,7 +49,12 @@ app.get('/', (req, res) => {
 app.use('/auth', authRouter);
 app.use('/user', ensureLoggedInMiddleware, userRouter);
 app.use('/products', productRouter);
-app.use('/admin', ensureLoggedInMiddleware, adminRouter);
+app.use(
+    '/admin',
+    ensureLoggedInMiddleware,
+    ensureAdminUserMiddleware,
+    adminRouter
+);
 
 app.get('/about', (req, res) => {
     res.render('about');
