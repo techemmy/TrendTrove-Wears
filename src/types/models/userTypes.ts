@@ -1,5 +1,10 @@
 import type { AddressAttributes } from './addressTypes';
 
+export enum UserRoleEnum {
+    Admin = 'admin',
+    Customer = 'customer',
+}
+
 export interface UserAttributes {
     id?: number;
     name: string;
@@ -8,6 +13,7 @@ export interface UserAttributes {
     phoneNumber?: string;
     profileImageURL?: string;
     providerIdentity?: string;
+    role?: UserRoleEnum;
     createdAt?: Date;
     updatedAt?: Date;
 }

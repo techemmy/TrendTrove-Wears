@@ -1,4 +1,3 @@
-export * from './roleModel';
 export * from './userModel';
 export * from './productModel';
 export * from './addressModel';

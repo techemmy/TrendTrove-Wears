@@ -1,3 +1,7 @@
+import { UserRoleEnum } from './types/models/userTypes';
+
+export const USER_ROLES = Object.values(UserRoleEnum) as UserRoleEnum[];
+
 export const PRODUCT_SIZES = {
     S: 'SMALL',
     M: 'MEDIUM',

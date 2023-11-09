@@ -4,9 +4,10 @@ import type {
     HasOneGetAssociationMixin,
     HasOneSetAssociationMixin,
 } from 'sequelize';
-import { type UserAttributes } from '../types/models/userTypes';
+import { UserRoleEnum, type UserAttributes } from '../types/models/userTypes';
 import bcrypt from 'bcrypt';
 import type { Address } from '.';
+import { USER_ROLES } from '../constants';
 
 export class User extends Model<UserAttributes> implements UserAttributes {
     id: number;
@@ -16,8 +17,9 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     phoneNumber?: string;
     profileImageURL?: string;
     providerIdentity?: string;
-    readonly createdAt: Date;
-    readonly updatedAt: Date;
+    role!: UserRoleEnum;
+    readonly createdAt!: Date;
+    readonly updatedAt!: Date;
     verifyPassword: (password) => Promise<boolean>;
 
     getAddress: HasOneGetAssociationMixin<Address>;
@@ -52,6 +54,10 @@ export function userFactory(sequelize): typeof User {
             },
             profileImageURL: {
                 type: DataTypes.STRING,
+            },
+            role: {
+                type: DataTypes.ENUM(...USER_ROLES),
+                defaultValue: UserRoleEnum.Customer,
             },
         },
         {

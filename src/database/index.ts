@@ -2,7 +2,6 @@ import { dbConfig } from '../config';
 import { Sequelize } from 'sequelize';
 import {
     userFactory,
-    roleFactory,
     productFactory,
     addressFactory,
     cartItemFactory,
@@ -33,7 +32,6 @@ const sequelize = new Sequelize(
 const db = {
     sequelize,
     users: userFactory(sequelize),
-    roles: roleFactory(sequelize),
     products: productFactory(sequelize),
     addresses: addressFactory(sequelize),
     cartItems: cartItemFactory(sequelize),
@@ -42,10 +40,6 @@ const db = {
 };
 
 // MODEL RELATIONSHIPS
-// User <=> Role
-db.users.belongsToMany(db.roles, { through: 'UserRoles' });
-db.roles.belongsToMany(db.users, { through: 'UserRoles' });
-
 // User <=> Product
 db.users.hasMany(db.products, { foreignKey: 'userId' });
 db.products.belongsTo(db.users, { foreignKey: 'userId' });
