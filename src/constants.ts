@@ -1,14 +1,10 @@
 export const PRODUCT_SIZES = {
-    SMALL: 'SMALL',
-    MEDIUM: 'MEDIUM',
-    LARGE: 'LARGE',
+    S: 'SMALL',
+    M: 'MEDIUM',
+    L: 'LARGE',
 };
 
-export const PRODUCT_CATEGORIES = {
-    MEN: 'MEN',
-    WOMEN: 'WOMEN',
-    CHILDREN: 'CHILDREN',
-};
+export const PRODUCT_CATEGORIES = ['MEN', 'WOMEN', 'CHILDREN'];
 
 export const CART_STATES = {
     PENDING: 'PENDING',
