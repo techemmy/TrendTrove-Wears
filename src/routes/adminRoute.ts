@@ -1,12 +1,8 @@
 import router, { type Router } from 'express';
-import db from '../database';
+import * as adminController from '../controllers/adminController';
 
 const adminRouter: Router = router();
-const Product = db.products;
 
-adminRouter.get('/', async (req, res) => {
-    const products = await Product.findAll();
-    res.render('admin/dashboard', { products });
-});
+adminRouter.get('/', adminController.getDashboard);
 
 export default adminRouter;
