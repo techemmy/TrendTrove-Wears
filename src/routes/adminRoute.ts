@@ -4,7 +4,7 @@ import * as adminController from '../controllers/adminController';
 const adminRouter: Router = router();
 
 adminRouter.get('/', (req, res) => {
-    res.redirect('/dashboard');
+    res.redirect('/admin/dashboard');
 });
 
 adminRouter.get('/dashboard', adminController.getDashboard);
