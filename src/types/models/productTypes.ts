@@ -1,7 +1,7 @@
 export interface ProductAttributes {
     id?: number;
     name: string;
-    price: string;
+    price: number;
     category: string;
     sizes?: string[];
     shortDescription: string;
