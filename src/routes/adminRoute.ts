@@ -3,6 +3,10 @@ import * as adminController from '../controllers/adminController';
 
 const adminRouter: Router = router();
 
-adminRouter.get('/', adminController.getDashboard);
+adminRouter.get('/', (req, res) => {
+    res.redirect('/dashboard');
+});
+
+adminRouter.get('/dashboard', adminController.getDashboard);
 
 export default adminRouter;
