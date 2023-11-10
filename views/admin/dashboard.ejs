@@ -155,7 +155,7 @@
                             <h1 class="modal-title fs-5" id="newProductModalLabel">Add a new product</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form action="/products" method="POST">
+                        <form action="/products" method="POST" enctype="multipart/form-data">
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
@@ -201,8 +201,9 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="image" class="form-label"> Upload product image</label>
-                                    <input class="form-control" type="file" name="image" id="image" required>
+                                    <label for="productImageInput" class="form-label"> Upload product image</label>
+                                    <input class="form-control" type="file" name="image" id="productImageInput" required>
+                                    <label class="form-label small font-italic text-muted">JPG or PNG no larger than 5 MB</label>
                                 </div>
                             </div>
                             <div class="modal-footer">
