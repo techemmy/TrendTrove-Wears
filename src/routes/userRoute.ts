@@ -3,12 +3,12 @@ import { body } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
 import { setFlashMessage } from '../utilities';
 import multer, { MulterError } from 'multer';
-import { ONE_MB_IN_BYTES, profileImageUploadLimitInMb } from '../constants';
+import { ONE_MB_IN_BYTES, fileUploadLimit } from '../constants';
 import * as UserController from '../controllers/userController';
 
 const userRouter = Router();
 const getUserAvatarFromForm = multer({
-    limits: { fileSize: profileImageUploadLimitInMb * ONE_MB_IN_BYTES },
+    limits: { fileSize: fileUploadLimit * ONE_MB_IN_BYTES },
 }).single('userAvatar');
 
 userRouter.get('/', (req, res) => {
@@ -23,7 +23,7 @@ userRouter.post(
             if (err !== undefined && err?.code === 'LIMIT_FILE_SIZE') {
                 setFlashMessage(req, {
                     type: 'warning',
-                    message: `Upload failed because the size is greater than ${profileImageUploadLimitInMb} MB. Try another file.`,
+                    message: `Upload failed because the size is greater than ${fileUploadLimit} MB. Try another file.`,
                 });
                 res.redirect('/user/profile');
                 return;

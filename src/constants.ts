@@ -21,5 +21,5 @@ export const CART_STATES = {
 };
 
 export const ONE_MB_IN_BYTES: number = 1000000;
-export const profileImageUploadLimitInMb: number = 5;
+export const fileUploadLimit: number = 5;
 export const ALLOWED_IMAGE_TYPES: string[] = ['jpg', 'jpeg', 'png', 'gif'];
