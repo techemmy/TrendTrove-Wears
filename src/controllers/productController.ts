@@ -90,3 +90,14 @@ export async function postCreateProduct(
     });
     res.redirect('back');
 }
+
+export async function getDeleteProductById(
+    req: Request,
+    res: Response
+): Promise<void> {
+    const productId = req.params.productId;
+    await Product.destroy({ where: { id: productId } });
+    await cloudinaryAPI().uploader.destroy(`trendtrove/products/${productId}`);
+    setFlashMessage(req, { type: 'success', message: 'Product deleted!' });
+    res.redirect('back');
+}
