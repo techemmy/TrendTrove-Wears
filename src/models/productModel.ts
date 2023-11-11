@@ -50,6 +50,7 @@ export function productFactory(sequelize): typeof Product {
             available: {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
+                defaultValue: true,
             },
             imageURL: DataTypes.STRING,
         },
