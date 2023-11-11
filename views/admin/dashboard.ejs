@@ -102,39 +102,47 @@
                                                                     <%= product.category %>
                                                                 </td>
                                                                 <td>
-                                                                    <%= product.sizes.join(', ') %> </td>
-                                                            <td>
-                                                                <% if (product.available) { %>
-                                                                <label class="badge bg-gradient-success"> Yes </label>
-                                                                <% } else { %>
-                                                                <label class="badge bg-gradient-danger"> No </label>
+                                                                    <% if (product.sizes) { %>
+                                                                        <%= product.sizes.join(', ') %> <% } %>
+                                                                </td>
+                                                                <td>
+                                                                    <% if (product.available) { %>
+                                                                        <label class="badge bg-gradient-success"> Yes
+                                                                        </label>
+                                                                        <% } else { %>
+                                                                            <label class="badge bg-gradient-danger"> No
+                                                                            </label>
+                                                                            <% } %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= product.createdAt.toGMTString() %>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="#"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="16" height="16" fill="currentColor"
+                                                                            class="bi bi-pencil-square"
+                                                                            viewBox="0 0 16 16">
+                                                                            <path
+                                                                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                                            <path fill-rule="evenodd"
+                                                                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                                                        </svg>
+                                                                </td>
+                                                                <td><a href="#">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="16" height="16" fill="currentColor"
+                                                                            class="bi bi-trash3-fill"
+                                                                            viewBox="0 0 16 16">
+                                                                            <path
+                                                                                d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                        </svg>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+
+                                                            <% } %>
+
                                                                 <% } %>
-                                                            </td>
-                                                            <td> <%= product.createdAt.toGMTString() %> </td>
-                                                            <td>
-                                                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                        width="16" height="16" fill="currentColor"
-                                                                        class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                                        <path
-                                                                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                                                        <path fill-rule="evenodd"
-                                                                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                                                    </svg>
-                                                            </td>
-                                                            <td><a href="#">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                        height="16" fill="currentColor"
-                                                                        class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                                        <path
-                                                                            d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                                                    </svg>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-
-                                                    <% } %>
-
-                                                <% } %>
                                             </tbody>
                                         </table>
                                     </div>
@@ -159,51 +167,61 @@
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter product name" required>
+                                    <input type="text" class="form-control" name="name" id="name"
+                                        placeholder="Enter product name" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="price" class="form-label">Price</label>
-                                    <input type="number" class="form-control" name="price" id="price" placeholder="Enter product price" required>
+                                    <input type="number" class="form-control" name="price" id="price"
+                                        placeholder="Enter product price" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Category</label>
                                     <select class="form-select" name="category" id="category" required>
                                         <option value="">Choose the product category</option>
                                         <% for (const category of productCategories) { %>
-                                            <option value="<%= category %>"><%= category %></option>
-                                        <% } %>
+                                            <option value="<%= category %>">
+                                                <%= category %>
+                                            </option>
+                                            <% } %>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="sizes" class="form-label">Sizes</label>
                                     <% for (const [value, size] of Object.entries(productSizes)) { %>
-                                    <div class="form-check text-black">
-                                        <input class="form-check-input" type="checkbox" value="<%= value %>" id="<%= value %>" name="sizes">
-                                        <label class="form-check-label" for="<%= value %>">
-                                        <%= size %>
-                                        </label>
-                                    </div>
-                                    <% } %>
+                                        <div class="form-check text-black">
+                                            <input class="form-check-input" type="checkbox" value="<%= value %>"
+                                                id="<%= value %>" name="sizes">
+                                            <label class="form-check-label" for="<%= value %>">
+                                                <%= size %>
+                                            </label>
+                                        </div>
+                                        <% } %>
                                 </div>
                                 <div class="mb-3">
                                     <label for="shortDescription" class="form-label">Short Description</label>
-                                    <input type="text" class="form-control" name="shortDescription" id="shortDescription" placeholder="Enter short description" required>
+                                    <input type="text" class="form-control" name="shortDescription"
+                                        id="shortDescription" placeholder="Enter short description" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="longDescription" class="form-label">Long Description</label>
-                                    <textarea class="form-control" name="longDescription" id="longDescription" rows="3" placeholder="Enter long description" required></textarea>
+                                    <textarea class="form-control" name="longDescription" id="longDescription" rows="3"
+                                        placeholder="Enter long description" required></textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label for="availability" class="form-label">Available?</label>
-                                    <select class="form-select" aria-label="Product availability select input" name="available" required>
+                                    <select class="form-select" aria-label="Product availability select input"
+                                        name="available" required>
                                         <option value="1" selected>Yes</option>
                                         <option value="0">No</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="productImageInput" class="form-label"> Upload product image</label>
-                                    <input class="form-control" type="file" name="image" id="productImageInput" required>
-                                    <label class="form-label small font-italic text-muted">JPG or PNG no larger than 5 MB</label>
+                                    <input class="form-control" type="file" name="image" id="productImageInput"
+                                        required>
+                                    <label class="form-label small font-italic text-muted">JPG or PNG no larger than 5
+                                        MB</label>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -218,8 +236,10 @@
         </div>
 
         <%- include("../partials/footer.ejs") %>
-        <%- include("../partials/scripts.ejs") %>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+            <%- include("../partials/scripts.ejs") %>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+                    crossorigin="anonymous"></script>
 
 </body>
 
