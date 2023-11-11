@@ -50,9 +50,12 @@
                     <li><a href="/auth/login">Login</a></li>
                     <li><a href="/auth/signup">Signup</a></li>
                     <% } else { %>
-                        <li><a href="/admin/dashboard">Dashboard</a></li>
-                        <li><a href="/auth/logout">Logout(<%- req.user.name %>)</a></li>
-                        <% } %>
+
+                        <% if (req.user.role==='admin' ) { %>
+                            <li><a href="/admin/dashboard">Dashboard</a></li>
+                            <% } %>
+                                <li><a href="/auth/logout">Logout(<%- req.user.name %>)</a></li>
+                                <% } %>
             </ul>
         </div>
     </nav>
