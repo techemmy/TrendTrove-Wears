@@ -13,7 +13,7 @@ export function getProfile(
     req: IRequestWithAuthenticatedUser,
     res: Response
 ): void {
-    res.render('user/user-profile', { user: req.user });
+    res.render('user/user-profile');
 }
 
 export async function postUpdateProfileInformation(req, res): Promise<void> {

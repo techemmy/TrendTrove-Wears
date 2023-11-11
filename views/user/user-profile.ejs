@@ -29,9 +29,9 @@
                             <div class="card mb-4 mb-xl-0">
                                 <div class="card-header">Profile Picture</div>
                                 <div class="card-body text-center">
-                                    <% if (user.profileImageURL) { %>
+                                    <% if (req.user.profileImageURL) { %>
                                         <img class="img-account-profile rounded-circle mb-2 w-50"
-                                            src="<%= user.profileImageURL %>" alt="Profile Image">
+                                            src="<%= req.user.profileImageURL %>" alt="Profile Image">
                                         <% } else { %>
                                             <img class="img-account-profile rounded-circle mb-2 w-50"
                                                 src="/images/user_avatar.png" alt="Profile Image placeholder">
@@ -61,13 +61,14 @@
                                         <div class="mb-3">
                                             <label class="small mb-1" for="name">Full name</label>
                                             <input class="form-control" id="name" type="text" name="name"
-                                                placeholder="Enter your full name" value="<%= user.name %>" required>
+                                                placeholder="Enter your full name" value="<%= req.user.name %>"
+                                                required>
                                         </div>
                                         <div class=" row gx-3 mb-3">
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="email">Email</label>
                                                 <input class="form-control" id="email" type="email" name="email"
-                                                    placeholder="Enter your email" value="<%= user.email %>"
+                                                    placeholder="Enter your email" value="<%= req.user.email %>"
                                                     title="Email cannot be changed. Contact the admin for support at emmanueltopea@gmail.com"
                                                     disabled>
                                             </div>
@@ -75,7 +76,7 @@
                                                 <label class="small mb-1" for="inputPhone">Phone number</label>
                                                 <input class="form-control" id="inputPhone" type="tel"
                                                     placeholder="Enter your phone number" name="phoneNumber"
-                                                    value="<%= user.phoneNumber %>" required>
+                                                    value="<%= req.user.phoneNumber %>" required>
                                             </div>
 
                                         </div>
@@ -84,14 +85,14 @@
                                                 <label class="small mb-1" for="streetAddress">Street</label>
                                                 <input class="form-control" id="streetAddress" type="text"
                                                     placeholder="Enter your street address" name="street"
-                                                    value="<% if (user.Address) { %><%= user.Address.street %> <% } %>"
+                                                    value="<% if (req.user.Address) { %><%= req.user.Address.street %> <% } %>"
                                                     required>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="state">State</label>
                                                 <input class="form-control" id="state" type="text" name="state"
                                                     placeholder="Enter your state"
-                                                    value="<% if (user.Address) { %><%= user.Address.state %> <% } %>"
+                                                    value="<% if (req.user.Address) { %><%= req.user.Address.state %> <% } %>"
                                                     required>
                                             </div>
                                         </div>
@@ -99,10 +100,10 @@
                                             <div><label class="small mb-1" for="country">Country</label></div>
                                             <select class="form-select form-control" id="country" name="country"
                                                 required>
-                                                <% if (user.Address) { %>
-                                                    <option value="<%= user.Address.country %>">
+                                                <% if (req.user.Address) { %>
+                                                    <option value="<%= req.user.Address.country %>">
                                                         Current:
-                                                        <%= user.Address.country %>
+                                                        <%= req.user.Address.country %>
                                                     </option>
                                                     <% } else { %>
                                                         <option value="">Select a Country</option>
