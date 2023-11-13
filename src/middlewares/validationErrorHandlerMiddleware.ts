@@ -19,5 +19,5 @@ export default (
         return { type: 'warning', message: error.msg };
     });
     setFlashMessage(req, errors);
-    res.redirect(req.originalUrl);
+    res.redirect('back');
 };
