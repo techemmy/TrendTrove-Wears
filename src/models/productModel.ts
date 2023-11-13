@@ -39,6 +39,7 @@ export function productFactory(sequelize): typeof Product {
             },
             sizes: {
                 type: DataTypes.ARRAY(DataTypes.STRING),
+                allowNull: false,
             },
             shortDescription: {
                 type: DataTypes.STRING(200),
