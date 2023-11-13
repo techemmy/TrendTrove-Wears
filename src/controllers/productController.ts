@@ -4,7 +4,7 @@ import { cloudinaryAPI, setFlashMessage } from '../utilities';
 import { ALLOWED_IMAGE_TYPES } from '../constants';
 import DataURIParser from 'datauri/parser';
 import path from 'node:path';
-import { IRequestWithAuthenticatedUser } from '../types/requestTypes';
+import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
 const Product = db.products;
 
 export async function getAllProduct(
