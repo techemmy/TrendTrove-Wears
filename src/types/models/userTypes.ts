@@ -7,10 +7,10 @@ export interface UserAttributes {
     id?: number;
     name: string;
     email: string;
-    password?: string;
-    phoneNumber?: string;
-    profileImageURL?: string;
-    providerIdentity?: string;
+    password: string | null;
+    phoneNumber: string | null;
+    profileImageURL: string | null;
+    providerIdentity?: string | null;
     role?: UserRoleEnum;
     createdAt?: Date;
     updatedAt?: Date;

@@ -13,10 +13,10 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     id: number;
     name: string;
     email: string;
-    password?: string;
-    phoneNumber?: string;
-    profileImageURL?: string;
-    providerIdentity?: string;
+    password: string | null;
+    phoneNumber: string | null;
+    profileImageURL: string | null;
+    providerIdentity?: string | null;
     role!: UserRoleEnum;
     readonly createdAt!: Date;
     readonly updatedAt!: Date;
