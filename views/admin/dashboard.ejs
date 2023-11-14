@@ -78,7 +78,7 @@
                                                     <th> Category </th>
                                                     <th> Sizes </th>
                                                     <th> Available </th>
-                                                    <th> Created At </th>
+                                                    <th> Last Updated </th>
                                                     <th> Edit </th>
                                                     <th> Delete </th>
                                                 </tr>
@@ -115,7 +115,7 @@
                                                                             <% } %>
                                                                 </td>
                                                                 <td>
-                                                                    <%= product.createdAt.toGMTString() %>
+                                                                    <%= product.updatedAt.toGMTString() %>
                                                                 </td>
                                                                 <td>
                                                                     <a href="#" hx-get="/products/<%= product.id %>/update" hx-trigger="click" hx-target="#update-modal-body" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProduct">
