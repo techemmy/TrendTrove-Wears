@@ -41,7 +41,6 @@ export async function postCreateProduct(
     req: IRequestWithAuthenticatedUser,
     res: Response
 ): Promise<void> {
-    console.log(req.body);
     if (req.file === undefined) {
         setFlashMessage(req, {
             type: 'info',
