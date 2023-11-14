@@ -4,7 +4,7 @@ import db from '../database';
 const Product = db.products;
 
 export async function getDashboard(req, res): Promise<void> {
-    const products = await Product.findAll();
+    const products = await Product.findAll({ order: [['updatedAt', 'DESC']] });
 
     res.render('admin/dashboard', {
         products,
