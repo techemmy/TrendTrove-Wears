@@ -73,6 +73,70 @@ productRouter.post(
 productRouter.get('/:productId', productController.getProductById);
 
 productRouter.get(
+    '/:productId/update',
+    ensureAdminUserMiddleware,
+    productController.getUpdateProductById
+);
+
+// TODO: extract the reused image upload functionalities into an utility functionƒ
+productRouter.post(
+    '/:productId/update',
+    ensureAdminUserMiddleware,
+    (req, res, next) => {
+        getProductImage(req, res, (err) => {
+            if (err !== undefined && err?.code === 'LIMIT_FILE_SIZE') {
+                setFlashMessage(req, {
+                    type: 'warning',
+                    message: `Upload failed because the size is greater than ${fileUploadLimit} MB. Try another file.`,
+                });
+                res.redirect('back');
+                return;
+            } else if (err instanceof MulterError) {
+                setFlashMessage(req, {
+                    type: 'warning',
+                    message: err.message,
+                });
+                res.redirect('back');
+                return;
+            }
+            next();
+        });
+    },
+    [
+        body('name')
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage('Product name is required'),
+        body('price')
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage('Product price is required')
+            .toFloat()
+            .isFloat({ min: 0 })
+            .withMessage('Product price cannot be less than zero'),
+        body('category')
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage('Product category is required'),
+        body('sizes')
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage('Choose at least one size'),
+        body('shortDescription')
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage('A short description of the product is required'),
+    ],
+    validationErrorHandlerMiddleware,
+    productController.postUpdateProductById
+);
+
+productRouter.get(
     '/:productId/delete',
     ensureAdminUserMiddleware,
     productController.getDeleteProductById
