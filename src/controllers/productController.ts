@@ -1,7 +1,11 @@
 import type { Request, Response } from 'express';
 import db from '../database';
 import { cloudinaryAPI, setFlashMessage } from '../utilities';
-import { ALLOWED_IMAGE_TYPES } from '../constants';
+import {
+    ALLOWED_IMAGE_TYPES,
+    PRODUCT_CATEGORIES,
+    PRODUCT_SIZES,
+} from '../constants';
 import DataURIParser from 'datauri/parser';
 import path from 'node:path';
 import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
@@ -87,6 +91,72 @@ export async function postCreateProduct(
     setFlashMessage(req, {
         type: 'success',
         message: `${product.name} added succesfully`,
+    });
+    res.redirect('back');
+}
+
+export async function getUpdateProductById(req, res): Promise<void> {
+    const { productId } = req.params;
+    const product = await Product.findByPk(productId);
+    res.render('admin/update-product.ejs', {
+        product,
+        PRODUCT_CATEGORIES,
+        PRODUCT_SIZES,
+    });
+}
+
+export async function postUpdateProductById(
+    req: Request,
+    res: Response
+): Promise<void> {
+    const { productId } = req.params;
+    const updateData = {
+        ...req.body,
+        sizes:
+            typeof req.body.sizes === 'string'
+                ? Array(req.body.sizes)
+                : req.body.sizes,
+    };
+
+    if (req.file !== undefined) {
+        const imageType = req.file.mimetype.split('/').at(-1) ?? '';
+        if (!ALLOWED_IMAGE_TYPES.includes(imageType)) {
+            setFlashMessage(req, {
+                type: 'warning',
+                message: `Unallowed file type. Only pictures of "${ALLOWED_IMAGE_TYPES.join(
+                    ', '
+                )}" type are allowed`,
+            });
+            res.redirect('back');
+            return;
+        }
+
+        const dUri = new DataURIParser();
+        const productImage = dUri.format(
+            path.extname(req.file.originalname).toString(),
+            req.file.buffer
+        ).content;
+
+        const uploadedImg = await cloudinaryAPI().uploader.upload(
+            productImage as string,
+            {
+                public_id: productId,
+                overwrite: true,
+                folder: '/trendtrove/products',
+                resource_type: 'image',
+            }
+        );
+        updateData.imageURL = uploadedImg.url;
+    }
+    await Product.update(updateData, {
+        where: {
+            id: productId,
+        },
+    });
+
+    setFlashMessage(req, {
+        type: 'success',
+        message: 'Product updated succesfully',
     });
     res.redirect('back');
 }
