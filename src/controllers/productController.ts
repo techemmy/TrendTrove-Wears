@@ -36,7 +36,7 @@ export async function getProductById(
 }
 
 export async function postCreateProduct(
-    req: IRequestWithAuthenticatedUser & Request,
+    req: IRequestWithAuthenticatedUser,
     res: Response,
     next: NextFunction
 ): Promise<void> {
