@@ -36,6 +36,7 @@ export interface FlashMessage {
             | Array<{ type: string; message: string }>;
     };
 }
+
 export type IRequestWithFlashMessages = Request & FlashMessage;
 
 export type IRequestWithUserSignupForm = IRequestWithRequiredName &

@@ -1,13 +1,11 @@
-import type { Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import db from '../database';
-import { cloudinaryAPI, setFlashMessage } from '../utilities';
 import {
-    ALLOWED_IMAGE_TYPES,
-    PRODUCT_CATEGORIES,
-    PRODUCT_SIZES,
-} from '../constants';
-import DataURIParser from 'datauri/parser';
-import path from 'node:path';
+    cloudinaryAPI,
+    convertBufferToImageURI,
+    setFlashMessage,
+} from '../utilities';
+import { PRODUCT_CATEGORIES, PRODUCT_SIZES } from '../constants';
 import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
 const Product = db.products;
 
@@ -38,60 +36,53 @@ export async function getProductById(
 }
 
 export async function postCreateProduct(
-    req: IRequestWithAuthenticatedUser,
-    res: Response
+    req: IRequestWithAuthenticatedUser & Request,
+    res: Response,
+    next: NextFunction
 ): Promise<void> {
-    if (req.file === undefined) {
-        setFlashMessage(req, {
-            type: 'info',
-            message: 'No file was detected. Choose a file',
-        });
-        res.redirect('back');
-        return;
-    }
-
-    const imageType = req.file.mimetype.split('/').at(-1) ?? '';
-    if (!ALLOWED_IMAGE_TYPES.includes(imageType)) {
-        setFlashMessage(req, {
-            type: 'warning',
-            message: `Unallowed file type. Only pictures of "${ALLOWED_IMAGE_TYPES.join(
-                ', '
-            )}" type are allowed`,
-        });
-        res.redirect('back');
-        return;
-    }
-
-    const dUri = new DataURIParser();
-    const productImage = dUri.format(
-        path.extname(req.file.originalname).toString(),
-        req.file.buffer
-    ).content;
-
-    const product = await Product.create({
-        ...req.body,
-        sizes:
-            typeof req.body.sizes === 'string'
-                ? Array(req.body.sizes)
-                : req.body.sizes,
-        userId: req.user.id,
-    });
-
-    const uploadedImg = await cloudinaryAPI().uploader.upload(
-        productImage as string,
-        {
-            public_id: product.id.toString(),
-            overwrite: true,
-            folder: '/trendtrove/products',
-            resource_type: 'image',
+    try {
+        if (req.file === undefined) {
+            setFlashMessage(req, {
+                type: 'info',
+                message: 'No file was detected. Choose a file',
+            });
+            res.redirect('back');
+            return;
         }
-    );
-    await product.update({ imageURL: uploadedImg.url });
-    setFlashMessage(req, {
-        type: 'success',
-        message: `${product.name} added succesfully`,
-    });
-    res.redirect('back');
+
+        const product = await Product.create({
+            ...req.body,
+            sizes:
+                typeof req.body.sizes === 'string'
+                    ? Array(req.body.sizes)
+                    : req.body.sizes,
+            userId: req.user.id,
+        });
+
+        const productImage = convertBufferToImageURI(
+            req.file.originalname,
+            req.file?.buffer
+        );
+        const uploadedImg = await cloudinaryAPI().uploader.upload(
+            productImage as string,
+            {
+                public_id: product.id.toString(),
+                overwrite: true,
+                folder: '/trendtrove/products',
+                resource_type: 'image',
+            }
+        );
+
+        await product.update({ imageURL: uploadedImg.url });
+        setFlashMessage(req, {
+            type: 'success',
+            message: `${product.name} added succesfully`,
+        });
+        res.redirect('back');
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
 }
 
 export async function getUpdateProductById(req, res): Promise<void> {
@@ -106,58 +97,51 @@ export async function getUpdateProductById(req, res): Promise<void> {
 
 export async function postUpdateProductById(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
 ): Promise<void> {
-    const { productId } = req.params;
-    const updateData = {
-        ...req.body,
-        sizes:
-            typeof req.body.sizes === 'string'
-                ? Array(req.body.sizes)
-                : req.body.sizes,
-    };
+    try {
+        const { productId } = req.params;
+        const updateData = {
+            ...req.body,
+            sizes:
+                typeof req.body.sizes === 'string'
+                    ? Array(req.body.sizes)
+                    : req.body.sizes,
+        };
 
-    if (req.file !== undefined) {
-        const imageType = req.file.mimetype.split('/').at(-1) ?? '';
-        if (!ALLOWED_IMAGE_TYPES.includes(imageType)) {
-            setFlashMessage(req, {
-                type: 'warning',
-                message: `Unallowed file type. Only pictures of "${ALLOWED_IMAGE_TYPES.join(
-                    ', '
-                )}" type are allowed`,
-            });
-            res.redirect('back');
-            return;
+        if (req.file !== undefined) {
+            const productImage = convertBufferToImageURI(
+                req.file.originalname,
+                req.file.buffer
+            );
+            const uploadedImg = await cloudinaryAPI().uploader.upload(
+                productImage as string,
+                {
+                    public_id: productId,
+                    overwrite: true,
+                    folder: '/trendtrove/products',
+                    resource_type: 'image',
+                }
+            );
+            updateData.imageURL = uploadedImg.url;
         }
 
-        const dUri = new DataURIParser();
-        const productImage = dUri.format(
-            path.extname(req.file.originalname).toString(),
-            req.file.buffer
-        ).content;
+        await Product.update(updateData, {
+            where: {
+                id: productId,
+            },
+        });
 
-        const uploadedImg = await cloudinaryAPI().uploader.upload(
-            productImage as string,
-            {
-                public_id: productId,
-                overwrite: true,
-                folder: '/trendtrove/products',
-                resource_type: 'image',
-            }
-        );
-        updateData.imageURL = uploadedImg.url;
+        setFlashMessage(req, {
+            type: 'success',
+            message: 'Product updated succesfully',
+        });
+        res.redirect('back');
+    } catch (error) {
+        console.log(error);
+        next(error);
     }
-    await Product.update(updateData, {
-        where: {
-            id: productId,
-        },
-    });
-
-    setFlashMessage(req, {
-        type: 'success',
-        message: 'Product updated succesfully',
-    });
-    res.redirect('back');
 }
 
 export async function getDeleteProductById(

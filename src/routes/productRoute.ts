@@ -6,36 +6,15 @@ import { setFlashMessage } from '../utilities';
 import { ensureAdminUserMiddleware } from '../middlewares/authenticationMiddlewares';
 import { body } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
+import getValidFormImage from '../middlewares/getValidFormImageMiddleware';
 
 const productRouter: Router = router();
-const getProductImage = multer({
-    limits: { fileSize: fileUploadLimit * ONE_MB_IN_BYTES },
-}).single('image');
 
 productRouter.get('/', productController.getAllProduct);
 
 productRouter.post(
     '/',
-    (req, res, next) => {
-        getProductImage(req, res, (err) => {
-            if (err !== undefined && err?.code === 'LIMIT_FILE_SIZE') {
-                setFlashMessage(req, {
-                    type: 'warning',
-                    message: `Upload failed because the size is greater than ${fileUploadLimit} MB. Try another file.`,
-                });
-                res.redirect('back');
-                return;
-            } else if (err instanceof MulterError) {
-                setFlashMessage(req, {
-                    type: 'warning',
-                    message: err.message,
-                });
-                res.redirect('back');
-                return;
-            }
-            next();
-        });
-    },
+    getValidFormImage,
     [
         body('name')
             .trim()
@@ -82,26 +61,7 @@ productRouter.get(
 productRouter.post(
     '/:productId/update',
     ensureAdminUserMiddleware,
-    (req, res, next) => {
-        getProductImage(req, res, (err) => {
-            if (err !== undefined && err?.code === 'LIMIT_FILE_SIZE') {
-                setFlashMessage(req, {
-                    type: 'warning',
-                    message: `Upload failed because the size is greater than ${fileUploadLimit} MB. Try another file.`,
-                });
-                res.redirect('back');
-                return;
-            } else if (err instanceof MulterError) {
-                setFlashMessage(req, {
-                    type: 'warning',
-                    message: err.message,
-                });
-                res.redirect('back');
-                return;
-            }
-            next();
-        });
-    },
+    getValidFormImage,
     [
         body('name')
             .trim()

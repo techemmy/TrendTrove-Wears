@@ -1,11 +1,12 @@
-import type { NextFunction, Response } from 'express';
+import type { NextFunction, Response, Request } from 'express';
 import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
-import { cloudinaryAPI, setFlashMessage } from '../utilities';
+import {
+    cloudinaryAPI,
+    convertBufferToImageURI,
+    setFlashMessage,
+} from '../utilities';
 import db from '../database';
 import { matchedData } from 'express-validator';
-import { ALLOWED_IMAGE_TYPES } from '../constants';
-import DatauriParser from 'datauri/parser';
-import path from 'node:path';
 
 const User = db.users;
 
@@ -64,26 +65,12 @@ export async function postUploadProfileImage(
             return;
         }
 
-        const imageType = req.file.mimetype.split('/').at(-1) ?? '';
-        if (!ALLOWED_IMAGE_TYPES.includes(imageType)) {
-            setFlashMessage(req, {
-                type: 'warning',
-                message: `Unallowed file type. Only pictures of "${ALLOWED_IMAGE_TYPES.join(
-                    ', '
-                )}" type are allowed`,
-            });
-            res.redirect('/user/profile');
-            return;
-        }
-
-        const dUri = new DatauriParser();
-        const fileToUpload = dUri.format(
-            path.extname(req.file.originalname).toString(),
+        const userImage = convertBufferToImageURI(
+            req.file.originalname,
             req.file.buffer
-        ).content;
-
+        );
         const uploadedImg = await cloudinaryAPI().uploader.upload(
-            fileToUpload as string,
+            userImage as string,
             {
                 public_id: req.user.email,
                 overwrite: true,
