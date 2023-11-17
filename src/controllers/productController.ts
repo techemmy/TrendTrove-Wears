@@ -140,7 +140,11 @@ export async function postUpdateProductById(
         res.redirect('back');
     } catch (error) {
         console.log(error);
-        next(error);
+        if (error.message !== undefined) {
+            next(error);
+        } else if (error?.error !== undefined) {
+            next(error.error);
+        }
     }
 }
 
