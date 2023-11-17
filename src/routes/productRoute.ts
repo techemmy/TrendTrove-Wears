@@ -57,7 +57,6 @@ productRouter.get(
     productController.getUpdateProductById
 );
 
-// TODO: extract the reused image upload functionalities into an utility functionƒ
 productRouter.post(
     '/:productId/update',
     ensureAdminUserMiddleware,
