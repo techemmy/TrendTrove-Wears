@@ -31,3 +31,13 @@ export const newProductFormValidators: ValidationChain[] = [
         .withMessage('A short description of the product is required'),
 ];
 
+export const userProfileFormValidator: ValidationChain[] = [
+    body('name', 'Name is invalid or empty').trim().escape().notEmpty(),
+    body('phoneNumber', 'Phone number cannot be empty')
+        .trim()
+        .escape()
+        .notEmpty(),
+    body('street', 'Street cannot be empty').trim().escape().notEmpty(),
+    body('state', 'State cannot be empty').trim().escape().notEmpty(),
+    body('country', 'Country cannot be empty').trim().escape().notEmpty(),
+];
