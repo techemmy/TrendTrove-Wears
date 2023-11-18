@@ -140,9 +140,11 @@ export async function postUpdateProductById(
         res.redirect('back');
     } catch (error) {
         console.log(error);
+
         if (error.message !== undefined) {
             next(error);
         } else if (error?.error !== undefined) {
+            // timeoout error object is returned inside an object
             next(error.error);
         }
     }
