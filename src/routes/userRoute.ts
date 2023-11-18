@@ -1,9 +1,6 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
-import { setFlashMessage } from '../utilities';
-import multer, { MulterError } from 'multer';
-import { ONE_MB_IN_BYTES, fileUploadLimit } from '../constants';
 import * as UserController from '../controllers/userController';
 import getValidFormImage from '../middlewares/getValidFormImageMiddleware';
 

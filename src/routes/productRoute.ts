@@ -1,10 +1,6 @@
 import router, { type Router } from 'express';
 import * as productController from '../controllers/productController';
-import multer, { MulterError } from 'multer';
-import { ONE_MB_IN_BYTES, fileUploadLimit } from '../constants';
-import { setFlashMessage } from '../utilities';
 import { ensureAdminUserMiddleware } from '../middlewares/authenticationMiddlewares';
-import { body } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
 import getValidFormImage from '../middlewares/getValidFormImageMiddleware';
 import { newProductFormValidators } from '../validators';
