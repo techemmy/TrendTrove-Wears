@@ -94,7 +94,7 @@
                                         <div class="site-block-27">
                                             <ul>
                                                 <% if (currentPage - 1> 0) { %>
-                                                    <li><a href="<% currentPage - 1 %>">&lt;</a></li>
+                                                    <li><a href="?page=<%= currentPage - 1 %>">&lt;</a></li>
                                                     <% } %>
                                                         <% for (let i=1; i <=totalNoOfPages; i++) { %>
                                                             <a href="?page=<%= i %>">
@@ -105,7 +105,8 @@
                                                             </a>
                                                             <% } %>
                                                                 <% if (currentPage + 1 <=totalNoOfPages) { %>
-                                                                    <li><a href="#">&gt;</a></li>
+                                                                    <li><a href="?page=<%= currentPage + 1 %>">&gt;</a>
+                                                                    </li>
                                                                     <% } %>
                                             </ul>
                                         </div>
