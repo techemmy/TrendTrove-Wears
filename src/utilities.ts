@@ -31,3 +31,13 @@ export function convertBufferToImageURI(filename, buffer): string | undefined {
     const image = dUri.format(path.extname(filename).toString(), buffer);
     return image.content;
 }
+
+export function getPagination(
+    page: number,
+    size: number
+): { limit: number; offset: number; currentPage: number } {
+    const limit = isNaN(size) ? 9 : +size;
+    const offset = isNaN(page) ? 0 : (+page - 1) * limit;
+    const currentPage = isNaN(page) ? 1 : page;
+    return { limit, offset, currentPage };
+}

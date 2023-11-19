@@ -3,6 +3,7 @@ import db from '../database';
 import {
     cloudinaryAPI,
     convertBufferToImageURI,
+    getPagination,
     setFlashMessage,
 } from '../utilities';
 import { PRODUCT_CATEGORIES, PRODUCT_SIZES } from '../constants';
@@ -13,8 +14,20 @@ export async function getAllProduct(
     req: Request,
     res: Response
 ): Promise<void> {
-    const products = await Product.findAll();
-    res.render('shop', { products });
+    const { page, size } = req.query;
+    const { limit, offset, currentPage } = getPagination(
+        parseInt(page as string),
+        parseInt(size as string)
+    );
+
+    const { count: totalNoOfProducts, rows: products } =
+        await Product.findAndCountAll({
+            limit,
+            offset,
+            order: [['updatedAt', 'DESC']],
+        });
+    const totalNoOfPages = Math.ceil(totalNoOfProducts / limit);
+    res.render('shop', { products, totalNoOfPages, currentPage });
 }
 
 export async function getProductById(
@@ -81,7 +94,13 @@ export async function postCreateProduct(
         res.redirect('back');
     } catch (error) {
         console.log(error);
-        next(error);
+
+        if (error.message !== undefined) {
+            next(error);
+        } else if (error?.error !== undefined) {
+            // timeoout error object is returned inside an object
+            next(error.error);
+        }
     }
 }
 
