@@ -10,24 +10,50 @@ import { PRODUCT_CATEGORIES, PRODUCT_SIZES } from '../constants';
 import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
 const Product = db.products;
 
-export async function getAllProduct(
+export async function getAllProducts(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
 ): Promise<void> {
-    const { page, size } = req.query;
-    const { limit, offset, currentPage } = getPagination(
-        parseInt(page as string),
-        parseInt(size as string)
-    );
+    try {
+        console.log(req.query);
+        const queryData: Record<string, string> = {};
 
-    const { count: totalNoOfProducts, rows: products } =
-        await Product.findAndCountAll({
-            limit,
-            offset,
-            order: [['updatedAt', 'DESC']],
+        const { page, size, category, latest } = req.query;
+        const { limit, offset, currentPage } = getPagination(
+            parseInt(page as string),
+            parseInt(size as string)
+        );
+
+        let { orderBy, sortBy } = req.query;
+        orderBy = (orderBy ?? 'DESC') as string;
+        sortBy = (sortBy ?? 'updatedAt') as string;
+
+        if (category !== undefined) {
+            queryData.category = category as string;
+        }
+
+        const { count: totalNoOfProducts, rows: products } =
+            await Product.findAndCountAll({
+                where: queryData,
+                limit,
+                offset,
+                order: [[sortBy, orderBy]],
+            });
+        const totalNoOfPages = Math.ceil(totalNoOfProducts / limit);
+
+        res.render('shop', {
+            products,
+            totalNoOfPages,
+            currentPage,
+            isLatestProducts: Boolean(parseInt(latest as string)),
+            searchCategory: category,
+            sortBy,
+            orderBy,
         });
-    const totalNoOfPages = Math.ceil(totalNoOfProducts / limit);
-    res.render('shop', { products, totalNoOfPages, currentPage });
+    } catch (err) {
+        next(err);
+    }
 }
 
 export async function getProductById(

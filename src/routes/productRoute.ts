@@ -4,10 +4,19 @@ import { ensureAdminUserMiddleware } from '../middlewares/authenticationMiddlewa
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
 import getValidFormImage from '../middlewares/getValidFormImageMiddleware';
 import { newProductFormValidators } from '../validators';
+import { query } from 'express-validator';
 
 const productRouter: Router = router();
 
-productRouter.get('/', productController.getAllProduct);
+productRouter.get(
+    '/',
+    query(['page', 'size', 'orderBy', 'sortBy', 'category', 'latest'])
+        .trim()
+        .customSanitizer(async (value) => {
+            return value !== '' ? value : undefined;
+        }),
+    productController.getAllProducts
+);
 
 productRouter.post(
     '/',

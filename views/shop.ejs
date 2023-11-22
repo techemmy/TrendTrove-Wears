@@ -45,21 +45,27 @@
                                                 Latest
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">Men</a>
-                                                <a class="dropdown-item" href="#">Women</a>
-                                                <a class="dropdown-item" href="#">Children</a>
+                                                <a class="dropdown-item"
+                                                    href="?size=9&sortBy=createdAt&orderBy=DESC&category=MEN&latest=1">Men</a>
+                                                <a class="dropdown-item"
+                                                    href="?size=9&sortBy=createdAt&orderBy=DESC&category=WOMEN&latest=1">Women</a>
+                                                <a class="dropdown-item"
+                                                    href="?size=9&sortBy=createdAt&orderBy=DESC&category=CHILDREN&latest=1">Children</a>
                                             </div>
                                         </div>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-secondary btn-sm dropdown-toggle"
                                                 data-bs-toggle="dropdown">Reference</button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">Relevance</a>
-                                                <a class="dropdown-item" href="#">Name, A to Z</a>
-                                                <a class="dropdown-item" href="#">Name, Z to A</a>
+                                                <a class="dropdown-item" href="?sortBy=name&orderBy=ASC">Name, A to
+                                                    Z</a>
+                                                <a class="dropdown-item" href="?sortBy=name&orderBy=DESC">Name, Z to
+                                                    A</a>
                                                 <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Price, low to high</a>
-                                                <a class="dropdown-item" href="#">Price, high to low</a>
+                                                <a class="dropdown-item" href="?sortBy=price&orderBy=ASC">Price, low
+                                                    to high</a>
+                                                <a class="dropdown-item" href="?sortBy=price&orderBy=DESC">Price, high
+                                                    to low</a>
                                             </div>
                                         </div>
                                     </div>
@@ -89,44 +95,61 @@
                                         </div>
                                         <% } %>
                                 </div>
-                                <div class="row" data-aos="fade-up">
-                                    <div class="col-md-12 text-center">
-                                        <div class="site-block-27">
-                                            <ul>
-                                                <% if (currentPage - 1> 0) { %>
-                                                    <li><a href="?page=<%= currentPage - 1 %>">&lt;</a></li>
-                                                    <% } %>
-                                                        <% for (let i=1; i <=totalNoOfPages; i++) { %>
-                                                            <a href="?page=<%= i %>">
-                                                                <li <% if (i===currentPage) { %> class="active" <% } %>
-                                                                        ><span>
-                                                                            <%= i %>
-                                                                        </span></li>
-                                                            </a>
-                                                            <% } %>
-                                                                <% if (currentPage + 1 <=totalNoOfPages) { %>
-                                                                    <li><a href="?page=<%= currentPage + 1 %>">&gt;</a>
-                                                                    </li>
-                                                                    <% } %>
-                                            </ul>
+                                <% if (!isLatestProducts) { %>
+                                    <div class="row" data-aos="fade-up">
+                                        <div class="col-md-12 text-center">
+                                            <div class="site-block-27">
+                                                <ul>
+                                                    <% if (currentPage - 1> 0) { %>
+                                                        <li><a
+                                                                href="?page=<%= currentPage - 1 %>
+                                                                &sortBy=<%= sortBy %>
+                                                                &orderBy=<%= orderBy %>
+                                                                <% if (searchCategory) { %>&category=<%= searchCategory %><% } %>">&lt;</a>
+                                                        </li>
+                                                        <% } %>
+                                                            <% for (let activePage=1; activePage <=totalNoOfPages;
+                                                                activePage++) { %>
+                                                                <a
+                                                                    href="?page=<%= activePage %>
+                                                                    &sortBy=<%= sortBy %>
+                                                                    &orderBy=<%= orderBy %>
+                                                                    <% if (searchCategory) { %>&category=<%= searchCategory %><% } %>">
+                                                                    <li <% if (activePage===currentPage) { %>
+                                                                        class="active" <% } %>
+                                                                            ><span>
+                                                                                <%= activePage %>
+                                                                            </span></li>
+                                                                </a>
+                                                                <% } %>
+                                                                    <% if (currentPage + 1 <=totalNoOfPages) { %>
+                                                                        <li><a
+                                                                                href="?page=<%= currentPage + 1 %>
+                                                                                &sortBy=<%= sortBy %>
+                                                                                &orderBy=<%= orderBy %>
+                                                                                <% if (searchCategory) { %>&category=<%= searchCategory %><% } %>">&gt;</a>
+                                                                        </li>
+                                                                        <% } %>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <% } else { %>
-                                    <h2 class="text-center my-5">No products</h2>
                                     <% } %>
+                                        <% } else { %>
+                                            <h2 class="text-center my-5">No products</h2>
+                                            <% } %>
                         </div>
 
                         <div class="col-md-3 order-1 mb-5 mb-md-0">
                             <div class="border p-4 rounded mb-4">
                                 <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
                                 <ul class="list-unstyled mb-0">
-                                    <li class="mb-1"><a href="#" class="d-flex"><span>Men</span> <span
-                                                class="text-black ms-auto">(2,220)</span></a></li>
-                                    <li class="mb-1"><a href="#" class="d-flex"><span>Women</span> <span
+                                    <li class="mb-1"><a href="?category=MEN" class="d-flex"><span>Men</span>
+                                            <span class="text-black ms-auto">(2,220)</span></a></li>
+                                    <li class="mb-1"><a href="?category=WOMEN" class="d-flex"><span>Women</span> <span
                                                 class="text-black ms-auto">(2,550)</span></a></li>
-                                    <li class="mb-1"><a href="#" class="d-flex"><span>Children</span> <span
-                                                class="text-black ms-auto">(2,124)</span></a></li>
+                                    <li class="mb-1"><a href="?category=CHILDREN" class="d-flex"><span>Children</span>
+                                            <span class="text-black ms-auto">(2,124)</span></a></li>
                                 </ul>
                             </div>
 
