@@ -26,7 +26,7 @@ export default (
             type: 'danger',
             message: error.message,
         });
-        res.redirect(req.originalUrl);
+        res.redirect('back');
         return;
     }
     res.render('error');
