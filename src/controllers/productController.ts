@@ -7,30 +7,34 @@ import {
     setFlashMessage,
 } from '../utilities';
 import { PRODUCT_CATEGORIES, PRODUCT_SIZES } from '../constants';
-import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
+import type {
+    IRequestWithAuthenticatedUser,
+    IRequestWithGetAllProducts,
+} from '../types/requestTypes';
 const Product = db.products;
 
+// TODO: add try/catch to handle unexpected errors
+
 export async function getAllProducts(
-    req: Request,
+    req: IRequestWithGetAllProducts,
     res: Response,
     next: NextFunction
 ): Promise<void> {
     try {
-        console.log(req.query);
         const queryData: Record<string, string> = {};
 
         const { page, size, category, latest } = req.query;
         const { limit, offset, currentPage } = getPagination(
-            parseInt(page as string),
-            parseInt(size as string)
+            parseInt(page),
+            parseInt(size)
         );
 
         let { orderBy, sortBy } = req.query;
-        orderBy = (orderBy ?? 'DESC') as string;
-        sortBy = (sortBy ?? 'updatedAt') as string;
+        orderBy = orderBy ?? 'DESC';
+        sortBy = sortBy ?? 'updatedAt';
 
         if (category !== undefined) {
-            queryData.category = category as string;
+            queryData.category = category;
         }
 
         const { count: totalNoOfProducts, rows: products } =

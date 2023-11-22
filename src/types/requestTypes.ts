@@ -37,6 +37,17 @@ export interface FlashMessage {
     };
 }
 
+export interface IRequestWithGetAllProducts extends Request {
+    query: {
+        page: string;
+        size: string;
+        category?: string;
+        latest?: string;
+        orderBy?: string;
+        sortBy?: string;
+    };
+}
+
 export type IRequestWithFlashMessages = Request & FlashMessage;
 
 export type IRequestWithUserSignupForm = IRequestWithRequiredName &
