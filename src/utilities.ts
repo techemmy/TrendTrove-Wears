@@ -4,7 +4,7 @@ import type { flashMessage } from './types/flashMessageType';
 import type { IRequestWithFlashMessages } from './types/requestTypes';
 import { v2 as cloudinary } from 'cloudinary';
 import path from 'node:path';
-import { CategoryCount, SizesCount } from './types/models/productTypes';
+import type { CategoryCount, SizesCount } from './types/models/productTypes';
 
 export function setFlashMessage(
     req: IRequestWithFlashMessages,

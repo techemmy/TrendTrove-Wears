@@ -13,7 +13,7 @@ import type {
     IRequestWithAuthenticatedUser,
     IRequestWithGetAllProductsController,
 } from '../types/requestTypes';
-import { Op, Sequelize } from 'sequelize';
+import { Op } from 'sequelize';
 import type { CategoryCount, SizesCount } from '../types/models/productTypes';
 const Product = db.products;
 

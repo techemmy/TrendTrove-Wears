@@ -1,4 +1,4 @@
-import type { NextFunction, Response, Request } from 'express';
+import type { NextFunction, Response } from 'express';
 import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
 import {
     cloudinaryAPI,
