@@ -37,7 +37,7 @@ export interface FlashMessage {
     };
 }
 
-export interface IRequestWithGetAllProducts extends Request {
+export interface IRequestWithGetAllProductsController extends Request {
     query: {
         page: string;
         size: string;
@@ -45,6 +45,9 @@ export interface IRequestWithGetAllProducts extends Request {
         latest?: string;
         orderBy?: string;
         sortBy?: string;
+        priceMin?: string;
+        priceMax?: string;
+        productSizes?: [string];
     };
 }
 
