@@ -4,6 +4,7 @@ import type { flashMessage } from './types/flashMessageType';
 import type { IRequestWithFlashMessages } from './types/requestTypes';
 import { v2 as cloudinary } from 'cloudinary';
 import path from 'node:path';
+import { CategoryCount, SizesCount } from './types/models/productTypes';
 
 export function setFlashMessage(
     req: IRequestWithFlashMessages,
@@ -40,4 +41,38 @@ export function getPagination(
     const offset = isNaN(page) ? 0 : (+page - 1) * limit;
     const currentPage = isNaN(page) ? 1 : page;
     return { limit, offset, currentPage };
+}
+
+export function getProductCategoriesCount(
+    categoryCount: CategoryCount[]
+): Record<string, number> {
+    const counts: Record<string, number> = categoryCount.reduce(
+        (acc, { category, count }: CategoryCount) => {
+            acc[category] = count;
+            return acc;
+        },
+        {}
+    );
+
+    const MEN = counts.MEN ?? 0;
+    const WOMEN = counts.WOMEN ?? 0;
+    const CHILDREN = counts.CHILDREN ?? 0;
+    return { MEN, WOMEN, CHILDREN };
+}
+
+export function getProductSizesCount(
+    sizesCount: SizesCount[]
+): Record<string, number> {
+    const sizeCount: Record<string, number> = sizesCount.reduce(
+        (acc, { sizes, count }: SizesCount) => {
+            acc[sizes[0]] = count;
+            return acc;
+        },
+        {}
+    );
+
+    const SMALL = sizeCount.S ?? 0;
+    const MEDIUM = sizeCount.M ?? 0;
+    const LARGE = sizeCount.L ?? 0;
+    return { SMALL, MEDIUM, LARGE };
 }

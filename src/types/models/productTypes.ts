@@ -9,3 +9,13 @@ export interface ProductAttributes {
     available: boolean;
     imageURL: string;
 }
+
+export interface CategoryCount {
+    category: string;
+    count: number;
+}
+
+export interface SizesCount {
+    sizes: [string];
+    count: number;
+}
