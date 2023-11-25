@@ -10,7 +10,17 @@ const productRouter: Router = router();
 
 productRouter.get(
     '/',
-    query(['page', 'size', 'orderBy', 'sortBy', 'category', 'latest'])
+    query([
+        'page',
+        'size',
+        'orderBy',
+        'sortBy',
+        'category',
+        'latest',
+        'priceMin',
+        'priceMax',
+        'productSizes',
+    ])
         .trim()
         .customSanitizer(async (value) => {
             return value !== '' ? value : undefined;
