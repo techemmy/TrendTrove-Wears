@@ -3,7 +3,7 @@ import { cloudinaryConfig } from './config';
 import type { flashMessage } from './types/flashMessageType';
 import type { IRequestWithFlashMessages } from './types/requestTypes';
 import { v2 as cloudinary } from 'cloudinary';
-import path from 'node:path';
+import path from 'path';
 import type { CategoryCount, SizesCount } from './types/models/productTypes';
 
 export function setFlashMessage(
