@@ -3,25 +3,29 @@ import db from '../database';
 import {
     cloudinaryAPI,
     convertBufferToImageURI,
+    getProductCategoriesCount,
     getPagination,
     setFlashMessage,
+    getProductSizesCount,
 } from '../utilities';
 import { PRODUCT_CATEGORIES, PRODUCT_SIZES } from '../constants';
 import type {
     IRequestWithAuthenticatedUser,
-    IRequestWithGetAllProducts,
+    IRequestWithGetAllProductsController,
 } from '../types/requestTypes';
+import { Op, Sequelize } from 'sequelize';
+import type { CategoryCount, SizesCount } from '../types/models/productTypes';
 const Product = db.products;
 
 // TODO: add try/catch to handle unexpected errors
 
 export async function getAllProducts(
-    req: IRequestWithGetAllProducts,
+    req: IRequestWithGetAllProductsController,
     res: Response,
     next: NextFunction
 ): Promise<void> {
     try {
-        const queryData: Record<string, string> = {};
+        const queryData: Record<string, string | object> = {};
 
         const { page, size, category, latest } = req.query;
         const { limit, offset, currentPage } = getPagination(
@@ -33,8 +37,28 @@ export async function getAllProducts(
         orderBy = orderBy ?? 'DESC';
         sortBy = sortBy ?? 'updatedAt';
 
+        const { priceMin, priceMax } = req.query;
+        let { productSizes } = req.query;
+
         if (category !== undefined) {
             queryData.category = category;
+        }
+
+        if (priceMin !== undefined && priceMax !== undefined) {
+            queryData.price = {
+                [Op.gte]: priceMin,
+                [Op.lte]: priceMax,
+            };
+        }
+
+        if (productSizes !== undefined) {
+            productSizes =
+                typeof productSizes === 'string'
+                    ? [productSizes]
+                    : productSizes;
+            queryData.sizes = {
+                [Op.overlap]: productSizes,
+            };
         }
 
         const { count: totalNoOfProducts, rows: products } =
@@ -46,6 +70,26 @@ export async function getAllProducts(
             });
         const totalNoOfPages = Math.ceil(totalNoOfProducts / limit);
 
+        const categoryGroupCount = (await Product.count({
+            where: {
+                category: {
+                    [Op.or]: PRODUCT_CATEGORIES,
+                },
+            },
+            group: ['category'],
+        })) as unknown as CategoryCount[];
+        const sizesGroupCount = (await Product.count({
+            where: {
+                sizes: {
+                    [Op.or]: Object.keys(PRODUCT_SIZES).map((size) => [size]),
+                },
+            },
+            group: ['sizes'],
+        })) as unknown as SizesCount[];
+
+        const categoriesCount = getProductCategoriesCount(categoryGroupCount);
+        const sizesCount = getProductSizesCount(sizesGroupCount);
+
         res.render('shop', {
             products,
             totalNoOfPages,
@@ -54,8 +98,14 @@ export async function getAllProducts(
             searchCategory: category,
             sortBy,
             orderBy,
+            priceMin,
+            priceMax,
+            productSizes,
+            categoriesCount,
+            sizesCount,
         });
     } catch (err) {
+        console.log(err);
         next(err);
     }
 }

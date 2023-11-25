@@ -101,20 +101,32 @@
                                             <div class="site-block-27">
                                                 <ul>
                                                     <% if (currentPage - 1> 0) { %>
-                                                        <li><a
-                                                                href="?page=<%= currentPage - 1 %>
+                                                        <li><a href="?page=<%= currentPage - 1 %>
                                                                 &sortBy=<%= sortBy %>
                                                                 &orderBy=<%= orderBy %>
-                                                                <% if (searchCategory) { %>&category=<%= searchCategory %><% } %>">&lt;</a>
+                                                                <% if (searchCategory) { %>&category=<%= searchCategory %><% } %>
+                                                                <% if (priceMin) { %>&priceMin=<%= priceMin %><% } %>
+                                                                                <% if (priceMax) { %>&priceMax=<%= priceMax %><% } %>
+                                                                                <% if (productSizes) { %>
+                                                                                    <% for (const productSize of productSizes) { %>
+                                                                                        &productSizes=<%= productSize %>
+                                                                                    <% } %>
+                                                                                    <% } %>">&lt;</a>
                                                         </li>
                                                         <% } %>
                                                             <% for (let activePage=1; activePage <=totalNoOfPages;
                                                                 activePage++) { %>
-                                                                <a
-                                                                    href="?page=<%= activePage %>
+                                                                <a href="?page=<%= activePage %>
                                                                     &sortBy=<%= sortBy %>
                                                                     &orderBy=<%= orderBy %>
-                                                                    <% if (searchCategory) { %>&category=<%= searchCategory %><% } %>">
+                                                                    <% if (searchCategory) { %>&category=<%= searchCategory %><% } %>
+                                                                    <% if (priceMin) { %>&priceMin=<%= priceMin %><% } %>
+                                                                                <% if (priceMax) { %>&priceMax=<%= priceMax %><% } %>
+                                                                                <% if (productSizes) { %>
+                                                                                    <% for (const productSize of productSizes) { %>
+                                                                                        &productSizes=<%= productSize %>
+                                                                                    <% } %>
+                                                                                    <% } %>">
                                                                     <li <% if (activePage===currentPage) { %>
                                                                         class="active" <% } %>
                                                                             ><span>
@@ -123,11 +135,17 @@
                                                                 </a>
                                                                 <% } %>
                                                                     <% if (currentPage + 1 <=totalNoOfPages) { %>
-                                                                        <li><a
-                                                                                href="?page=<%= currentPage + 1 %>
+                                                                        <li><a href="?page=<%= currentPage + 1 %>
                                                                                 &sortBy=<%= sortBy %>
                                                                                 &orderBy=<%= orderBy %>
-                                                                                <% if (searchCategory) { %>&category=<%= searchCategory %><% } %>">&gt;</a>
+                                                                                <% if (searchCategory) { %>&category=<%= searchCategory %><% } %>
+                                                                                <% if (priceMin) { %>&priceMin=<%= priceMin %><% } %>
+                                                                                <% if (priceMax) { %>&priceMax=<%= priceMax %><% } %>
+                                                                                <% if (productSizes) { %>
+                                                                                    <% for (const productSize of productSizes) { %>
+                                                                                        &productSizes=<%= productSize %>
+                                                                                    <% } %>
+                                                                                    <% } %>">&gt;</a>
                                                                         </li>
                                                                         <% } %>
                                                 </ul>
@@ -145,40 +163,69 @@
                                 <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
                                 <ul class="list-unstyled mb-0">
                                     <li class="mb-1"><a href="?category=MEN" class="d-flex"><span>Men</span>
-                                            <span class="text-black ms-auto">(2,220)</span></a></li>
+                                            <span class="text-black ms-auto">(<%= categoriesCount.MEN %>)
+                                            </span></a>
+                                    </li>
                                     <li class="mb-1"><a href="?category=WOMEN" class="d-flex"><span>Women</span> <span
-                                                class="text-black ms-auto">(2,550)</span></a></li>
+                                                class="text-black ms-auto">(<%= categoriesCount.WOMEN %>)
+                                            </span></a>
+                                    </li>
                                     <li class="mb-1"><a href="?category=CHILDREN" class="d-flex"><span>Children</span>
-                                            <span class="text-black ms-auto">(2,124)</span></a></li>
+                                            <span class="text-black ms-auto">(<%= categoriesCount.CHILDREN %>)
+                                            </span></a></li>
                                 </ul>
                             </div>
 
                             <div class="border p-4 rounded mb-4">
-                                <div class="mb-4">
-                                    <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
-                                    <div id="slider-range" class="border-primary"></div>
-                                    <input type="text" name="text" id="amount"
-                                        class="form-control border-0 pl-0 bg-white" disabled="" />
-                                </div>
-
-                                <div class="mb-4">
-                                    <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
-                                    <label for="s_sm" class="d-flex">
-                                        <input type="checkbox" id="s_sm" class="me-2 mt-1"> <span
-                                            class="text-black">Small
-                                            (2,319)</span>
-                                    </label>
-                                    <label for="s_md" class="d-flex">
-                                        <input type="checkbox" id="s_md" class="me-2 mt-1"> <span
-                                            class="text-black">Medium
-                                            (1,282)</span>
-                                    </label>
-                                    <label for="s_lg" class="d-flex">
-                                        <input type="checkbox" id="s_lg" class="me-2 mt-1"> <span
-                                            class="text-black">Large
-                                            (1,392)</span>
-                                    </label>
-                                </div>
+                                <form action="/products" method="GET">
+                                    <div class="mb-4">
+                                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
+                                        <div class="price-input">
+                                            <div class="field me-2">
+                                                <span>Min</span>
+                                                <input type="number" class="input-min"
+                                                    value="<% if (priceMin) { %><%= priceMin %><% } else { %>250<% } %>">
+                                            </div>
+                                            <div class="field ms-2">
+                                                <span>Max</span>
+                                                <input type="number" class="input-max"
+                                                    value="<% if (priceMax) { %><%= priceMax %><% } else { %>750<% } %>">
+                                            </div>
+                                        </div>
+                                        <div class="slider mt-5">
+                                            <div class="progress"></div>
+                                        </div>
+                                        <div class="range-input">
+                                            <input type="range" class="range-min" min="0" name="priceMin" max="1000"
+                                                value="<% if (priceMin) { %><%= priceMin %><% } else { %>250<% } %>"
+                                                step="10">
+                                            <input type="range" class="range-max" min="0" name="priceMax" max="1000"
+                                                value="<% if (priceMax) { %><%= priceMax %><% } else { %>750<% } %>"
+                                                step="10">
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
+                                        <label for="s_sm" class="d-flex">
+                                            <input type="checkbox" id="s_sm" class="me-2 mt-1" name="productSizes"
+                                                value="S">
+                                            <span class="text-black">Small (<%= sizesCount.SMALL %>)</span>
+                                        </label>
+                                        <label for="s_md" class="d-flex">
+                                            <input type="checkbox" id="s_md" class="me-2 mt-1" name="productSizes"
+                                                value="M">
+                                            <span class="text-black">Medium (<%= sizesCount.MEDIUM %>)</span>
+                                        </label>
+                                        <label for="s_lg" class="d-flex">
+                                            <input type="checkbox" id="s_lg" class="me-2 mt-1" name="productSizes"
+                                                value="L">
+                                            <span class="text-black">Large (<%= sizesCount.LARGE %>)</span>
+                                        </label>
+                                    </div>
+                                    <button class="btn btn-primary w-100" type="submit">Apply filters</button>
+                                    <a class="btn btn-secondary w-100 mt-2" type="button" href="/products">Clear
+                                        filters</a>
+                                </form>
                             </div>
                         </div>
                     </div>
