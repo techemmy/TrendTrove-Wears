@@ -46,7 +46,7 @@ export function productFactory(sequelize): typeof Product {
                 allowNull: false,
             },
             longDescription: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
             },
             available: {
                 type: DataTypes.BOOLEAN,
