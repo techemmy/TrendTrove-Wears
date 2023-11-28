@@ -8,7 +8,7 @@
     "format": "eslint 'src/**/*.{ts,tsx}' --fix",
     "build": "tsc",
     "dev": "nodemon src/server.ts",
-    "start": "node dist/server.js"
+    "start": "npm install; npm build; node dist/server.js"
   },
   "keywords": [],
   "author": "",
