@@ -21,9 +21,6 @@ const baseConfig = {
 
 const developmentConfig = {
     ...baseConfig,
-    options: {
-        ...baseConfig.options,
-    },
 };
 
 const productionConfig = {
