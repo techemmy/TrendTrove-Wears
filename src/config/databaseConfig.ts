@@ -30,8 +30,8 @@ const productionConfig = {
 
 let config;
 if (process.env.NODE_ENV === 'production') {
-    config = developmentConfig;
-} else {
     config = productionConfig;
+} else {
+    config = developmentConfig;
 }
 export default config;
