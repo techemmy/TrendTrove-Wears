@@ -1,4 +1,5 @@
-const developmentConfig = {
+const baseConfig = {
+    url: process.env.DATABASE_URL,
     database: process.env.DATABASE_NAME ?? '',
     username: process.env.DATABASE_USERNAME ?? '',
     password: process.env.DATABASE_PASSWORD ?? '',
@@ -18,12 +19,17 @@ const developmentConfig = {
     },
 };
 
-const productionConfig = {
-    database: developmentConfig.database,
-    username: developmentConfig.username,
-    password: developmentConfig.password,
+const developmentConfig = {
+    ...baseConfig,
     options: {
-        ...developmentConfig.options,
+        ...baseConfig.options,
+    },
+};
+
+const productionConfig = {
+    ...baseConfig,
+    options: {
+        ...baseConfig.options,
         dialectOptions: {
             ssl: {
                 require: true,

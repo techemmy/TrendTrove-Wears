@@ -9,12 +9,17 @@ import {
     couponFactory,
 } from '../models';
 
-const sequelize = new Sequelize(
-    dbConfig.database,
-    dbConfig.username,
-    dbConfig.password,
-    dbConfig.options
-);
+let sequelize;
+if (typeof dbConfig.url !== 'undefined') {
+    sequelize = new Sequelize(dbConfig.url, dbConfig.options);
+} else {
+    sequelize = new Sequelize(
+        dbConfig.database,
+        dbConfig.username,
+        dbConfig.password,
+        dbConfig.options
+    );
+}
 
 const db = {
     sequelize,
