@@ -8,7 +8,6 @@ import {
     cartFactory,
     couponFactory,
 } from '../models';
-console.log(dbConfig);
 
 const sequelize = new Sequelize(
     dbConfig.database,

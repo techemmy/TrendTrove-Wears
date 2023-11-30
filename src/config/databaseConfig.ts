@@ -19,11 +19,16 @@ const developmentConfig = {
 };
 
 const productionConfig = {
-    ...developmentConfig,
-    dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false,
+    database: developmentConfig.database,
+    username: developmentConfig.username,
+    password: developmentConfig.password,
+    options: {
+        ...developmentConfig.options,
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false,
+            },
         },
     },
 };
