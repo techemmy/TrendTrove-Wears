@@ -3,7 +3,7 @@
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control" name="name" id="name" placeholder="Enter product name"
-                value="<%= product.name %>" required>
+                value="<%- product.name %>" required>
         </div>
         <div class="mb-3">
             <label for="price" class="form-label">Price</label>
@@ -36,12 +36,12 @@
         <div class="mb-3">
             <label for="shortDescription" class="form-label">Short Description</label>
             <input type="text" class="form-control" name="shortDescription" id="shortDescription"
-                placeholder="Enter short description" value="<%= product.shortDescription %>" required>
+                placeholder="Enter short description" value="<%- product.shortDescription %>" required>
         </div>
         <div class="mb-3">
             <label for="longDescription" class="form-label">Long Description</label>
             <textarea class="form-control" name="longDescription" id="longDescription" rows="3"
-                placeholder="Enter long description"><%= product.longDescription %></textarea>
+                placeholder="Enter long description"><%- product.longDescription %></textarea>
         </div>
         <div class="mb-3">
             <label for="availability" class="form-label">Available?</label>
