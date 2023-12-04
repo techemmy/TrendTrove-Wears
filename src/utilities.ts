@@ -37,7 +37,7 @@ export function getPagination(
     page: number,
     size: number
 ): { limit: number; offset: number; currentPage: number } {
-    const limit = isNaN(size) ? 9 : +size;
+    const limit = isNaN(size) ? 6 : +size;
     const offset = isNaN(page) ? 0 : (+page - 1) * limit;
     const currentPage = isNaN(page) ? 1 : page;
     return { limit, offset, currentPage };
