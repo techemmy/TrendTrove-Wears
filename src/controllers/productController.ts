@@ -125,7 +125,7 @@ export async function getProductById(
         return;
     }
 
-    res.render('single-product', { product });
+    res.render('product', { product });
 }
 
 export async function postCreateProduct(
