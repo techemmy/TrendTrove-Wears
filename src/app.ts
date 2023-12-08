@@ -50,7 +50,7 @@ app.get('/', (req, res) => {
 app.use('/auth', authRouter);
 app.use('/user', ensureLoggedInMiddleware, userRouter);
 app.use('/products', productRouter);
-app.use('/cart', cartRouter);
+app.use('/cart', ensureLoggedInMiddleware, cartRouter);
 app.use(
     '/admin',
     ensureLoggedInMiddleware,
