@@ -20,6 +20,7 @@ export function cartFactory(sequelize): typeof Cart {
             },
             cartTotal: {
                 type: DataTypes.INTEGER,
+                defaultValue: 0,
             },
             state: {
                 type: DataTypes.ENUM(...Object.values(CART_STATES)),
