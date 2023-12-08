@@ -1,4 +1,5 @@
 import { type ValidationChain, body } from 'express-validator';
+import { PRODUCT_SIZES } from './constants';
 
 export const newProductFormValidators: ValidationChain[] = [
     body('name')
@@ -40,4 +41,15 @@ export const userProfileFormValidator: ValidationChain[] = [
     body('street', 'Street cannot be empty').trim().escape().notEmpty(),
     body('state', 'State cannot be empty').trim().escape().notEmpty(),
     body('country', 'Country cannot be empty').trim().escape().notEmpty(),
+];
+
+export const addProductToCartValidator = [
+    body('quantity')
+        .toInt()
+        .notEmpty()
+        .isInt({ min: 0 })
+        .withMessage('Product quantity should be greater than zero'),
+    body('size')
+        .isIn(Object.keys(PRODUCT_SIZES))
+        .withMessage('Select a valid size'),
 ];
