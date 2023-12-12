@@ -7,9 +7,11 @@ import { body } from 'express-validator';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
 import passportLocalStrategyMiddleware from '../middlewares/passportLocalStrategyMiddleware';
 import type { UserAttributes } from '../types/models/userTypes';
-import { Address, User } from '../models';
+import db from '../database';
 
 const authRouter: Router = router();
+const Address = db.addresses;
+const User = db.users;
 
 googleAuthStrategyMiddleware();
 passportLocalStrategyMiddleware();
