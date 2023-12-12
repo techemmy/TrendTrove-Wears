@@ -47,44 +47,48 @@
                                     <%- product.longDescription %>
                                 </p>
                                 <% } %>
-                                    <p><strong class="text-primary h4">$<%= product.price %></strong></p>
-                                    <p class="text-primary mb-0">Sizes</p>
-                                    <div class="mb-1 d-flex">
-                                        <% if (product.sizes) { %>
-                                            <% for (const size of product.sizes) { %>
+                                    <form method="POST" action="/cart/product/<%= product.id %>">
+                                        <p><strong class="text-primary h4">$<%= product.price %></strong></p>
+                                        <p class="text-primary mb-0">Sizes</p>
+                                        <div class="mb-1 d-flex">
+                                            <% if (product.sizes) { %>
+                                                <% for (const size of product.sizes) { %>
 
-                                                <label for="<%= size %>" class="d-flex me-3 mb-3">
-                                                    <span class="d-inline-block me-2"
-                                                        style="top:-2px; position: relative;"><input type="radio"
-                                                            id="<%= size %>" name="shop-sizes"></span> <span
-                                                        class="d-inline-block text-black">
-                                                        <%= size %>
-                                                    </span>
-                                                </label>
-                                                <% } %>
+                                                    <label for="<%= size %>" class="d-flex me-3 mb-3">
+                                                        <span class="d-inline-block me-2"
+                                                            style="top:-2px; position: relative;"><input type="radio"
+                                                                id="<%= size %>" name="size" value="<%= size %>"
+                                                                required></span>
+                                                        <span class="d-inline-block text-black">
+                                                            <%= size %>
+                                                        </span>
+                                                    </label>
                                                     <% } %>
-                                    </div>
-                                    <div class="mb-5">
-                                        <div class="input-group mb-3" style="max-width: 120px;">
-                                            <div class="input-group-prepend">
-                                                <button class="btn btn-outline-primary js-btn-minus"
-                                                    type="button">&minus;</button>
-                                            </div>
-                                            <input type="text" class="form-control text-center mx-2" value="1"
-                                                placeholder="" aria-label="Example text with button addon"
-                                                aria-describedby="button-addon1">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-primary js-btn-plus"
-                                                    type="button">&plus;</button>
-                                            </div>
+                                                        <% } %>
                                         </div>
+                                        <div class="mb-5">
+                                            <div class="input-group mb-3" style="max-width: 150px;">
+                                                <div class="input-group-prepend">
+                                                    <button class="btn btn-outline-primary js-btn-minus"
+                                                        type="button">&minus;</button>
+                                                </div>
+                                                <input type="number" class="form-control text-center mx-2" value="1"
+                                                    min="1" name="quantity">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-primary js-btn-plus"
+                                                        type="button">&plus;</button>
+                                                </div>
+                                            </div>
 
-                                    </div>
-                                    <% if (product.available) { %>
-                                        <p><a href="/cart" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
-                                        <% } else {%>
-                                            <p><a class="buy-now btn btn-sm btn-outline">Out of Stock</a></p>
-                                            <% } %>
+                                        </div>
+                                        <% if (product.available) { %>
+                                            <p><button type="submit" class="buy-now btn btn-sm btn-primary">Add To
+                                                    Cart</button></p>
+                                            <% } else {%>
+                                                <p><button class="buy-now btn btn-sm btn-outline">Out of Stock</button>
+                                                </p>
+                                                <% } %>
+                                    </form>
                         </div>
                     </div>
                 </div>

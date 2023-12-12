@@ -1,4 +1,4 @@
-import { type ValidationChain, body } from 'express-validator';
+import { type ValidationChain, body, param } from 'express-validator';
 import { PRODUCT_SIZES } from './constants';
 
 export const newProductFormValidators: ValidationChain[] = [
@@ -44,6 +44,7 @@ export const userProfileFormValidator: ValidationChain[] = [
 ];
 
 export const addProductToCartValidator = [
+    param('productId').toInt(),
     body('quantity')
         .toInt()
         .notEmpty()

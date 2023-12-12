@@ -30,7 +30,7 @@ export function productFactory(sequelize): typeof Product {
                 allowNull: false,
             },
             price: {
-                type: DataTypes.FLOAT,
+                type: DataTypes.FLOAT(4),
                 allowNull: false,
             },
             category: {

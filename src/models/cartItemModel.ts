@@ -30,7 +30,7 @@ export function cartItemFactory(sequelize): typeof CartItem {
                 allowNull: false,
             },
             totalPrice: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.FLOAT(4),
                 allowNull: false,
             },
         },

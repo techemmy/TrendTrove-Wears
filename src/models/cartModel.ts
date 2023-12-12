@@ -1,6 +1,14 @@
-import { DataTypes, Model } from 'sequelize';
-import { type CartAttributes } from '../types/models/cartTypes';
+import {
+    DataTypes,
+    type HasManyCreateAssociationMixin,
+    Model,
+} from 'sequelize';
+import type {
+    CartItemAttributes,
+    CartAttributes,
+} from '../types/models/cartTypes';
 import { CART_STATES } from '../constants';
+import { type CartItem } from '.';
 
 export class Cart extends Model<CartAttributes> implements CartAttributes {
     id: number;
@@ -8,6 +16,9 @@ export class Cart extends Model<CartAttributes> implements CartAttributes {
     cartTotal: number;
     userId: number;
     state: string;
+
+    CartItems: CartItemAttributes[];
+    createCartItem: HasManyCreateAssociationMixin<CartItem>;
 }
 
 export function cartFactory(sequelize): typeof Cart {
@@ -19,7 +30,7 @@ export function cartFactory(sequelize): typeof Cart {
                 primaryKey: true,
             },
             cartTotal: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.FLOAT(4),
                 defaultValue: 0,
             },
             state: {
