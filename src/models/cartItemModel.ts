@@ -8,7 +8,6 @@ export class CartItem
     id: number;
     size: string;
     quantity: string;
-    color: string;
     totalPrice: number;
     productId: number;
     cartId: number;
@@ -28,10 +27,6 @@ export function cartItemFactory(sequelize): typeof CartItem {
             },
             quantity: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
-            },
-            color: {
-                type: DataTypes.STRING,
                 allowNull: false,
             },
             totalPrice: {
