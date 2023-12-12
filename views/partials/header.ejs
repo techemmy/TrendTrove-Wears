@@ -28,12 +28,11 @@
                                 <a href="/cart" class="site-cart">
                                     <i class="icon fa-solid fa-cart-shopping"></i>
                                     <i class="count">
-                                        <% console.log(req.user) %>
-                                            <% if (req.user) { %>
-                                                <%= req.user.cartItemsCount %>
-                                                    <% } else { %>
-                                                        x
-                                                        <% } %>
+                                        <% if (req.user) { %>
+                                            <%= req.user.cartItemsCount %>
+                                                <% } else { %>
+                                                    x
+                                                    <% } %>
                                     </i>
                                 </a>
                             </li>
