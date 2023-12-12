@@ -1,6 +1,6 @@
 export interface CartItemAttributes {
     id?: number;
-    sizes: string[];
+    size: string;
     quantity: string;
     totalPrice: number;
     productId?: number;
