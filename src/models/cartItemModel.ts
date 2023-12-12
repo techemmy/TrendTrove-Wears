@@ -6,7 +6,7 @@ export class CartItem
     implements CartItemAttributes
 {
     id: number;
-    size: string;
+    sizes: string[];
     quantity: string;
     totalPrice: number;
     productId: number;
@@ -21,8 +21,8 @@ export function cartItemFactory(sequelize): typeof CartItem {
                 autoIncrement: true,
                 primaryKey: true,
             },
-            size: {
-                type: DataTypes.STRING,
+            sizes: {
+                type: DataTypes.ARRAY(DataTypes.STRING),
                 allowNull: false,
             },
             quantity: {
