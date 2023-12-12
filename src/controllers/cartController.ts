@@ -1,4 +1,4 @@
-import type { NextFunction, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
 import db from '../database';
 import { CART_STATES } from '../constants';
@@ -7,6 +7,14 @@ import { setFlashMessage } from '../utilities';
 const Cart = db.carts;
 const Product = db.products;
 const CartItem = db.cartItems;
+
+export async function getCart(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
+    res.render('cart');
+}
 
 export async function addProductToCart(
     req: IRequestWithAuthenticatedUser,

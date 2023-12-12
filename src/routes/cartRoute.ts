@@ -6,6 +6,8 @@ import { addProductToCartValidator } from '../validators';
 
 const cartRouter: Router = router();
 
+cartRouter.get('/', cartController.getCart);
+
 cartRouter.post(
     '/product/:productId',
     addProductToCartValidator,

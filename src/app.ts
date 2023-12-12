@@ -62,10 +62,6 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
-app.get('/cart', ensureLoggedInMiddleware, (req, res) => {
-    res.render('cart');
-});
-
 app.get('/checkout', (req, res) => {
     res.render('checkout');
 });
