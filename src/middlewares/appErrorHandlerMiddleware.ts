@@ -22,11 +22,18 @@ export default (
     }
 
     if (typeof error.message === 'string' && error.message.length > 0) {
+        console.log('here:', error.message);
         setFlashMessage(req, {
             type: 'danger',
             message: error.message,
         });
-        res.redirect('back');
+
+        req.session.destroy((err: Error) => {
+            if (err !== undefined) {
+                next(err);
+            }
+            res.redirect('back');
+        });
         return;
     }
     res.render('error');

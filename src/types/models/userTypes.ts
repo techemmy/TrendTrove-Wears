@@ -14,4 +14,6 @@ export interface UserAttributes {
     role?: UserRoleEnum;
     createdAt?: Date;
     updatedAt?: Date;
+
+    cartItemsCount?: number;
 }

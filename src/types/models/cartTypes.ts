@@ -13,4 +13,5 @@ export interface CartAttributes {
     cartTotal: number;
     userId?: number;
     state: string;
+    CartItems?: CartItemAttributes[];
 }

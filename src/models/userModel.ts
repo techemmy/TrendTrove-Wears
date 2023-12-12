@@ -22,6 +22,8 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     readonly updatedAt!: Date;
     verifyPassword: (password) => Promise<boolean>;
 
+    cartItemsCount?: number;
+
     getAddress: HasOneGetAssociationMixin<Address>;
     setAddress: HasOneSetAssociationMixin<Address, number>;
     createAddress: HasOneCreateAssociationMixin<Address>;
