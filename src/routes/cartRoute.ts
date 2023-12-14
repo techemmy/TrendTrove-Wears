@@ -9,7 +9,7 @@ const cartRouter: Router = router();
 cartRouter.get('/', cartController.getCart);
 
 cartRouter.post(
-    '/product/:productId',
+    '/create/product/:productId',
     addProductToCartValidator,
     validationErrorHandlerMiddleware,
     cartController.addProductToCart
