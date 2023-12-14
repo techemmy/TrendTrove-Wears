@@ -2,6 +2,7 @@ import {
     DataTypes,
     type HasManyCreateAssociationMixin,
     Model,
+    type HasManyGetAssociationsMixin,
 } from 'sequelize';
 import type {
     CartItemAttributes,
@@ -19,6 +20,7 @@ export class Cart extends Model<CartAttributes> implements CartAttributes {
 
     CartItems: CartItemAttributes[];
     createCartItem: HasManyCreateAssociationMixin<CartItem>;
+    getCartItems: HasManyGetAssociationsMixin<CartItem>;
 }
 
 export function cartFactory(sequelize): typeof Cart {
