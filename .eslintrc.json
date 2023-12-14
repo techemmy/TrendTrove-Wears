@@ -14,5 +14,8 @@
   },
   "rules": {
     "@typescript-eslint/no-misused-promises": 0
-  }
+  },
+  "ignorePatterns": [
+    "public/js/*"
+  ]
 }
