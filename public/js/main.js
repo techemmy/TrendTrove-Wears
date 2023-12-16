@@ -14,7 +14,7 @@ if (uploadImgBtn) {
     });
 }
 
-// ---------- handle the price range filer on the shop page ---------------
+// ---------- handle the price range filter on the shop page ---------------
 const rangeInput = document.querySelectorAll('.range-input input');
 const priceInput = document.querySelectorAll('.price-input input');
 const range = document.querySelector('.slider .progress');
@@ -59,3 +59,69 @@ rangeInput.forEach((input) => {
         }
     });
 });
+
+
+// ------- getting cart page updates & updating cart----------
+const cartTable = document.querySelector('.cartTable');
+const updateCartBtn = document.querySelector('#updateCart');
+if (cartTable && updateCartBtn) {
+    let cartItemsUpdate = {};
+
+    cartTable.addEventListener('change', function (event) {
+        const updatedData = event.target;
+        let updatedDataTableRow = event.target.parentNode;
+        while (updatedDataTableRow.tagName !== 'TR') {
+            updatedDataTableRow = updatedDataTableRow.parentNode
+        }
+        const updatedDataID = updatedDataTableRow.getAttribute('data-itemId');
+
+        if (cartItemsUpdate[updatedDataID] === undefined) {
+            cartItemsUpdate[updatedDataID] = {};
+        }
+
+        if (updatedData.tagName === 'INPUT') {
+            // update quantity
+            cartItemsUpdate[updatedDataID].quantity = parseInt(updatedData.value);
+        } else if (updatedData.tagName === 'SELECT') {
+            // update size
+            const selectedIndex = updatedData.selectedIndex;
+            const selectedIndexValue = updatedData.options[selectedIndex].value;
+            cartItemsUpdate[updatedDataID].size = selectedIndexValue;
+        }
+    })
+
+    updateCartBtn.addEventListener('click', () => {
+        if (Object.keys(cartItemsUpdate).length === 0) {
+            return;
+        }
+        fetch('/cart/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(cartItemsUpdate),
+        }).then(response => response.text()).then(htmlResponse => {
+            cartItemsUpdate = {};
+
+            const HTMLParser = new DOMParser()
+            const parsedBodyElement = HTMLParser.parseFromString(htmlResponse, 'text/html').body;
+
+            const pageHeader = document.body.querySelector('header');
+            const updatedTable = parsedBodyElement.querySelector('.cartTable').innerHTML;
+            const alertMsg = parsedBodyElement.querySelector('.alert');
+
+            document.body.querySelector('.cartTable').innerHTML = updatedTable;
+            pageHeader.appendChild(alertMsg);
+
+            pageHeader.scrollIntoView()
+            setTimeout(() => {
+                pageHeader.removeChild(alertMsg)
+            }, 5000)
+
+        }).catch(error => {
+            console.log('Error:', error);
+            document.location.reload();
+        })
+    })
+
+}

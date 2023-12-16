@@ -24,7 +24,7 @@
                     <div class="row mb-5">
                         <form class="col-md-12" method="post">
                             <div class="site-blocks-table">
-                                <table class="table table-bordered">
+                                <table class="table cartTable table-bordered">
                                     <thead>
                                         <tr>
                                             <th class="product-thumbnail">Image</th>
@@ -39,7 +39,7 @@
                                     <tbody>
                                         <% for (const cartItem of cartItems) { %>
 
-                                            <tr>
+                                            <tr data-itemId="<%= cartItem.id %>">
                                                 <td class="product-thumbnail">
                                                     <img src="<%= cartItem.Product.imageURL %>" alt="Image"
                                                         class="img-fluid">
@@ -65,23 +65,18 @@
                                                 </td>
                                                 <td>
                                                     <div class="input-group mb-3" style="max-width: 150px;">
-                                                        <div class="input-group-prepend">
-                                                            <button class="btn btn-outline-primary js-btn-minus"
-                                                                type="button">&minus;</button>
-                                                        </div>
-                                                        <input type="text" class="form-control text-center mx-2"
-                                                            value="<%= cartItem.quantity %>">
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-outline-primary js-btn-plus"
-                                                                type="button">&plus;</button>
-                                                        </div>
+                                                        <input type="number" class="form-control text-center mx-2"
+                                                            value="<%= cartItem.quantity %>" min="1">
                                                     </div>
 
                                                 </td>
                                                 <td>$<%= cartItem.totalPrice %>
                                                 </td>
-                                                <td><a href="#" class="btn btn-primary btn-sm"><i
-                                                            class="fa-solid fa-trash"></i></a></td>
+                                                <td>
+                                                    <a href="/cart/delete/product/<%= cartItem.id %>"
+                                                        class="btn btn-primary btn-sm delete-cartItem"><i
+                                                            class="fa-solid fa-trash"></i></a>
+                                                </td>
                                             </tr>
                                             <% } %>
                                     </tbody>
@@ -94,7 +89,8 @@
                         <div class="col-md-6">
                             <div class="row mb-5">
                                 <div class="col-md-6 mb-3 mb-md-0">
-                                    <button class="btn btn-primary btn-sm btn-block">Update Cart</button>
+                                    <button class="btn btn-primary btn-sm btn-block" id="updateCart">Update
+                                        Cart</button>
                                 </div>
                                 <div class="col-md-6">
                                     <a href="/products"><button

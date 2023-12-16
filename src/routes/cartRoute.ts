@@ -15,4 +15,11 @@ cartRouter.post(
     cartController.addProductToCart
 );
 
+cartRouter.get(
+    '/delete/product/:cartItemId',
+    cartController.removeProductFromCart
+);
+
+cartRouter.post('/update', cartController.updateCart);
+
 export default cartRouter;

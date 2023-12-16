@@ -25,6 +25,7 @@ if (appConfig.ENV === 'production') {
     sessionConfig.cookie.secure = true;
 }
 
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use(session(sessionConfig));
