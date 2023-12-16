@@ -17,6 +17,9 @@ export class Cart extends Model<CartAttributes> implements CartAttributes {
     cartTotal: number;
     userId: number;
     state: string;
+    // TODO: add date properties to all models
+    public readonly createdAt!: Date;
+    public readonly updatedAt!: Date;
 
     CartItems: CartItemAttributes[];
     createCartItem: HasManyCreateAssociationMixin<CartItem>;
