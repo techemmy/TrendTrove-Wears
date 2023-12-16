@@ -26,14 +26,12 @@ export default (
             type: 'danger',
             message: error.message,
         });
-
-        req.session.destroy((err: Error) => {
-            if (err !== undefined) {
-                next(err);
-            }
-            res.redirect('back');
-        });
+        res.redirect('back');
         return;
     }
-    res.render('error');
+
+    console.log(error);
+    res.render('error', {
+        message: 'Something terrible went wrong. Send us a mail if it persists',
+    });
 };
