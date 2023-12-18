@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { type CartItemAttributes } from '../types/models/cartTypes';
 import { PRODUCT_SIZES } from '../constants';
+import { Product } from '.';
 
 export class CartItem
     extends Model<CartItemAttributes>
@@ -8,14 +9,14 @@ export class CartItem
 {
     id: number;
     size: string;
-    quantity: string;
+    quantity: number;
     totalPrice: number;
     productId: number;
     cartId: number;
 }
 
 export function cartItemFactory(sequelize): typeof CartItem {
-    return CartItem.init(
+    CartItem.init(
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -49,4 +50,12 @@ export function cartItemFactory(sequelize): typeof CartItem {
         },
         { sequelize }
     );
+    CartItem.beforeSave(async (cartItem) => {
+        const product = await Product.findByPk(cartItem.productId);
+        if (product === null) {
+            return;
+        }
+        cartItem.totalPrice = cartItem.quantity * product.price;
+    });
+    return CartItem;
 }
