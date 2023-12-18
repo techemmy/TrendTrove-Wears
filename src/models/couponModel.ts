@@ -21,6 +21,7 @@ export function couponFactory(sequelize): typeof Coupon {
             },
             maxUsuage: {
                 type: DataTypes.INTEGER,
+                defaultValue: 5,
             },
             usage: {
                 type: DataTypes.INTEGER,
