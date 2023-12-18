@@ -28,7 +28,7 @@ export function couponFactory(sequelize): typeof Coupon {
                 defaultValue: 0,
             },
             code: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
                 allowNull: false,
             },
         },
