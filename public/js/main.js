@@ -107,10 +107,13 @@ if (cartTable && updateCartBtn) {
             const parsedBodyElement = HTMLParser.parseFromString(htmlResponse, 'text/html').body;
 
             const pageHeader = document.body.querySelector('header');
+
             const updatedTable = parsedBodyElement.querySelector('.cartTable').innerHTML;
+            const cartTotals = parsedBodyElement.querySelector('#cartTotals').innerHTML;
             const alertMsg = parsedBodyElement.querySelector('.alert');
 
             document.body.querySelector('.cartTable').innerHTML = updatedTable;
+            document.body.querySelector('#cartTotals').innerHTML = cartTotals;
             pageHeader.appendChild(alertMsg);
 
             pageHeader.scrollIntoView()

@@ -3,17 +3,21 @@ import {
     type HasManyCreateAssociationMixin,
     Model,
     type HasManyGetAssociationsMixin,
+    type HasManyAddAssociationMixin,
+    HasOneSetAssociationMixin,
+    HasOneGetAssociationMixin,
+    HasManyRemoveAssociationMixin,
 } from 'sequelize';
 import type {
     CartItemAttributes,
     CartAttributes,
 } from '../types/models/cartTypes';
 import { CART_STATES } from '../constants';
-import { type CartItem } from '.';
+import type { Coupon, CartItem } from '.';
 
 export class Cart extends Model<CartAttributes> implements CartAttributes {
     id: number;
-    couponId: number;
+    couponId?: number;
     cartTotal: number;
     userId: number;
     state: string;
@@ -24,6 +28,9 @@ export class Cart extends Model<CartAttributes> implements CartAttributes {
     CartItems: CartItemAttributes[];
     createCartItem: HasManyCreateAssociationMixin<CartItem>;
     getCartItems: HasManyGetAssociationsMixin<CartItem>;
+
+    getCoupon: HasOneGetAssociationMixin<Coupon>;
+    setCoupon: HasOneSetAssociationMixin<Coupon, number>;
 }
 
 export function cartFactory(sequelize): typeof Cart {

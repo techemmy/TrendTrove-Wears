@@ -22,4 +22,7 @@ cartRouter.get(
 
 cartRouter.post('/update', cartController.updateCart);
 
+// add validator to route
+cartRouter.post('/coupon/add', cartController.addCouponToCart);
+
 export default cartRouter;

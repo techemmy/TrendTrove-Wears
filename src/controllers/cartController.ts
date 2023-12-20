@@ -7,6 +7,7 @@ import { setFlashMessage } from '../utilities';
 const Cart = db.carts;
 const Product = db.products;
 const CartItem = db.cartItems;
+const Coupon = db.coupons;
 
 export async function getCart(
     req: IRequestWithAuthenticatedUser,
@@ -27,7 +28,14 @@ export async function getCart(
             order: [['createdAt', 'ASC']],
         });
 
-        res.render('cart', { cartItems, PRODUCT_SIZES });
+        const cartCoupon = await userActiveCart.getCoupon();
+
+        res.render('cart', {
+            cartItems,
+            PRODUCT_SIZES,
+            cartTotal: userActiveCart.cartTotal,
+            cartCoupon,
+        });
     } catch (error) {
         console.log(error.message);
         next(error);
@@ -80,8 +88,9 @@ export async function addProductToCart(
             totalPrice: cartItemTotal,
         });
         await userActiveCart.update({
-            cartTotal: userActiveCart.cartTotal + quantity * product.price,
+            cartTotal: userActiveCart.cartTotal + cartItemTotal,
         });
+
         setFlashMessage(req, {
             message: `Item has been added to your cart successfully!`,
             type: 'success',
@@ -95,7 +104,7 @@ export async function addProductToCart(
 
 export async function removeProductFromCart(req, res, next): Promise<void> {
     try {
-        const { cartItemId } = req.params;
+        const { cartItemId }: { cartItemId: number } = req.params;
         const userActiveCart = await Cart.findOne({
             where: {
                 userId: req.user.id,
@@ -110,11 +119,27 @@ export async function removeProductFromCart(req, res, next): Promise<void> {
             res.redirect('back');
             return;
         }
+
+        const cartItem = await CartItem.findOne({
+            where: {
+                id: cartItemId,
+                cartId: userActiveCart.id,
+            },
+        });
+
+        if (cartItem === null) {
+            res.redirect('back');
+            return;
+        }
+
         await CartItem.destroy({
             where: {
                 id: cartItemId,
                 cartId: userActiveCart.id,
             },
+        });
+        await userActiveCart.update({
+            cartTotal: userActiveCart.cartTotal - cartItem?.totalPrice,
         });
 
         setFlashMessage(req, {
@@ -145,15 +170,88 @@ export async function updateCart(req, res: Response, next): Promise<void> {
         for (const cartItemId of Object.keys(cartItemsUpdate)) {
             await CartItem.update(
                 { ...cartItemsUpdate[cartItemId] },
-                { where: { cartId: userActiveCart.id, id: cartItemId } }
+                {
+                    where: { cartId: userActiveCart.id, id: cartItemId },
+                    individualHooks: true,
+                }
             );
         }
+
+        const cartTotal = (await userActiveCart.getCartItems()).reduce(
+            (acc, cartItem) => acc + cartItem.totalPrice,
+            0
+        );
+        await userActiveCart.update({ cartTotal });
         setFlashMessage(req, {
             message: 'Cart updated successfully!',
             type: 'success',
         });
         res.redirect('back');
     } catch (error) {
+        console.log(error.message);
+        next(error);
+    }
+}
+
+export async function addCouponToCart(req, res, next): Promise<void> {
+    try {
+        const { couponCode } = req.body;
+
+        const coupon = await Coupon.findOne({ where: { code: couponCode } });
+        if (coupon === null) {
+            setFlashMessage(req, {
+                message: 'Coupon code is invalid',
+                type: 'info',
+            });
+            res.redirect('back');
+            return;
+        }
+
+        const userActiveCart = await Cart.findOne({
+            where: {
+                userId: req.user.id,
+                state: CART_STATES.PENDING,
+            },
+        });
+
+        if (userActiveCart === null) {
+            setFlashMessage(req, {
+                message: 'Something strange happended. Try again!',
+                type: 'info',
+            });
+            res.redirect('back');
+            return;
+        }
+
+        if (userActiveCart.couponId === coupon.id) {
+            setFlashMessage(req, {
+                message: 'Coupon has been added for this cart already!',
+                type: 'info',
+            });
+            res.redirect('back');
+            return;
+        }
+
+        if (coupon.usage >= coupon.maxUsuage) {
+            setFlashMessage(req, {
+                message: 'Coupon has reached its max limit',
+                type: 'info',
+            });
+            res.redirect('back');
+            return;
+        }
+
+        await userActiveCart.setCoupon(coupon.id);
+        await coupon.update({ usage: coupon.usage + 1 });
+
+        setFlashMessage(req, {
+            message: 'Coupon added succesfully!',
+            type: 'success',
+        });
+        res.redirect('back');
+    } catch (error) {
+        console.log(error);
+
         console.log(error.message);
         next(error);
     }

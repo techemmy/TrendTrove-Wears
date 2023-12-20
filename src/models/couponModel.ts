@@ -7,6 +7,7 @@ export class Coupon
 {
     id: number;
     maxUsuage: number;
+    amount: number;
     usage: number;
     code: string;
 }
@@ -22,6 +23,10 @@ export function couponFactory(sequelize): typeof Coupon {
             maxUsuage: {
                 type: DataTypes.INTEGER,
                 defaultValue: 5,
+            },
+            amount: {
+                type: DataTypes.FLOAT(4),
+                allowNull: false,
             },
             usage: {
                 type: DataTypes.INTEGER,
