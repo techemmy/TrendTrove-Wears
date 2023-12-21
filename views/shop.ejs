@@ -208,18 +208,21 @@
                                         <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
                                         <label for="s_sm" class="d-flex">
                                             <input type="checkbox" id="s_sm" class="me-2 mt-1" name="productSizes"
-                                                value="S">
-                                            <span class="text-black">Small (<%= sizesCount.SMALL %>)</span>
+                                                value="S" <% if (productSizes && productSizes.includes('S')) { %>
+                                            checked <% } %>>
+                                                <span class="text-black">Small (<%= sizesCount.SMALL %>)</span>
                                         </label>
                                         <label for="s_md" class="d-flex">
                                             <input type="checkbox" id="s_md" class="me-2 mt-1" name="productSizes"
-                                                value="M">
-                                            <span class="text-black">Medium (<%= sizesCount.MEDIUM %>)</span>
+                                                value="M" <% if (productSizes && productSizes.includes('M')) { %>
+                                            checked <% } %>>
+                                                <span class="text-black">Medium (<%= sizesCount.MEDIUM %>)</span>
                                         </label>
                                         <label for="s_lg" class="d-flex">
                                             <input type="checkbox" id="s_lg" class="me-2 mt-1" name="productSizes"
-                                                value="L">
-                                            <span class="text-black">Large (<%= sizesCount.LARGE %>)</span>
+                                                value="L" <% if (productSizes && productSizes.includes('L')) { %>
+                                            checked <% } %>>
+                                                <span class="text-black">Large (<%= sizesCount.LARGE %>)</span>
                                         </label>
                                     </div>
                                     <button class="btn btn-primary w-100" type="submit">Apply filters</button>
