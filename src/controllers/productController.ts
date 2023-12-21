@@ -68,27 +68,42 @@ export async function getAllProducts(
                 offset,
                 order: [[sortBy, orderBy]],
             });
+
+        const categoriesCount = PRODUCT_CATEGORIES.reduce((acc, val) => {
+            acc[val] = 0;
+            return acc;
+        }, {});
+
+        const sizesCount = Object.values(PRODUCT_SIZES).reduce((acc, val) => {
+            acc[val] = 0;
+            return acc;
+        }, {});
+        const allProducts = await Product.findAll();
+
+        for (const product of allProducts) {
+            categoriesCount[product.category] =
+                parseInt(categoriesCount[product.category]) + 1;
+
+            product.sizes.forEach((size) => {
+                if (PRODUCT_SIZES[size] === PRODUCT_SIZES.S) {
+                    sizesCount[PRODUCT_SIZES.S] =
+                        parseInt(sizesCount[PRODUCT_SIZES.S]) + 1;
+                }
+
+                if (PRODUCT_SIZES[size] === PRODUCT_SIZES.M) {
+                    sizesCount[PRODUCT_SIZES.M] =
+                        parseInt(sizesCount[PRODUCT_SIZES.M]) + 1;
+                }
+
+                if (PRODUCT_SIZES[size] === PRODUCT_SIZES.L) {
+                    sizesCount[PRODUCT_SIZES.L] =
+                        parseInt(sizesCount[PRODUCT_SIZES.L]) + 1;
+                }
+            });
+        }
+
         const totalNoOfPages = Math.ceil(totalNoOfProducts / limit);
 
-        const categoryGroupCount = (await Product.count({
-            where: {
-                category: {
-                    [Op.or]: PRODUCT_CATEGORIES,
-                },
-            },
-            group: ['category'],
-        })) as unknown as CategoryCount[];
-        const sizesGroupCount = (await Product.count({
-            where: {
-                sizes: {
-                    [Op.or]: Object.keys(PRODUCT_SIZES).map((size) => [size]),
-                },
-            },
-            group: ['sizes'],
-        })) as unknown as SizesCount[];
-
-        const categoriesCount = getProductCategoriesCount(categoryGroupCount);
-        const sizesCount = getProductSizesCount(sizesGroupCount);
 
         res.render('shop', {
             products,
