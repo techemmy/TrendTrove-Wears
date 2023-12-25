@@ -10,12 +10,7 @@ export interface ProductAttributes {
     imageURL: string;
 }
 
-export interface CategoryCount {
-    category: string;
-    count: number;
-}
-
-export interface SizesCount {
-    sizes: [string];
-    count: number;
+export interface CategoryAndSizeCount {
+    categoriesCount: Record<string, number>;
+    sizesCount: Record<string, number>;
 }

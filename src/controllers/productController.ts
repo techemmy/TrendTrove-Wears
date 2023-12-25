@@ -3,10 +3,9 @@ import db from '../database';
 import {
     cloudinaryAPI,
     convertBufferToImageURI,
-    getProductCategoriesCount,
+    getCategoryAndSizeCount,
     getPagination,
     setFlashMessage,
-    getProductSizesCount,
 } from '../utilities';
 import { PRODUCT_CATEGORIES, PRODUCT_SIZES } from '../constants';
 import type {
@@ -14,7 +13,6 @@ import type {
     IRequestWithGetAllProductsController,
 } from '../types/requestTypes';
 import { Op } from 'sequelize';
-import type { CategoryCount, SizesCount } from '../types/models/productTypes';
 const Product = db.products;
 
 // TODO: add try/catch to handle unexpected errors
@@ -69,41 +67,10 @@ export async function getAllProducts(
                 order: [[sortBy, orderBy]],
             });
 
-        const categoriesCount = PRODUCT_CATEGORIES.reduce((acc, val) => {
-            acc[val] = 0;
-            return acc;
-        }, {});
-
-        const sizesCount = Object.values(PRODUCT_SIZES).reduce((acc, val) => {
-            acc[val] = 0;
-            return acc;
-        }, {});
         const allProducts = await Product.findAll();
-
-        for (const product of allProducts) {
-            categoriesCount[product.category] =
-                parseInt(categoriesCount[product.category]) + 1;
-
-            product.sizes.forEach((size) => {
-                if (PRODUCT_SIZES[size] === PRODUCT_SIZES.S) {
-                    sizesCount[PRODUCT_SIZES.S] =
-                        parseInt(sizesCount[PRODUCT_SIZES.S]) + 1;
-                }
-
-                if (PRODUCT_SIZES[size] === PRODUCT_SIZES.M) {
-                    sizesCount[PRODUCT_SIZES.M] =
-                        parseInt(sizesCount[PRODUCT_SIZES.M]) + 1;
-                }
-
-                if (PRODUCT_SIZES[size] === PRODUCT_SIZES.L) {
-                    sizesCount[PRODUCT_SIZES.L] =
-                        parseInt(sizesCount[PRODUCT_SIZES.L]) + 1;
-                }
-            });
-        }
+        const categoryAndSizeCount = getCategoryAndSizeCount(allProducts);
 
         const totalNoOfPages = Math.ceil(totalNoOfProducts / limit);
-
 
         res.render('shop', {
             products,
@@ -116,8 +83,8 @@ export async function getAllProducts(
             priceMin,
             priceMax,
             productSizes,
-            categoriesCount,
-            sizesCount,
+            categoriesCount: categoryAndSizeCount.categoriesCount,
+            sizesCount: categoryAndSizeCount.sizesCount,
         });
     } catch (err) {
         console.log(err);

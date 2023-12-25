@@ -4,7 +4,8 @@ import type { flashMessage } from './types/flashMessageType';
 import type { IRequestWithFlashMessages } from './types/requestTypes';
 import { v2 as cloudinary } from 'cloudinary';
 import path from 'path';
-import type { CategoryCount, SizesCount } from './types/models/productTypes';
+import type { CategoryAndSizeCount } from './types/models/productTypes';
+import { PRODUCT_CATEGORIES, PRODUCT_SIZES } from './constants';
 
 export function setFlashMessage(
     req: IRequestWithFlashMessages,
@@ -43,36 +44,38 @@ export function getPagination(
     return { limit, offset, currentPage };
 }
 
-export function getProductCategoriesCount(
-    categoryCount: CategoryCount[]
-): Record<string, number> {
-    const counts: Record<string, number> = categoryCount.reduce(
-        (acc, { category, count }: CategoryCount) => {
-            acc[category] = count;
-            return acc;
-        },
-        {}
-    );
+export function getCategoryAndSizeCount(allProducts): CategoryAndSizeCount {
+    const categoriesCount = PRODUCT_CATEGORIES.reduce((acc, val) => {
+        acc[val] = 0;
+        return acc;
+    }, {});
 
-    const MEN = counts.MEN ?? 0;
-    const WOMEN = counts.WOMEN ?? 0;
-    const CHILDREN = counts.CHILDREN ?? 0;
-    return { MEN, WOMEN, CHILDREN };
-}
+    const sizesCount = Object.values(PRODUCT_SIZES).reduce((acc, val) => {
+        acc[val] = 0;
+        return acc;
+    }, {});
 
-export function getProductSizesCount(
-    sizesCount: SizesCount[]
-): Record<string, number> {
-    const sizeCount: Record<string, number> = sizesCount.reduce(
-        (acc, { sizes, count }: SizesCount) => {
-            acc[sizes[0]] = count;
-            return acc;
-        },
-        {}
-    );
+    for (const product of allProducts) {
+        categoriesCount[product.category] =
+            parseInt(categoriesCount[product.category]) + 1;
 
-    const SMALL = sizeCount.S ?? 0;
-    const MEDIUM = sizeCount.M ?? 0;
-    const LARGE = sizeCount.L ?? 0;
-    return { SMALL, MEDIUM, LARGE };
+        product.sizes.forEach((size) => {
+            if (PRODUCT_SIZES[size] === PRODUCT_SIZES.S) {
+                sizesCount[PRODUCT_SIZES.S] =
+                    parseInt(sizesCount[PRODUCT_SIZES.S]) + 1;
+            }
+
+            if (PRODUCT_SIZES[size] === PRODUCT_SIZES.M) {
+                sizesCount[PRODUCT_SIZES.M] =
+                    parseInt(sizesCount[PRODUCT_SIZES.M]) + 1;
+            }
+
+            if (PRODUCT_SIZES[size] === PRODUCT_SIZES.L) {
+                sizesCount[PRODUCT_SIZES.L] =
+                    parseInt(sizesCount[PRODUCT_SIZES.L]) + 1;
+            }
+        });
+    }
+
+    return { categoriesCount, sizesCount };
 }
