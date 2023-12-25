@@ -68,7 +68,7 @@ export async function addProductToCart(
             return;
         }
 
-        const productIsInCart = userActiveCart.CartItems.some(
+        const productIsInCart = userActiveCart.CartItems?.some(
             (cartItem) => cartItem.productId === product.id
         );
         if (productIsInCart) {
