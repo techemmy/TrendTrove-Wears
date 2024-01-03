@@ -15,7 +15,6 @@ import type {
 import { Op } from 'sequelize';
 const Product = db.products;
 
-// TODO: add try/catch to handle unexpected errors
 
 export async function getAllProducts(
     req: IRequestWithGetAllProductsController,
@@ -94,20 +93,26 @@ export async function getAllProducts(
 
 export async function getProductById(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction,
 ): Promise<void> {
-    const { productId } = req.params;
-    const product = await Product.findByPk(productId);
-    if (product === null) {
-        setFlashMessage(req, {
-            message: `Product doesn't exist`,
-            type: 'info',
-        });
-        res.redirect('/products');
-        return;
-    }
+    try {
+        const { productId } = req.params;
+        const product = await Product.findByPk(productId);
+        if (product === null) {
+            setFlashMessage(req, {
+                message: `Product doesn't exist`,
+                type: 'info',
+            });
+            res.redirect('/products');
+            return;
+        }
 
-    res.render('product', { product });
+        res.render('product', { product });
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
 }
 
 export async function postCreateProduct(
@@ -166,14 +171,19 @@ export async function postCreateProduct(
     }
 }
 
-export async function getUpdateProductById(req, res): Promise<void> {
-    const { productId } = req.params;
-    const product = await Product.findByPk(productId);
-    res.render('admin/update-product.ejs', {
-        product,
-        PRODUCT_CATEGORIES,
-        PRODUCT_SIZES,
-    });
+export async function getUpdateProductById(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+        const { productId } = req.params;
+        const product = await Product.findByPk(productId);
+        res.render('admin/update-product.ejs', {
+            product,
+            PRODUCT_CATEGORIES,
+            PRODUCT_SIZES,
+        });
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
 }
 
 export async function postUpdateProductById(
@@ -233,11 +243,17 @@ export async function postUpdateProductById(
 
 export async function getDeleteProductById(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction,
 ): Promise<void> {
-    const productId = req.params.productId;
-    await Product.destroy({ where: { id: productId } });
-    await cloudinaryAPI().uploader.destroy(`trendtrove/products/${productId}`);
-    setFlashMessage(req, { type: 'success', message: 'Product deleted!' });
-    res.redirect('back');
+   try {
+        const productId = req.params.productId;
+        await Product.destroy({ where: { id: productId } });
+        await cloudinaryAPI().uploader.destroy(`trendtrove/products/${productId}`);
+        setFlashMessage(req, { type: 'success', message: 'Product deleted!' });
+        res.redirect('back');
+   } catch (err) {
+        console.log(err);
+        next(err); 
+   } 
 }
