@@ -1,11 +1,12 @@
+import 'dotenv/config';
 import type { NextFunction, Response } from 'express';
 import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
 import db from '../database';
 import { CART_STATES, PRODUCT_SIZES } from '../constants';
 import { setFlashMessage } from '../utilities';
+import { appConfig } from '../config';
 
-const stripe = require('stripe')('sk_test_51OUt4SGhxnwGSsl6EbON9A2ENdTVCW5m9WU8qrOJ836DN7Erjbh9FJhswQuDOkuRVsgfLksjhTklPa2Rr7Ni49iB00GlFTZ4iQ');
-const YOUR_DOMAIN = 'http://localhost:3000';
+const stripe = require('stripe')(appConfig.STRIPE_API_KEY);
 
 const Cart = db.carts;
 const Product = db.products;
@@ -318,8 +319,8 @@ export async function postCheckout(req, res, next): Promise<void> {
                 },
             ],
             mode: 'payment',
-            success_url: `${YOUR_DOMAIN}/cart/checkout/success`,
-            cancel_url: `${YOUR_DOMAIN}/cart/checkout/cancel`,
+            success_url: `${appConfig.APP_DOMAIN}/cart/checkout/success`,
+            cancel_url: `${appConfig.APP_DOMAIN}/cart/checkout/cancel`,
         });
 
         res.redirect(303, session.url);
