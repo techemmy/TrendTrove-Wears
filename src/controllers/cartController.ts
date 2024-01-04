@@ -4,6 +4,9 @@ import db from '../database';
 import { CART_STATES, PRODUCT_SIZES } from '../constants';
 import { setFlashMessage } from '../utilities';
 
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const YOUR_DOMAIN = 'http://localhost:3000';
+
 const Cart = db.carts;
 const Product = db.products;
 const CartItem = db.cartItems;
@@ -30,7 +33,7 @@ export async function getCart(
 
         const cartCoupon = await userActiveCart.getCoupon();
 
-        res.render('cart', {
+        res.render('cart/cart', {
             cartItems,
             PRODUCT_SIZES,
             cartTotal: userActiveCart.cartTotal,
@@ -256,3 +259,60 @@ export async function addCouponToCart(req, res, next): Promise<void> {
         next(error);
     }
 }
+
+export async function getCheckout(req, res, next): Promise<void> {
+    try {
+        res.render('cart/checkout');
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+}
+
+export async function postCheckout(req, res, next): Promise<void> {
+   try {
+        const session = await stripe.checkout.sessions.create({
+            line_items: [
+                {
+                    // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    price_data: {
+                        unit_amount: 2000,
+                        product_data: {
+                            name: 'T-shirt',
+                        },
+                        currency: 'usd',
+                    },
+                    quantity: 1,
+                },
+            ],
+            mode: 'payment',
+            success_url: `${YOUR_DOMAIN}/cart/checkout/success`,
+            cancel_url: `${YOUR_DOMAIN}/cart/checkout/cancelled`,
+        });
+
+        res.redirect(303, session.url);
+   } catch (err) {
+        console.log(err);
+        next(err);
+   } 
+}
+
+export async function getCheckoutSuccess(req, res, next): Promise<void> {
+    try {
+        res.render('cart/success');
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+}
+
+
+export async function getCheckoutCancel(req, res, next): Promise<void> {
+    try {
+        res.render('cart/cancel');
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+}
+

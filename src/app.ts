@@ -63,14 +63,6 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
-app.get('/checkout', (req, res) => {
-    res.render('checkout');
-});
-
-app.get('/thankyou', (req, res) => {
-    res.render('thankyou');
-});
-
 app.use((req, res) => {
     res.status(404).render('error', {
         error: {

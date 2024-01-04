@@ -25,4 +25,12 @@ cartRouter.post('/update', cartController.updateCart);
 // add validator to route
 cartRouter.post('/coupon/add', cartController.addCouponToCart);
 
+cartRouter.get('/checkout', cartController.getCheckout);
+
+cartRouter.post('/checkout', cartController.postCheckout);
+
+cartRouter.get('/checkout/success', cartController.getCheckoutSuccess);
+
+cartRouter.get('/checkout/cancel', cartController.getCheckoutCancel);
+
 export default cartRouter;

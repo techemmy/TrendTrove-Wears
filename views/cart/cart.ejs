@@ -3,12 +3,12 @@
 
 <head>
     <title>Cart - TrendTrove</title>
-    <%- include('./partials/static-head-elements.ejs') %>
+    <%- include('../partials/static-head-elements.ejs') %>
 
 </head>
 
 <body>
-    <%- include('./partials/header.ejs') %>
+    <%- include('../partials/header.ejs') %>
         <div class="site-wrap">
             <div class="bg-light py-3">
                 <div class="container">
@@ -155,7 +155,7 @@
 
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <a href='/checkout'><button
+                                                    <a href='/cart/checkout'><button
                                                             class="btn btn-primary btn-lg py-3 btn-block">Proceed To
                                                             Checkout</button></a>
                                                 </div>
@@ -166,9 +166,9 @@
                     </div>
                 </div>
             </div>
-            <%- include('./partials/footer.ejs') %>
+            <%- include('../partials/footer.ejs') %>
         </div>
-        <%- include("./partials/scripts.ejs") %>
+        <%- include("../partials/scripts.ejs") %>
 
 
 </body>
