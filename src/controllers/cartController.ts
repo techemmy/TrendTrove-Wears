@@ -287,7 +287,7 @@ export async function postCheckout(req, res, next): Promise<void> {
             ],
             mode: 'payment',
             success_url: `${YOUR_DOMAIN}/cart/checkout/success`,
-            cancel_url: `${YOUR_DOMAIN}/cart/checkout/cancelled`,
+            cancel_url: `${YOUR_DOMAIN}/cart/checkout/cancel`,
         });
 
         res.redirect(303, session.url);
