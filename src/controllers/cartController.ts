@@ -4,7 +4,7 @@ import db from '../database';
 import { CART_STATES, PRODUCT_SIZES } from '../constants';
 import { setFlashMessage } from '../utilities';
 
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const stripe = require('stripe')('sk_test_51OUt4SGhxnwGSsl6EbON9A2ENdTVCW5m9WU8qrOJ836DN7Erjbh9FJhswQuDOkuRVsgfLksjhTklPa2Rr7Ni49iB00GlFTZ4iQ');
 const YOUR_DOMAIN = 'http://localhost:3000';
 
 const Cart = db.carts;
@@ -262,7 +262,29 @@ export async function addCouponToCart(req, res, next): Promise<void> {
 
 export async function getCheckout(req, res, next): Promise<void> {
     try {
-        res.render('cart/checkout');
+        const userActiveCart = await Cart.findOne({
+            where: {
+                state: CART_STATES.PENDING,
+                userId: req.user.id,
+            },
+            include: [Coupon],
+        });
+
+        if (userActiveCart === null) {
+            setFlashMessage(req, {
+                message: 'You do not have an active cart. Go and add some items to cart.',
+                type: 'info',
+            });
+            res.redirect('back');
+            return;
+        }
+
+        const cartItems = await userActiveCart.getCartItems({
+            include: Product,
+            order: [['createdAt', 'ASC']],
+        });
+        
+        res.render('cart/checkout', {cartItems, coupon: userActiveCart.Coupon });
     } catch (err) {
         console.log(err);
         next(err);
@@ -283,6 +305,16 @@ export async function postCheckout(req, res, next): Promise<void> {
                         currency: 'usd',
                     },
                     quantity: 1,
+                },
+                {
+                    price_data: {
+                        unit_amount: 4000,
+                        product_data: {
+                            name: 'J-shirt',
+                        },
+                        currency: 'usd',
+                    },
+                    quantity: 2,
                 },
             ],
             mode: 'payment',

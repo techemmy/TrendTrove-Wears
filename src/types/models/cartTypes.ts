@@ -13,6 +13,7 @@ export interface CartAttributes {
     cartTotal: number;
     userId?: number;
     state: string;
+    Coupon?: string;
     createdAt?: Date;
     updatedAt?: Date;
     CartItems?: CartItemAttributes[];
