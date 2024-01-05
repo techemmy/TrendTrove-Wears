@@ -37,8 +37,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% for (const cartItem of cartItems) { %>
+                                        <% if (cartItems.length <= 0 ) { %>
+                                            <tr>
+                                                <td colspan='7'><h2>No items in your cart. Go shopping 🛒</h2></td>
+                                            </tr>                        
+                                        <% } %>
 
+                                        <% for (const cartItem of cartItems) { %>
                                             <tr data-itemId="<%= cartItem.id %>">
                                                 <td class="product-thumbnail">
                                                     <img src="<%= cartItem.Product.imageURL %>" alt="Image"
