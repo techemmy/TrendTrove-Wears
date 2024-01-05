@@ -24,7 +24,7 @@
             <div class="site-section">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6 mb-5 mb-md-0">
+                        <form class="col-md-6 mb-5 mb-md-0" action='/cart/billing/update' method='POST'>
                             <h2 class="h3 mb-3 text-black">Billing Details</h2>
                             <div class="p-3 p-lg-5 border">
                                 
@@ -41,8 +41,7 @@
                                         <option value="">Select a Country</option>
                                         <% } %>
                                         <option value="Nigeria">Nigeria</option>
-                                        <option value="United States">United States</option>
-                                        <option value="United Kingdom">United Kingdom</option>
+                                        <option value="United States">United States</option>                                        <option value="United Kingdom">United Kingdom</option>
                                     </select>
                                 </div>
                            
@@ -86,18 +85,19 @@
 
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="c_order_notes" class="text-black">Order Notes</label>
                                     <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5"
                                         class="form-control" placeholder="Write your notes here..."></textarea>
                                 </div>
 
+                                <button type='submit'
+                                        class="btn btn-secondary btn-lg py-3 btn-block">Update details</button>
                             </div>
-                        </div>
+                        </form>
 
                         <div class="col-md-6">
-
-                            <div class="row mb-5">
+                            <form class="row mb-5" method='POST' action='/cart/coupon/add'>
                                 <div class="col-md-12">
                                     <h2 class="h3 mb-3 text-black">Coupon Code</h2>
                                     <div class="p-3 p-lg-5 border">
@@ -106,16 +106,15 @@
                                             one</label>
                                         <div class="input-group w-75">
                                             <input type="text" class="form-control" id="c_code"
-                                                                                    placeholder="Coupon Code" aria-label="Coupon Code" <% if (coupon) { %> value="<%= coupon.code %>" <% } %>>
+                                                                                    placeholder="Coupon Code" aria-label="Coupon Code" name="couponCode" <% if (coupon) { %> value="<%= coupon.code %>" <% } %>>
                                             <div class="input-group-append">
-                                                <button class="btn btn-primary btn-sm" type="button"
-                                                    id="button-addon2">Apply</button>
+                                                <button class="btn btn-primary btn-sm" type="submit">Apply</button>
                                             </div>
                                         </div>
 
                                     </div>
                                 </div>
-                            </div>
+                            </form>
 
                             <div class="row mb-5">
                                 <div class="col-md-12">

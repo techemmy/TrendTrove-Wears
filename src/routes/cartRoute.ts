@@ -1,8 +1,9 @@
 import router from 'express';
 import type { Router } from 'express';
 import * as cartController from '../controllers/cartController';
+import * as userController from '../controllers/userController';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
-import { addProductToCartValidator } from '../validators';
+import { addProductToCartValidator, billingInfoVaidator  } from '../validators';
 
 const cartRouter: Router = router();
 
@@ -26,6 +27,8 @@ cartRouter.post('/update', cartController.updateCart);
 cartRouter.post('/coupon/add', cartController.addCouponToCart);
 
 cartRouter.get('/checkout', cartController.getCheckout);
+
+cartRouter.post('/billing/update', billingInfoVaidator, validationErrorHandlerMiddleware, userController.postUpdateProfileInformation);
 
 cartRouter.post('/checkout', cartController.postCheckout);
 

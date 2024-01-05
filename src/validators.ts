@@ -54,3 +54,6 @@ export const addProductToCartValidator = [
         .isIn(Object.keys(PRODUCT_SIZES))
         .withMessage('Select a valid size'),
 ];
+
+export const billingInfoVaidator = userProfileFormValidator;
+
