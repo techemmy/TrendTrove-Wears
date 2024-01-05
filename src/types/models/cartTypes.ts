@@ -1,3 +1,5 @@
+import type { CouponAttributes } from './couponTypes';
+
 export interface CartItemAttributes {
     id?: number;
     size: string;
@@ -5,6 +7,7 @@ export interface CartItemAttributes {
     totalPrice: number;
     productId?: number;
     cartId?: number;
+    Product?: Record<string, string | number | null>;
 }
 
 export interface CartAttributes {
@@ -13,7 +16,7 @@ export interface CartAttributes {
     cartTotal: number;
     userId?: number;
     state: string;
-    Coupon?: string;
+    Coupon?: CouponAttributes;
     createdAt?: Date;
     updatedAt?: Date;
     CartItems?: CartItemAttributes[];

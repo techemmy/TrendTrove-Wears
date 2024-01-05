@@ -12,6 +12,7 @@ import type {
     CartItemAttributes,
     CartAttributes,
 } from '../types/models/cartTypes';
+import type { CouponAttributes } from '../types/models/couponTypes';
 import { CART_STATES } from '../constants';
 import type { Coupon, CartItem } from '.';
 
@@ -21,7 +22,7 @@ export class Cart extends Model<CartAttributes> implements CartAttributes {
     cartTotal: number;
     userId: number;
     state: string;
-    Coupon?: string;
+    Coupon?: CouponAttributes;
     // TODO: add date properties to all models
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
