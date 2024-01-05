@@ -5,6 +5,7 @@ import db from '../database';
 import { CART_STATES, PRODUCT_SIZES } from '../constants';
 import { setFlashMessage } from '../utilities';
 import { appConfig } from '../config';
+import type { CouponAttributes } from '../types/models/couponTypes';
 
 const stripe = require('stripe')(appConfig.STRIPE_API_KEY);
 
@@ -285,7 +286,7 @@ export async function getCheckout(req, res, next): Promise<void> {
             order: [['createdAt', 'ASC']],
         });
         
-        res.render('cart/checkout', {cartItems, coupon: userActiveCart.Coupon });
+        res.render('cart/checkout', {cartItems, coupon: userActiveCart.Coupon, cartTotal: userActiveCart.cartTotal });
     } catch (err) {
         console.log(err);
         next(err);
@@ -294,36 +295,79 @@ export async function getCheckout(req, res, next): Promise<void> {
 
 export async function postCheckout(req, res, next): Promise<void> {
    try {
-        const session = await stripe.checkout.sessions.create({
-            line_items: [
-                {
-                    // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                    price_data: {
-                        unit_amount: 2000,
-                        product_data: {
-                            name: 'T-shirt',
-                        },
-                        currency: 'usd',
-                    },
-                    quantity: 1,
-                },
-                {
-                    price_data: {
-                        unit_amount: 4000,
-                        product_data: {
-                            name: 'J-shirt',
-                        },
-                        currency: 'usd',
-                    },
-                    quantity: 2,
-                },
-            ],
-            mode: 'payment',
-            success_url: `${appConfig.APP_DOMAIN}/cart/checkout/success`,
-            cancel_url: `${appConfig.APP_DOMAIN}/cart/checkout/cancel`,
+        const userActiveCart = await Cart.findOne({
+            where: {
+                state: CART_STATES.PENDING,
+                userId: req.user.id,
+            },
+            include: Coupon,
         });
 
-        res.redirect(303, session.url);
+        if (userActiveCart === null) {
+            setFlashMessage(req, {
+                message: 'You do not have an active cart. Go and add some items to cart.',
+                type: 'info',
+            });
+            res.redirect('back');
+            return;
+        }
+
+        const cartItems = await userActiveCart.getCartItems({
+            include: Product,
+            order: [['createdAt', 'ASC']],
+        });
+
+        if (cartItems.length <= 0) {
+            setFlashMessage(req, {
+                message: 'Your cart is empty. Go shopping :)',
+                type: 'warning',
+            });
+            res.redirect('back');
+            return;
+        };
+
+        const checkoutItems = cartItems.map(cartItem => ({
+            price_data: {
+                unit_amount: (cartItem.Product.price as number) * 100, // unit amount takes in amount in cent by default, hence, multiplying by 100
+                product_data: {
+                    name: cartItem.Product.name,
+                    description: cartItem.Product.shortDescription,
+                    images: [cartItem.Product.imageURL],
+                },
+                currency: 'usd',
+            },
+            quantity: cartItem.quantity,
+        }));
+
+        let checkoutSession;
+        const userCoupon = userActiveCart.Coupon as CouponAttributes | null;
+        
+        if (userCoupon !== null) {
+            const coupon = await stripe.coupons.create({
+                amount_off: userCoupon.amount * 100,
+                currency: 'usd',
+                duration: 'once'
+            });
+            checkoutSession = stripe.checkout.sessions.create({
+                line_items: checkoutItems,
+                discounts: [{coupon: coupon.id}],
+                mode: 'payment',
+                success_url: `${appConfig.APP_DOMAIN}/cart/checkout/success`,
+                cancel_url: `${appConfig.APP_DOMAIN}/cart/checkout/cancel`,
+            });
+
+        } else {
+            checkoutSession = stripe.checkout.sessions.create({
+                line_items: checkoutItems,
+                mode: 'payment',
+                success_url: `${appConfig.APP_DOMAIN}/cart/checkout/success`,
+                cancel_url: `${appConfig.APP_DOMAIN}/cart/checkout/cancel`,
+            });
+        }
+        
+        checkoutSession = await checkoutSession; 
+        console.log('checkout session', checkoutSession.payment_status);
+        res.redirect(303, checkoutSession .url);
    } catch (err) {
         console.log(err);
         next(err);
