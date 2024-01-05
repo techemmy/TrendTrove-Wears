@@ -15,7 +15,6 @@ import type {
 import { Op } from 'sequelize';
 const Product = db.products;
 
-
 export async function getAllProducts(
     req: IRequestWithGetAllProductsController,
     res: Response,
@@ -94,7 +93,7 @@ export async function getAllProducts(
 export async function getProductById(
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
 ): Promise<void> {
     try {
         const { productId } = req.params;
@@ -171,7 +170,11 @@ export async function postCreateProduct(
     }
 }
 
-export async function getUpdateProductById(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function getUpdateProductById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
     try {
         const { productId } = req.params;
         const product = await Product.findByPk(productId);
@@ -244,16 +247,18 @@ export async function postUpdateProductById(
 export async function getDeleteProductById(
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
 ): Promise<void> {
-   try {
+    try {
         const productId = req.params.productId;
         await Product.destroy({ where: { id: productId } });
-        await cloudinaryAPI().uploader.destroy(`trendtrove/products/${productId}`);
+        await cloudinaryAPI().uploader.destroy(
+            `trendtrove/products/${productId}`
+        );
         setFlashMessage(req, { type: 'success', message: 'Product deleted!' });
         res.redirect('back');
-   } catch (err) {
+    } catch (err) {
         console.log(err);
-        next(err); 
-   } 
+        next(err);
+    }
 }

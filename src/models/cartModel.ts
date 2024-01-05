@@ -3,10 +3,8 @@ import {
     type HasManyCreateAssociationMixin,
     Model,
     type HasManyGetAssociationsMixin,
-    type HasManyAddAssociationMixin,
-    HasOneSetAssociationMixin,
-    HasOneGetAssociationMixin,
-    HasManyRemoveAssociationMixin,
+    type HasOneSetAssociationMixin,
+    type HasOneGetAssociationMixin,
 } from 'sequelize';
 import type {
     CartItemAttributes,

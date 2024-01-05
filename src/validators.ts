@@ -56,4 +56,3 @@ export const addProductToCartValidator = [
 ];
 
 export const billingInfoVaidator = userProfileFormValidator;
-

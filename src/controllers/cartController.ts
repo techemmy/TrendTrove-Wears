@@ -274,7 +274,8 @@ export async function getCheckout(req, res, next): Promise<void> {
 
         if (userActiveCart === null) {
             setFlashMessage(req, {
-                message: 'You do not have an active cart. Go and add some items to cart.',
+                message:
+                    'You do not have an active cart. Go and add some items to cart.',
                 type: 'info',
             });
             res.redirect('back');
@@ -285,8 +286,12 @@ export async function getCheckout(req, res, next): Promise<void> {
             include: Product,
             order: [['createdAt', 'ASC']],
         });
-        
-        res.render('cart/checkout', {cartItems, coupon: userActiveCart.Coupon, cartTotal: userActiveCart.cartTotal });
+
+        res.render('cart/checkout', {
+            cartItems,
+            coupon: userActiveCart.Coupon,
+            cartTotal: userActiveCart.cartTotal,
+        });
     } catch (err) {
         console.log(err);
         next(err);
@@ -294,7 +299,7 @@ export async function getCheckout(req, res, next): Promise<void> {
 }
 
 export async function postCheckout(req, res, next): Promise<void> {
-   try {
+    try {
         const userActiveCart = await Cart.findOne({
             where: {
                 state: CART_STATES.PENDING,
@@ -305,7 +310,8 @@ export async function postCheckout(req, res, next): Promise<void> {
 
         if (userActiveCart === null) {
             setFlashMessage(req, {
-                message: 'You do not have an active cart. Go and add some items to cart.',
+                message:
+                    'You do not have an active cart. Go and add some items to cart.',
                 type: 'info',
             });
             res.redirect('back');
@@ -324,9 +330,9 @@ export async function postCheckout(req, res, next): Promise<void> {
             });
             res.redirect('back');
             return;
-        };
+        }
 
-        const checkoutItems = cartItems.map(cartItem => ({
+        const checkoutItems = cartItems.map((cartItem) => ({
             price_data: {
                 unit_amount: (cartItem.Product.price as number) * 100, // unit amount takes in amount in cent by default, hence, multiplying by 100
                 product_data: {
@@ -341,21 +347,20 @@ export async function postCheckout(req, res, next): Promise<void> {
 
         let checkoutSession;
         const userCoupon = userActiveCart.Coupon as CouponAttributes | null;
-        
+
         if (userCoupon !== null) {
             const coupon = await stripe.coupons.create({
                 amount_off: userCoupon.amount * 100,
                 currency: 'usd',
-                duration: 'once'
+                duration: 'once',
             });
             checkoutSession = stripe.checkout.sessions.create({
                 line_items: checkoutItems,
-                discounts: [{coupon: coupon.id}],
+                discounts: [{ coupon: coupon.id }],
                 mode: 'payment',
                 success_url: `${appConfig.APP_DOMAIN}/cart/checkout/success`,
                 cancel_url: `${appConfig.APP_DOMAIN}/cart/checkout/cancel`,
             });
-
         } else {
             checkoutSession = stripe.checkout.sessions.create({
                 line_items: checkoutItems,
@@ -364,13 +369,13 @@ export async function postCheckout(req, res, next): Promise<void> {
                 cancel_url: `${appConfig.APP_DOMAIN}/cart/checkout/cancel`,
             });
         }
-        
+
         checkoutSession = await checkoutSession;
         res.redirect(303, checkoutSession.url);
-   } catch (err) {
+    } catch (err) {
         console.log(err);
         next(err);
-   } 
+    }
 }
 
 export async function getCheckoutSuccess(req, res, next): Promise<void> {
@@ -384,7 +389,8 @@ export async function getCheckoutSuccess(req, res, next): Promise<void> {
 
         if (userActiveCart === null) {
             setFlashMessage(req, {
-                message: 'You do not have an active cart. Go and add some items to cart.',
+                message:
+                    'You do not have an active cart. Go and add some items to cart.',
                 type: 'info',
             });
             res.redirect('back');
@@ -392,14 +398,13 @@ export async function getCheckoutSuccess(req, res, next): Promise<void> {
         }
 
         await userActiveCart.update({ state: CART_STATES.PROCESSING });
-        
+
         res.render('cart/success');
     } catch (err) {
         console.log(err);
         next(err);
     }
 }
-
 
 export async function getCheckoutCancel(req, res, next): Promise<void> {
     try {
@@ -409,4 +414,3 @@ export async function getCheckoutCancel(req, res, next): Promise<void> {
         next(err);
     }
 }
-
