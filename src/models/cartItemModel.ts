@@ -13,6 +13,7 @@ export class CartItem
     totalPrice: number;
     productId: number;
     cartId: number;
+    Product: Record<string, string | number | null>;
 }
 
 export function cartItemFactory(sequelize): typeof CartItem {
