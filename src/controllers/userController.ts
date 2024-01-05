@@ -47,7 +47,7 @@ export async function postUpdateProfileInformation(req, res): Promise<void> {
         },
     ]);
 
-    res.redirect('/user/profile');
+    res.redirect('back');
 }
 
 export async function postUploadProfileImage(
