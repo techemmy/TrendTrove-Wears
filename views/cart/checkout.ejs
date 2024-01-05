@@ -133,6 +133,22 @@
                                                     <td>$<%= cartItem.totalPrice %></td>
                                                 </tr>
                                                 <% } %>
+                                                
+                                                <% if (coupon) { %>
+                                                <tr>
+                                                    <td><b>Coupon (<%= coupon.code %>)</b></td>
+                                                    <td>-$<%= coupon.amount %></td>
+                                                </tr>
+                                                <% } %>
+
+                                                <tr>
+                                                    <td><b>Total:</b></td>
+                                                    <% if (coupon) { %>
+                                                        <td>$<%= cartTotal - coupon.amount %></td>
+                                                    <% } else { %>
+                                                        <td>$<%= cartTotal %></td>
+                                                    <% } %>
+                                                </tr>
                                             </tbody>
                                         </table>
 
