@@ -205,7 +205,7 @@ export async function addCouponToCart(req, res, next): Promise<void> {
         if (coupon === null) {
             setFlashMessage(req, {
                 message: 'Coupon code is invalid',
-                type: 'info',
+                type: 'warning',
             });
             res.redirect('back');
             return;
@@ -221,7 +221,7 @@ export async function addCouponToCart(req, res, next): Promise<void> {
         if (userActiveCart === null) {
             setFlashMessage(req, {
                 message: 'Something strange happended. Try again!',
-                type: 'info',
+                type: 'warning',
             });
             res.redirect('back');
             return;
