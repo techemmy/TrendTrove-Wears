@@ -128,7 +128,7 @@
                                             <tbody>
                                                 <% for (const cartItem of cartItems) { %>
                                                 <tr>
-                                                    <td><%- cartItem.Product.name %> 
+                                                    <td><%- cartItem.Product.name %> (<%- cartItem.size %>) 
                                                         <strong class="mx-2">x</strong><%= cartItem.quantity %></td>
                                                     <td>$<%= cartItem.totalPrice %></td>
                                                 </tr>
