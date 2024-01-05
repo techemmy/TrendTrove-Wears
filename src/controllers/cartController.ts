@@ -365,9 +365,8 @@ export async function postCheckout(req, res, next): Promise<void> {
             });
         }
         
-        checkoutSession = await checkoutSession; 
-        console.log('checkout session', checkoutSession.payment_status);
-        res.redirect(303, checkoutSession .url);
+        checkoutSession = await checkoutSession;
+        res.redirect(303, checkoutSession.url);
    } catch (err) {
         console.log(err);
         next(err);
@@ -376,6 +375,24 @@ export async function postCheckout(req, res, next): Promise<void> {
 
 export async function getCheckoutSuccess(req, res, next): Promise<void> {
     try {
+        const userActiveCart = await Cart.findOne({
+            where: {
+                state: CART_STATES.PENDING,
+                userId: req.user.id,
+            },
+        });
+
+        if (userActiveCart === null) {
+            setFlashMessage(req, {
+                message: 'You do not have an active cart. Go and add some items to cart.',
+                type: 'info',
+            });
+            res.redirect('back');
+            return;
+        }
+
+        await userActiveCart.update({ state: CART_STATES.PROCESSING });
+        
         res.render('cart/success');
     } catch (err) {
         console.log(err);
