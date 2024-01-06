@@ -16,6 +16,7 @@ export interface CartAttributes {
     cartTotal: number;
     userId?: number;
     state: string;
+    address?: string;
     Coupon?: CouponAttributes;
     createdAt?: Date;
     updatedAt?: Date;

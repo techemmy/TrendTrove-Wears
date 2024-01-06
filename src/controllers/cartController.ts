@@ -13,6 +13,7 @@ const Cart = db.carts;
 const Product = db.products;
 const CartItem = db.cartItems;
 const Coupon = db.coupons;
+const Address = db.addresses;
 
 export async function getCart(
     req: IRequestWithAuthenticatedUser,
@@ -389,7 +390,10 @@ export async function getCheckoutSuccess(req, res, next): Promise<void> {
             return;
         }
 
-        await userActiveCart.update({ state: CART_STATES.PROCESSING });
+        await userActiveCart.update({ 
+            state: CART_STATES.PROCESSING, 
+            address: `${req.user.Address.street} - ${req.user.Address.state} - ${req.user.Address.country}` 
+        });
 
         res.render('cart/success');
     } catch (err) {
