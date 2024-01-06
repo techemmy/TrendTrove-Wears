@@ -345,32 +345,24 @@ export async function postCheckout(req, res, next): Promise<void> {
             quantity: cartItem.quantity,
         }));
 
-        let checkoutSession;
         const userCoupon = userActiveCart.Coupon as CouponAttributes | null;
+        let coupon;
 
         if (userCoupon !== null) {
-            const coupon = await stripe.coupons.create({
+            coupon = await stripe.coupons.create({
                 amount_off: userCoupon.amount * 100,
                 currency: 'usd',
                 duration: 'once',
             });
-            checkoutSession = stripe.checkout.sessions.create({
-                line_items: checkoutItems,
-                discounts: [{ coupon: coupon.id }],
-                mode: 'payment',
-                success_url: `${appConfig.APP_DOMAIN}/cart/checkout/success`,
-                cancel_url: `${appConfig.APP_DOMAIN}/cart/checkout/cancel`,
-            });
-        } else {
-            checkoutSession = stripe.checkout.sessions.create({
-                line_items: checkoutItems,
-                mode: 'payment',
-                success_url: `${appConfig.APP_DOMAIN}/cart/checkout/success`,
-                cancel_url: `${appConfig.APP_DOMAIN}/cart/checkout/cancel`,
-            });
         }
 
-        checkoutSession = await checkoutSession;
+        const checkoutSession = await stripe.checkout.sessions.create({
+            line_items: checkoutItems,
+            discounts: [{ coupon: coupon?.id }],
+            mode: 'payment',
+            success_url: `${appConfig.APP_DOMAIN}/cart/checkout/success`,
+            cancel_url: `${appConfig.APP_DOMAIN}/cart/checkout/cancel`,
+        });
         res.redirect(303, checkoutSession.url);
     } catch (err) {
         console.log(err);
