@@ -48,6 +48,7 @@ export interface IRequestWithGetAllProductsController extends Request {
         priceMin?: string;
         priceMax?: string;
         productSizes?: [string];
+        q?: string;
     };
 }
 

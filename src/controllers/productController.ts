@@ -23,7 +23,7 @@ export async function getAllProducts(
     try {
         const queryData: Record<string, string | object> = {};
 
-        const { page, size, category, latest } = req.query;
+        const { page, size, category, latest, q: searchWord } = req.query;
         const { limit, offset, currentPage } = getPagination(
             parseInt(page),
             parseInt(size)
@@ -57,6 +57,12 @@ export async function getAllProducts(
             };
         }
 
+        if (searchWord !== undefined) {
+            queryData.name = {
+                [Op.iLike]: `%${searchWord}%`,
+            };
+        }
+
         const { count: totalNoOfProducts, rows: products } =
             await Product.findAndCountAll({
                 where: queryData,
@@ -83,6 +89,7 @@ export async function getAllProducts(
             productSizes,
             categoriesCount: categoryAndSizeCount.categoriesCount,
             sizesCount: categoryAndSizeCount.sizesCount,
+            searchWord,
         });
     } catch (err) {
         console.log(err);
