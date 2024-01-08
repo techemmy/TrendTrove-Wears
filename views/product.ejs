@@ -36,9 +36,20 @@
                             <img src="<%= product.imageURL %>" alt="Image" class="img-fluid">
                         </div>
                         <div class="col-md-6">
-                            <h2 class="text-black">
-                                <%- product.name %>
-                            </h2>
+                            <div class="d-flex justify-content-between">
+                                <h2 class="text-black">
+                                    <%- product.name %>
+                                </h2>
+                                <% if (req.user && req.user.wishlist.includes(parseInt(product.id))) { %>
+                                    <a href="/wishlist/remove/<%= product.id %>" class="text-danger">
+                                        <i class="icon fa-solid fa-heart like-product"></i>
+                                    </a>
+                                <% } else { %>
+                                    <a href="/wishlist/add/<%= product.id %>">
+                                        <i class="icon fa-regular fa-heart like-product"></i>
+                                    </a>
+                                <% } %>
+                            </div>
                             <p>
                                 <%- product.shortDescription %>
                             </p>
