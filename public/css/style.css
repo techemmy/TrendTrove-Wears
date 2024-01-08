@@ -1246,3 +1246,8 @@ input[type='range']::-moz-range-thumb {
     -moz-appearance: none;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
 }
+
+.like-product:hover {
+    scale: 1.5;
+    transition: .2s ease-in-out;
+}
