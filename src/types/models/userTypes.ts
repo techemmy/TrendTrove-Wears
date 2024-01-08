@@ -17,4 +17,5 @@ export interface UserAttributes {
     updatedAt?: Date;
 
     cartItemsCount?: number;
+    wishlistCount?: number; 
 }

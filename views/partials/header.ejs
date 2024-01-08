@@ -22,10 +22,19 @@
                                 <a href="/user/profile"><i class="icon fa-solid fa-user"></i></a>
                             </li>
                             <li>
-                                <a href="/wishlist"><i class="icon fa-regular fa-heart"></i></a>
+                                <a href="/wishlist" class="icon-count">
+				    <i class="icon fa-regular fa-heart"></i>
+                                    <i class="count">
+                                        <% if (req.user) { %>
+                                            <%= req.user.wishlistCount %>
+                                                <% } else { %>
+                                                    x
+                                                    <% } %>
+                                    </i>
+				</a>
                             </li>
                             <li>
-                                <a href="/cart" class="site-cart">
+                                <a href="/cart" class="icon-count ">
                                     <i class="icon fa-solid fa-cart-shopping"></i>
                                     <i class="count">
                                         <% if (req.user) { %>

@@ -343,11 +343,11 @@ a.text-primary:hover {
 .site-navbar .site-top-icons ul li a {
     margin-right: 10px;
 }
-.site-navbar .site-top-icons ul li a.site-cart {
+.site-navbar .site-top-icons ul li a.icon-count {
     display: block;
     position: relative;
 }
-.site-navbar .site-top-icons ul li a.site-cart .count {
+.site-navbar .site-top-icons ul li a.icon-count .count {
     position: absolute;
     top: 0;
     right: 0;
