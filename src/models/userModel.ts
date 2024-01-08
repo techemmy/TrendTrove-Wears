@@ -17,6 +17,7 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     phoneNumber: string | null;
     profileImageURL: string | null;
     providerIdentity?: string | null;
+    wishlist?: number[];
     role!: UserRoleEnum;
     readonly createdAt!: Date;
     readonly updatedAt!: Date;
@@ -61,6 +62,7 @@ export function userFactory(sequelize): typeof User {
                 type: DataTypes.ENUM(...Object.values(USER_ROLES)),
                 defaultValue: UserRoleEnum.customer,
             },
+            wishlist: DataTypes.ARRAY(DataTypes.INTEGER),
         },
         {
             sequelize,

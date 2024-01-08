@@ -15,6 +15,7 @@ import {
     ensureLoggedInMiddleware,
 } from './middlewares/authenticationMiddlewares';
 import cartRouter from './routes/cartRoute';
+import wishlistRouter from './routes/wishlistRoute';
 
 const app: Application = express();
 
@@ -41,6 +42,9 @@ app.use((req: IRequestWithFlashMessages, res, next) => {
     // handle flash messages
     res.locals.flashMessages = req.session.flashMessages;
     delete req.session.flashMessages;
+
+    // set default vaue for search word
+    res.locals.searchWord = null;
     next();
 });
 
@@ -52,6 +56,7 @@ app.use('/auth', authRouter);
 app.use('/user', ensureLoggedInMiddleware, userRouter);
 app.use('/products', productRouter);
 app.use('/cart', ensureLoggedInMiddleware, cartRouter);
+app.use('/wishlist', ensureLoggedInMiddleware, wishlistRouter);
 app.use(
     '/admin',
     ensureLoggedInMiddleware,

@@ -82,9 +82,14 @@
                                                             class="img-fluid h-100 w-100 object-fit-cover"></a>
                                                 </figure>
                                                 <div class="block-4-text p-4">
-                                                    <h3><a href="/products/<%= product.id %>">
-                                                            <%- product.name %>
-                                                        </a></h3>
+                                                    <div class="d-flex justify-content-between">
+                                                        <h3>
+                                                            <a href="/products/<%= product.id %>">
+                                                                <%- product.name %>
+                                                            </a>
+                                                        </h3>
+                                                        <a href="/wishlist" class="text-danger"><i class="icon fa-solid fa-heart"></i></a>
+                                                    </div>
                                                     <p class="mb-0">
                                                         <%= product.shortDescription %>
                                                     </p>

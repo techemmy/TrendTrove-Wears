@@ -11,6 +11,7 @@ export interface UserAttributes {
     phoneNumber: string | null;
     profileImageURL: string | null;
     providerIdentity?: string | null;
+    wishlist?: number[];
     role?: UserRoleEnum;
     createdAt?: Date;
     updatedAt?: Date;
