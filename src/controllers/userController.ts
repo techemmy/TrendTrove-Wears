@@ -9,12 +9,42 @@ import db from '../database';
 import { matchedData } from 'express-validator';
 
 const User = db.users;
+const Cart = db.carts;
+const Coupon = db.coupons
+const CartItem = db.cartItems;
+const Product = db.products;
 
-export function getProfile(
+export async function getProfile(
     req: IRequestWithAuthenticatedUser,
     res: Response
-): void {
-    res.render('user/user-profile');
+): Promise<void> {
+    const carts = await Cart.findAll({
+        where: {
+            userId: req.user.id,
+        },
+        include: [Coupon, CartItem],
+        limit: 5,
+        order: [['updatedAt', 'DESC']],
+    });
+
+    const cartWithCartItems = carts.map(async cart => {
+        const cartItems = await cart.getCartItems({ 
+            include: Product,
+            attributes: ['Product.name'],
+        });
+
+        let productNames: string[] = [];
+        cartItems.forEach(cartItem => {
+           productNames.push((cartItem.Product.name as string).replace(/&#x27;/g, "'"));
+        });
+        
+        return {
+            ...cart.toJSON(),
+             productNames: productNames.join(', '), 
+        };
+    });
+    
+    res.render('user/user-profile', { carts: await Promise.all(cartWithCartItems) } );
 }
 
 export async function postUpdateProfileInformation(req, res): Promise<void> {

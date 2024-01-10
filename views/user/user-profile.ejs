@@ -119,6 +119,86 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12 py-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center my-3 flex-wrap">
+                                        <h4 class="card-title">Your 5 most recent orders/carts (History)</h4>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table align-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th> #No </th>
+                                                    <th> State </th>
+                                                    <th> Address </th>
+                                                    <th> Coupon </th>
+                                                    <th> Cart Total (without coupon) </th>
+                                                    <th> Products </th>
+                                                    <th> Clear items </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% if (!carts) { %>
+                                                    <tr>
+                                                        <td><b>No Carts found</b></td>
+                                                    </tr>
+                                                    <% } else { %>
+                                                        <% for (const cart of carts) { %>
+                                                            <tr>
+                                                                <td>
+                                                                    #<%= cart.id %>
+                                                                </td>
+                                                                <td><%= cart.state %>
+                                                                    <% if (cart.state === 'PENDING') { %>
+                                                                     (your current cart)
+                                                                    <% } %>
+                                                                </td>
+                                                                <td>
+                                                                    <% if (cart.address) { %>
+                                                                        <%= cart.address %>
+                                                                    <% } else { %>
+                                                                        None
+                                                                    <% } %>
+                                                                </td>
+                                                                <td>
+                                                                    <% if (cart.Coupon) { %>
+                                                                        <label class="badge bg-gradient-success"> <%= cart.address %>
+                                                                            $<%= cart.Coupon.amount %>
+                                                                        </label>
+                                                                    <% } else { %>
+                                                                        <label class="badge bg-gradient-danger"> None
+                                                                        </label>
+                                                                    <% } %>
+                                                                </td>
+                                                                <td>$<%= cart.cartTotal %></td>
+                                                                <td>
+                                                                    <%= cart.productNames ? cart.productNames: '---' %>
+                                                                </td>
+                                                                <td>
+                                                                    <% if (cart.state === 'PENDING' && cart.productNames !== '') { %>
+                                                                        <a href="/cart/clear/<%= cart.id %>/" class="btn btn-primary" title='Clear cart items'>
+                                                                            <i class="fa-solid fa-trash"></i>
+                                                                        </a>
+                                                                    <% } else { %>
+                                                                        <a class="btn btn-outline" title='Cart cannot be cleared'>
+                                                                            <i class="fa-solid fa-circle-xmark"></i>
+                                                                        </a>
+                                                                    <% } %>
+                                                                </td>
+                                                            </tr>
+
+                                                            <% } %>
+
+                                                                <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

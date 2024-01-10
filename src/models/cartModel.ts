@@ -5,6 +5,7 @@ import {
     type HasManyGetAssociationsMixin,
     type HasOneSetAssociationMixin,
     type HasOneGetAssociationMixin,
+    type HasManyRemoveAssociationsMixin, 
 } from 'sequelize';
 import type {
     CartItemAttributes,
@@ -29,6 +30,7 @@ export class Cart extends Model<CartAttributes> implements CartAttributes {
     CartItems: CartItemAttributes[];
     createCartItem: HasManyCreateAssociationMixin<CartItem>;
     getCartItems: HasManyGetAssociationsMixin<CartItem>;
+    removeCartItems: HasManyRemoveAssociationsMixin<CartItem, number>;
 
     getCoupon: HasOneGetAssociationMixin<Coupon>;
     setCoupon: HasOneSetAssociationMixin<Coupon, number>;

@@ -23,6 +23,8 @@ cartRouter.get(
 
 cartRouter.post('/update', cartController.updateCart);
 
+cartRouter.get('/clear/:cartId', cartController.getClearCart);
+
 // add validator to route
 cartRouter.post('/coupon/add', cartController.addCouponToCart);
 

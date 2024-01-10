@@ -199,6 +199,41 @@ export async function updateCart(req, res: Response, next): Promise<void> {
     }
 }
 
+export async function getClearCart(req, res, next): Promise<void> {
+    try {
+        const { cartId } = req.params;
+        const userActiveCart = await Cart.findOne({
+            where: {
+                id: cartId,
+                userId: req.user.id,
+            },
+            include: CartItem
+        });
+
+        if (userActiveCart === null || userActiveCart.state !== CART_STATES.PENDING) {
+            setFlashMessage(req, {
+                message: 'You can only clear your current/pending carts',
+                type: 'info',
+            });
+            res.redirect('back');
+            return;
+        };
+        
+        const cartItemsIds = userActiveCart.CartItems.map(cartItem => cartItem.id) as number[];
+        await userActiveCart.removeCartItems(cartItemsIds);
+        await userActiveCart.update({ cartTotal: 0 });
+
+        setFlashMessage(req, {
+            message: 'Cart cleared successfully!',
+            type: 'success',
+        });
+        res.redirect('back');
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+}
+
 export async function addCouponToCart(req, res, next): Promise<void> {
     try {
         const { couponCode } = req.body;
