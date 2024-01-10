@@ -138,6 +138,7 @@ export async function postCreateProduct(
 
         const product = await Product.create({
             ...req.body,
+            price: parseFloat(req.body.price).toFixed(2),
             sizes:
                 typeof req.body.sizes === 'string'
                     ? Array(req.body.sizes)
@@ -205,6 +206,7 @@ export async function postUpdateProductById(
         const { productId } = req.params;
         const updateData = {
             ...req.body,
+            price: parseFloat(req.body.price).toFixed(2),
             sizes:
                 typeof req.body.sizes === 'string'
                     ? Array(req.body.sizes)
