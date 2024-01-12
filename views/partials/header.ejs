@@ -5,7 +5,7 @@
                 <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-start">
                     <form action="/products" method="GET" class="site-block-top-search">
                         <i class="icon fa-solid fa-magnifying-glass"></i>
-                        <input type="text" class="form-control border-0" placeholder="Search" name="q" <% if (searchWord !== undefined) { %> value=<%= searchWord %> <% } %> />
+                        <input type="text" class="form-control border-0" placeholder="Search" name="q" <% if (searchWord != undefined || searchWord != null) { %> value=<%= searchWord %> <% } %> />
                     </form>
                 </div>
 
