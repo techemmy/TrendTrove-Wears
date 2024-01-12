@@ -1,13 +1,15 @@
 import { Op } from 'sequelize';
 import { CART_STATES, PRODUCT_CATEGORIES, PRODUCT_SIZES } from '../constants';
 import db from '../database';
+import { getPagination } from '../utilities';
 
 const Product = db.products;
 const User = db.users;
 const Cart = db.carts;
 
 export async function getDashboard(req, res): Promise<void> {
-    const products = await Product.findAll({ order: [['updatedAt', 'DESC']] });
+    const { limit, offset, currentPage } = getPagination(1, parseInt(''));
+    const products = await Product.findAll({ limit, offset, order: [['updatedAt', 'DESC']] });
     const totalUsers = await User.count();
 
     let now = new Date();
@@ -39,6 +41,7 @@ export async function getDashboard(req, res): Promise<void> {
 
     res.render('admin/dashboard', {
         products,
+        currentPage: 1,
         productCategories: PRODUCT_CATEGORIES,
         productSizes: PRODUCT_SIZES,
         totalUsers: totalUsers ?? 0,
@@ -46,3 +49,27 @@ export async function getDashboard(req, res): Promise<void> {
         currentWeekOrders: currentWeekOrders ?? 0,
     });
 }
+
+export async function getDashboardProducts(req, res, next) {
+   try {
+        const { page, size } = req.query;
+        const { limit, offset, currentPage } = getPagination(
+            parseInt(page),
+            parseInt('')
+        );
+        
+        const products = await Product.findAll({
+            limit,
+            offset,
+            order: [['updatedAt', 'DESC']]
+        });
+                
+        res.render('admin/table-products.ejs', { products, currentPage });
+   } catch (err) {
+       console.log(err);
+        next();
+        
+   }
+}
+
+

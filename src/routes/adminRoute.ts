@@ -9,4 +9,6 @@ adminRouter.get('/', (req, res) => {
 
 adminRouter.get('/dashboard', adminController.getDashboard);
 
+adminRouter.get('/dashboard/products', adminController.getDashboardProducts);
+
 export default adminRouter;
