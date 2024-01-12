@@ -1,11 +1,11 @@
-<% if (!products) { %>
+<% if (products.length <= 0) { %>
 	<tr>
-		<td><b>No Products found</b></td>
+		<td><b>End.</b></td>
 	</tr>
 	<% } else { %>
 		<% for (const product of products) { %>
 			<tr <% if (products.indexOf(product) + 1===products.length && currentPage) { %>
-				hx-get="/admin/dashboard/products?page=<%= currentPage + 1 %>"
+				hx-get="/admin/dashboard/products?page=<%= currentPage + 1 %>&qAdminSearchProductName=<%= qAdminSearchProductName %>"
 					hx-trigger="intersect once"
 					hx-swap="afterend" hx-indicator="#indicator"
 					<% } %>>

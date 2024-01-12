@@ -47,24 +47,31 @@ export async function getDashboard(req, res): Promise<void> {
         totalUsers: totalUsers ?? 0,
         currentMonthRevenue: currentMonthRevenue ?? 0,
         currentWeekOrders: currentWeekOrders ?? 0,
+        qAdminSearchProductName: '',
     });
 }
 
 export async function getDashboardProducts(req, res, next) {
    try {
         const { page, size } = req.query;
+        const qAdminSearchProductName = req.query.qAdminSearchProductName ?? '';
         const { limit, offset, currentPage } = getPagination(
             parseInt(page),
             parseInt('')
         );
         
         const products = await Product.findAll({
+            where: {
+                name: {
+                    [Op.iLike]: `%${qAdminSearchProductName}%`,
+                },
+            },
             limit,
             offset,
             order: [['updatedAt', 'DESC']]
         });
                 
-        res.render('admin/table-products.ejs', { products, currentPage });
+        res.render('admin/table-products.ejs', { products, currentPage, qAdminSearchProductName  });
    } catch (err) {
        console.log(err);
         next();
