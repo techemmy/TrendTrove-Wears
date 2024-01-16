@@ -138,7 +138,7 @@
                                                                     <%= product.updatedAt.toGMTString() %>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="#" hx-get="/products/<%= product.id %>/update" hx-trigger="click" hx-target="#update-modal-body" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProduct">
+                                                                    <a href="#" hx-get="/products/<%= product.id %>/update" hx-trigger="click" hx-target="#update-product-modal-body"  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProductModal">
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                             width="16" height="16" fill="currentColor"
                                                                             class="bi bi-pencil-square"
@@ -178,18 +178,134 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-12 py-5">
+                            <div class="card">
+                                <div class="card-body table-items">
+                                    <div class="d-flex flex-column align-items-center my-3 flex-wrap">
+                                        <h4 class="card-title">Coupons</h4>
+                                        <div class="row align-items-center justify-content-between w-100">                                            
+                                            <div class="col-6 col-md-4 site-search-icon text-start">
+                                                <form class="site-block-top-search">
+                                                    <i class="icon fa-solid fa-magnifying-glass"></i>
+                                                    <input type="text" class="form-control border-0" placeholder="Search" name="qAdminSearchCouponCode" hx-get="/admin/dashboard/coupons" hx-trigger="keyup changed delay:500ms" hx-indicator="#indicator" hx-target="#couponsTable" />
+                                                </form>
+                                            </div>
+                                            <button class="col-6 col-md-4 btn btn-block btn-lg btn-primary" type="button"
+                                                data-bs-toggle="modal" data-bs-target="#newCouponModal">+ Add a
+                                                coupon</button>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table align-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th> Code </th>
+                                                    <th> Amount </th>
+                                                    <th> Usage </th>
+                                                    <th> Max Usage </th>
+                                                    <th> Last Updated </th>
+                                                    <th> Edit </th>
+                                                    <th> Delete </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="couponsTable">
+                                                <% if (coupons.length <= 0) { %>
+                                                    <tr>
+                                                        <td><b>No Coupons found</b></td>
+                                                    </tr>
+                                                    <% } else { %>
+                                                        <% for (const coupon of coupons) { %>
+                                                            <tr 
+                                                                <% if (coupons.indexOf(coupon) + 1 === coupons.length && currentPage) { %> 
+                                                                hx-get="/admin/dashboard/coupons?page=<%= currentPage + 1 %>&qAdminSearchCouponCode =<%= qAdminSearchCouponCode  %>"
+                                                                    hx-trigger="intersect once"
+                                                                    hx-swap="afterend"
+                                                                    hx-indicator="#indicator"
+                                                                <% } %>>
+
+                                                                <td> <%= coupon.code %>
+                                                                </td>
+                                                                <td>
+                                                                    $<%= coupon.amount %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= coupon.usage %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= coupon.maxUsage %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= coupon.updatedAt.toGMTString() %>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="#" hx-get="/coupons/<%= coupon.id %>/update" hx-trigger="click" hx-target="#update-coupon-modal-body" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateCouponModal">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="16" height="16" fill="currentColor"
+                                                                            class="bi bi-pencil-square"
+                                                                            viewBox="0 0 16 16">
+                                                                            <path
+                                                                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                                            <path fill-rule="evenodd"
+                                                                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                                                        </svg>
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="/coupons/<%= coupon.id %>/delete" type="button" class="btn btn-primary">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="16" height="16" fill="currentColor"
+                                                                            class="bi bi-trash3-fill"
+                                                                            viewBox="0 0 16 16">
+                                                                            <path
+                                                                                d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                        </svg>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+
+                                                            <% } %>
+
+                                                                <% } %>
+                                            </tbody>
+                                        </table>
+                                        <section class="row justify-content-center table-spinner">
+                                            <div class="htmx-indicator lds-ellipsis" id="indicator">
+                                                <div></div><div></div><div></div><div></div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Update Modal using Htmx -->
-            <div class="modal fade" id="updateProduct" tabindex="-1" aria-labelledby="updateProductLabel" aria-hidden="true">
+            <!-- Update Product Modal using Htmx -->
+            <div class="modal fade" id="updateProductModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="updateProductLabel">Update Product</h1>
+                    <h1 class="modal-title fs-5" id="updateProductModalLabel">Update Product</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <section id="update-modal-body">
+                    <section id="update-product-modal-body">
+                    </section>
+                </div>
+                </div>
+            </div>
+
+            <!-- Update Coupon Modal using Htmx -->
+            <div class="modal fade" id="updateCouponModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="updateCouponModalLabel">Update Coupon</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <section id="update-coupon-modal-body">
                     </section>
                 </div>
                 </div>
@@ -268,6 +384,43 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Coupon Modal -->
+            <div class="modal fade" id="newCouponModal" tabindex="-1" aria-labelledby="newCouponModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="newCouponModalLabel">Create a coupon</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/coupons" method="POST">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Code</label>
+                                    <input type="text" class="form-control" name="code" id="code"
+                                        placeholder="Enter coupon name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="price" class="form-label">Amount ($)</label>
+                                    <input type="number" class="form-control" name="amount" id="price"
+                                        placeholder="Enter coupon price" step="any" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="category" class="form-label">Max Usage</label>
+                                    <input type="number" class="form-control" name="maxUsage" id="price"
+                                        placeholder="Enter coupon max usage" step="any" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Create</button>
                             </div>
 
                         </form>

@@ -11,4 +11,6 @@ adminRouter.get('/dashboard', adminController.getDashboard);
 
 adminRouter.get('/dashboard/products', adminController.getDashboardProducts);
 
+adminRouter.get('/dashboard/coupons', adminController.getDashboardCoupons);
+
 export default adminRouter;

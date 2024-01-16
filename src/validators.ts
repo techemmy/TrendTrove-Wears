@@ -56,3 +56,28 @@ export const addProductToCartValidator = [
 ];
 
 export const billingInfoVaidator = userProfileFormValidator;
+
+export const newCouponFormValidator: ValidationChain[] = [
+    body('code')
+        .trim()
+        .escape()
+        .notEmpty()
+        .withMessage('Coupon code is required'),
+    body('amount')
+        .trim()
+        .escape()
+        .notEmpty()
+        .withMessage('Coupon amount is required')
+        .toFloat()
+        .isFloat({ min: 1 })
+        .withMessage('Coupon should be a number greater than zero'),
+    body('maxUsage')
+        .trim()
+        .escape()
+        .notEmpty()
+        .withMessage('Max Usage is required')
+        .toInt()
+        .isInt({ min: 1 })
+        .withMessage('Coupon should be a number greater than zero'),
+];
+

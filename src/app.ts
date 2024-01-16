@@ -15,6 +15,7 @@ import {
     ensureLoggedInMiddleware,
 } from './middlewares/authenticationMiddlewares';
 import cartRouter from './routes/cartRoute';
+import couponRouter from './routes/couponRoute';
 import wishlistRouter from './routes/wishlistRoute';
 
 const app: Application = express();
@@ -57,6 +58,7 @@ app.use('/user', ensureLoggedInMiddleware, userRouter);
 app.use('/products', productRouter);
 app.use('/cart', ensureLoggedInMiddleware, cartRouter);
 app.use('/wishlist', ensureLoggedInMiddleware, wishlistRouter);
+app.use('/coupons', ensureLoggedInMiddleware, ensureAdminUserMiddleware, couponRouter);
 app.use(
     '/admin',
     ensureLoggedInMiddleware,

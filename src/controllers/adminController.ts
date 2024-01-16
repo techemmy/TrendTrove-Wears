@@ -6,10 +6,12 @@ import { getPagination } from '../utilities';
 const Product = db.products;
 const User = db.users;
 const Cart = db.carts;
+const Coupon = db.coupons;
 
 export async function getDashboard(req, res): Promise<void> {
     const { limit, offset, currentPage } = getPagination(1, parseInt(''));
     const products = await Product.findAll({ limit, offset, order: [['updatedAt', 'DESC']] });
+    const coupons = await Coupon.findAll({ limit, offset, order: [['updatedAt', 'DESC']] });
     const totalUsers = await User.count();
 
     let now = new Date();
@@ -41,6 +43,7 @@ export async function getDashboard(req, res): Promise<void> {
 
     res.render('admin/dashboard', {
         products,
+        coupons,
         currentPage: 1,
         productCategories: PRODUCT_CATEGORIES,
         productSizes: PRODUCT_SIZES,
@@ -48,6 +51,7 @@ export async function getDashboard(req, res): Promise<void> {
         currentMonthRevenue: currentMonthRevenue ?? 0,
         currentWeekOrders: currentWeekOrders ?? 0,
         qAdminSearchProductName: '',
+        qAdminSearchCouponCode: '',
     });
 }
 
@@ -79,4 +83,31 @@ export async function getDashboardProducts(req, res, next) {
    }
 }
 
+export async function getDashboardCoupons(req, res, next) {
+   try {
+        const { page } = req.query;
+        const qAdminSearchCouponCode = req.query.qAdminSearchCouponCode ?? '';
+        const { limit, offset, currentPage } = getPagination(
+            parseInt(page),
+            parseInt('')
+        );
+        
+        const coupons = await Coupon.findAll({
+            where: {
+                code: {
+                    [Op.iLike]: `%${ qAdminSearchCouponCode }%`,
+                },
+            },
+            limit,
+            offset,
+            order: [['updatedAt', 'DESC']]
+        });
+                
+        res.render('admin/table-coupons.ejs', { coupons, currentPage, qAdminSearchCouponCode });
+   } catch (err) {
+       console.log(err);
+        next();
+        
+   }
+}
 
