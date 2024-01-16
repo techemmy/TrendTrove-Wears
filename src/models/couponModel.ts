@@ -6,7 +6,7 @@ export class Coupon
     implements CouponAttributes
 {
     id: number;
-    maxUsuage: number;
+    maxUsage: number;
     amount: number;
     usage: number;
     code: string;
@@ -20,7 +20,7 @@ export function couponFactory(sequelize): typeof Coupon {
                 autoIncrement: true,
                 primaryKey: true,
             },
-            maxUsuage: {
+            maxUsage: {
                 type: DataTypes.INTEGER,
                 defaultValue: 5,
             },

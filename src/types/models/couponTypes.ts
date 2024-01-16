@@ -1,6 +1,6 @@
 export interface CouponAttributes {
     id?: number;
-    maxUsuage?: number;
+    maxUsage?: number;
     amount: number;
     usage: number;
     code: string;
