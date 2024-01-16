@@ -273,7 +273,7 @@ export async function addCouponToCart(req, res, next): Promise<void> {
             return;
         }
 
-        if (coupon.usage >= coupon.maxUsuage) {
+        if (coupon.usage >= coupon.maxUsage) {
             setFlashMessage(req, {
                 message: 'Coupon has reached its max limit',
                 type: 'info',
