@@ -19,6 +19,7 @@ export class User extends Model<UserAttributes> implements UserAttributes {
     providerIdentity?: string | null;
     wishlist?: number[];
     role!: UserRoleEnum;
+    Address?: Record<string, string>;
     readonly createdAt!: Date;
     readonly updatedAt!: Date;
     verifyPassword: (password) => Promise<boolean>;

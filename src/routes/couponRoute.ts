@@ -1,9 +1,7 @@
 import router, { type Router } from 'express';
 import * as couponController from '../controllers/couponController';
 import { newCouponFormValidator } from '../validators';
-import validationErrorHandlerMiddleware
-    from '../middlewares/validationErrorHandlerMiddleware';
-
+import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
 
 const couponRouter: Router = router();
 

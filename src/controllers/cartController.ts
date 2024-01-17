@@ -13,7 +13,6 @@ const Cart = db.carts;
 const Product = db.products;
 const CartItem = db.cartItems;
 const Coupon = db.coupons;
-const Address = db.addresses;
 
 export async function getCart(
     req: IRequestWithAuthenticatedUser,
@@ -108,9 +107,13 @@ export async function addProductToCart(
     }
 }
 
-export async function removeProductFromCart(req, res, next): Promise<void> {
+export async function removeProductFromCart(
+    req: IRequestWithAuthenticatedUser,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
     try {
-        const { cartItemId }: { cartItemId: number } = req.params;
+        const cartItemId: string = req.params.cartItemId;
         const userActiveCart = await Cart.findOne({
             where: {
                 userId: req.user.id,
@@ -159,7 +162,11 @@ export async function removeProductFromCart(req, res, next): Promise<void> {
     }
 }
 
-export async function updateCart(req, res: Response, next): Promise<void> {
+export async function updateCart(
+    req: IRequestWithAuthenticatedUser,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
     try {
         const { body: cartItemsUpdate } = req;
         const userActiveCart = await Cart.findOne({
@@ -199,7 +206,11 @@ export async function updateCart(req, res: Response, next): Promise<void> {
     }
 }
 
-export async function getClearCart(req, res, next): Promise<void> {
+export async function getClearCart(
+    req: IRequestWithAuthenticatedUser,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
     try {
         const { cartId } = req.params;
         const userActiveCart = await Cart.findOne({
@@ -207,19 +218,24 @@ export async function getClearCart(req, res, next): Promise<void> {
                 id: cartId,
                 userId: req.user.id,
             },
-            include: CartItem
+            include: CartItem,
         });
 
-        if (userActiveCart === null || userActiveCart.state !== CART_STATES.PENDING) {
+        if (
+            userActiveCart === null ||
+            userActiveCart.state !== CART_STATES.PENDING
+        ) {
             setFlashMessage(req, {
                 message: 'You can only clear your current/pending carts',
                 type: 'info',
             });
             res.redirect('back');
             return;
-        };
-        
-        const cartItemsIds = userActiveCart.CartItems.map(cartItem => cartItem.id) as number[];
+        }
+
+        const cartItemsIds = userActiveCart.CartItems.map(
+            (cartItem) => cartItem.id
+        ) as number[];
         await userActiveCart.removeCartItems(cartItemsIds);
         await userActiveCart.update({ cartTotal: 0 });
 
@@ -234,7 +250,11 @@ export async function getClearCart(req, res, next): Promise<void> {
     }
 }
 
-export async function addCouponToCart(req, res, next): Promise<void> {
+export async function addCouponToCart(
+    req: IRequestWithAuthenticatedUser,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
     try {
         const { couponCode } = req.body;
 
@@ -298,7 +318,11 @@ export async function addCouponToCart(req, res, next): Promise<void> {
     }
 }
 
-export async function getCheckout(req, res, next): Promise<void> {
+export async function getCheckout(
+    req: IRequestWithAuthenticatedUser,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
     try {
         const userActiveCart = await Cart.findOne({
             where: {
@@ -334,7 +358,11 @@ export async function getCheckout(req, res, next): Promise<void> {
     }
 }
 
-export async function postCheckout(req, res, next): Promise<void> {
+export async function postCheckout(
+    req: IRequestWithAuthenticatedUser,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
     try {
         const userActiveCart = await Cart.findOne({
             where: {
@@ -406,7 +434,11 @@ export async function postCheckout(req, res, next): Promise<void> {
     }
 }
 
-export async function getCheckoutSuccess(req, res, next): Promise<void> {
+export async function getCheckoutSuccess(
+    req: IRequestWithAuthenticatedUser,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
     try {
         const userActiveCart = await Cart.findOne({
             where: {
@@ -425,9 +457,11 @@ export async function getCheckoutSuccess(req, res, next): Promise<void> {
             return;
         }
 
-        await userActiveCart.update({ 
-            state: CART_STATES.PROCESSING, 
-            address: `${req.user.Address.street} - ${req.user.Address.state} - ${req.user.Address.country}` 
+        await userActiveCart.update({
+            state: CART_STATES.PROCESSING,
+            address: `${req.user.Address?.street ?? ''} - ${
+                req.user.Address?.state ?? ''
+            } - ${req.user.Address?.country ?? ''}`,
         });
 
         res.render('cart/success');
@@ -437,7 +471,11 @@ export async function getCheckoutSuccess(req, res, next): Promise<void> {
     }
 }
 
-export async function getCheckoutCancel(req, res, next): Promise<void> {
+export async function getCheckoutCancel(
+    req: IRequestWithAuthenticatedUser,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
     try {
         res.render('cart/cancel');
     } catch (err) {

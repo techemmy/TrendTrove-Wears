@@ -2,8 +2,8 @@ import { Op } from 'sequelize';
 import { CART_STATES, PRODUCT_CATEGORIES, PRODUCT_SIZES } from '../constants';
 import db from '../database';
 import { getPagination } from '../utilities';
-import type { Request, Response, NextFunction } from 'express';
-import { IReqWithDashboard } from '../types/requestTypes';
+import type { Response, NextFunction } from 'express';
+import { type IReqWithDashboard } from '../types/requestTypes';
 
 const Product = db.products;
 const User = db.users;

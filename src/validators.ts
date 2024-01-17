@@ -80,4 +80,3 @@ export const newCouponFormValidator: ValidationChain[] = [
         .isInt({ min: 1 })
         .withMessage('Coupon should be a number greater than zero'),
 ];
-

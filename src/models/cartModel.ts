@@ -5,7 +5,7 @@ import {
     type HasManyGetAssociationsMixin,
     type HasOneSetAssociationMixin,
     type HasOneGetAssociationMixin,
-    type HasManyRemoveAssociationsMixin, 
+    type HasManyRemoveAssociationsMixin,
 } from 'sequelize';
 import type {
     CartItemAttributes,

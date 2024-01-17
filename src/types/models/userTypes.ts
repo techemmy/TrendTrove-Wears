@@ -13,9 +13,10 @@ export interface UserAttributes {
     providerIdentity?: string | null;
     wishlist?: number[];
     role?: UserRoleEnum;
+    Address?: Record<string, string>;
     createdAt?: Date;
     updatedAt?: Date;
 
     cartItemsCount?: number;
-    wishlistCount?: number; 
+    wishlistCount?: number;
 }

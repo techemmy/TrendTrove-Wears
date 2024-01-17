@@ -48,7 +48,9 @@ passport.deserializeUser(function (userId: string, cb) {
             const userObj = user.toJSON();
             userObj.cartItemsCount =
                 cartCount !== null ? cartCount.CartItems.length : 0;
-            userObj.wishlistCount = Array.isArray(user.wishlist) ? user.wishlist.length : 0;
+            userObj.wishlistCount = Array.isArray(user.wishlist)
+                ? user.wishlist.length
+                : 0;
 
             cb(null, userObj);
         } catch (error) {

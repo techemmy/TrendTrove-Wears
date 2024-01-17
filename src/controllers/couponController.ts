@@ -1,33 +1,38 @@
-import { Request, Response, NextFunction } from "express";
-import db from "../database";
-import { setFlashMessage } from "../utilities";
+import type { Response, NextFunction } from 'express';
+import db from '../database';
+import { setFlashMessage } from '../utilities';
+import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
 
 const Coupon = db.coupons;
 
-export async function postCreateCoupon(req, res, next) {
+export async function postCreateCoupon(
+    req: IRequestWithAuthenticatedUser,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
     try {
         const couponExists = await Coupon.findOne({
             where: {
                 code: req.body.code,
             },
         });
-        if (couponExists) {
+        if (couponExists != null) {
             setFlashMessage(req, {
                 message: 'Coupon already exists',
                 type: 'info',
-            })
+            });
             res.redirect('back');
             return;
         }
 
         await Coupon.create({
-            ...req.body
-        })
+            ...req.body,
+        });
 
         setFlashMessage(req, {
             message: 'Coupon created succesfully!',
             type: 'success',
-        })
+        });
         res.redirect('back');
     } catch (err) {
         console.log(err);
@@ -36,7 +41,7 @@ export async function postCreateCoupon(req, res, next) {
 }
 
 export async function getDeleteCouponById(
-    req: Request,
+    req: IRequestWithAuthenticatedUser,
     res: Response,
     next: NextFunction
 ): Promise<void> {
@@ -52,7 +57,7 @@ export async function getDeleteCouponById(
 }
 
 export async function getUpdateCouponById(
-    req: Request,
+    req: IRequestWithAuthenticatedUser,
     res: Response,
     next: NextFunction
 ): Promise<void> {
@@ -67,7 +72,7 @@ export async function getUpdateCouponById(
 }
 
 export async function postUpdateCouponById(
-    req: Request,
+    req: IRequestWithAuthenticatedUser,
     res: Response,
     next: NextFunction
 ): Promise<void> {

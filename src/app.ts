@@ -58,7 +58,12 @@ app.use('/user', ensureLoggedInMiddleware, userRouter);
 app.use('/products', productRouter);
 app.use('/cart', ensureLoggedInMiddleware, cartRouter);
 app.use('/wishlist', ensureLoggedInMiddleware, wishlistRouter);
-app.use('/coupons', ensureLoggedInMiddleware, ensureAdminUserMiddleware, couponRouter);
+app.use(
+    '/coupons',
+    ensureLoggedInMiddleware,
+    ensureAdminUserMiddleware,
+    couponRouter
+);
 app.use(
     '/admin',
     ensureLoggedInMiddleware,
