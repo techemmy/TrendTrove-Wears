@@ -2,68 +2,92 @@ import { Op } from 'sequelize';
 import { CART_STATES, PRODUCT_CATEGORIES, PRODUCT_SIZES } from '../constants';
 import db from '../database';
 import { getPagination } from '../utilities';
+import type { Request, Response, NextFunction } from 'express';
+import { IReqWithDashboard } from '../types/requestTypes';
 
 const Product = db.products;
 const User = db.users;
 const Cart = db.carts;
 const Coupon = db.coupons;
 
-export async function getDashboard(req, res): Promise<void> {
-    const { limit, offset, currentPage } = getPagination(1, parseInt(''));
-    const products = await Product.findAll({ limit, offset, order: [['updatedAt', 'DESC']] });
-    const coupons = await Coupon.findAll({ limit, offset, order: [['updatedAt', 'DESC']] });
-    const totalUsers = await User.count();
+export async function getDashboard(
+    req: IReqWithDashboard,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
+    try {
+        const { limit, offset } = getPagination(1, parseInt(''));
+        const products = await Product.findAll({
+            limit,
+            offset,
+            order: [['updatedAt', 'DESC']],
+        });
+        const coupons = await Coupon.findAll({
+            limit,
+            offset,
+            order: [['updatedAt', 'DESC']],
+        });
+        const totalUsers = await User.count();
 
-    let now = new Date();
-    const offsetInMinutes = now.getTimezoneOffset();
-    const offsetInMilliseconds = Math.abs(offsetInMinutes) * 60000;
-    now = new Date(now.getTime() + offsetInMilliseconds);
+        let now = new Date();
+        const offsetInMinutes = now.getTimezoneOffset();
+        const offsetInMilliseconds = Math.abs(offsetInMinutes) * 60000;
+        now = new Date(now.getTime() + offsetInMilliseconds);
 
-    const oneWeekInSecs = 1000 * 60 * 60 * 24 * 7;
-    const oneWeekAgo = new Date(now.getTime() - oneWeekInSecs);
+        const oneWeekInSecs = 1000 * 60 * 60 * 24 * 7;
+        const oneWeekAgo = new Date(now.getTime() - oneWeekInSecs);
 
-    const currentMonthRevenue = await Cart.sum('cartTotal', {
-        where: {
-            state: CART_STATES.DELIVERED,
-            updatedAt: {
-                [Op.lte]: now,
-                [Op.gt]: new Date(oneWeekAgo),
+        const currentMonthRevenue = await Cart.sum('cartTotal', {
+            where: {
+                state: CART_STATES.DELIVERED,
+                updatedAt: {
+                    [Op.lte]: now,
+                    [Op.gt]: new Date(oneWeekAgo),
+                },
             },
-        },
-    });
-    const currentWeekOrders = await Cart.count({
-        where: {
-            state: CART_STATES.DELIVERED,
-            updatedAt: {
-                [Op.lte]: now,
-                [Op.gt]: new Date(oneWeekAgo),
+        });
+        const currentWeekOrders = await Cart.count({
+            where: {
+                state: CART_STATES.DELIVERED,
+                updatedAt: {
+                    [Op.lte]: now,
+                    [Op.gt]: new Date(oneWeekAgo),
+                },
             },
-        },
-    });
+        });
 
-    res.render('admin/dashboard', {
-        products,
-        coupons,
-        currentPage: 1,
-        productCategories: PRODUCT_CATEGORIES,
-        productSizes: PRODUCT_SIZES,
-        totalUsers: totalUsers ?? 0,
-        currentMonthRevenue: currentMonthRevenue ?? 0,
-        currentWeekOrders: currentWeekOrders ?? 0,
-        qAdminSearchProductName: '',
-        qAdminSearchCouponCode: '',
-    });
+        res.render('admin/dashboard', {
+            products,
+            coupons,
+            currentPage: 1,
+            productCategories: PRODUCT_CATEGORIES,
+            productSizes: PRODUCT_SIZES,
+            totalUsers: totalUsers ?? 0,
+            currentMonthRevenue: currentMonthRevenue ?? 0,
+            currentWeekOrders: currentWeekOrders ?? 0,
+            qAdminSearchProductName: '',
+            qAdminSearchCouponCode: '',
+        });
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
 }
 
-export async function getDashboardProducts(req, res, next) {
-   try {
-        const { page, size } = req.query;
-        const qAdminSearchProductName = req.query.qAdminSearchProductName ?? '';
+export async function getDashboardProducts(
+    req: IReqWithDashboard,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
+    try {
+        const { page } = req.query;
+        const qAdminSearchProductName: string =
+            req.query.qAdminSearchProductName ?? '';
         const { limit, offset, currentPage } = getPagination(
             parseInt(page),
             parseInt('')
         );
-        
+
         const products = await Product.findAll({
             where: {
                 name: {
@@ -72,42 +96,52 @@ export async function getDashboardProducts(req, res, next) {
             },
             limit,
             offset,
-            order: [['updatedAt', 'DESC']]
+            order: [['updatedAt', 'DESC']],
         });
-                
-        res.render('admin/table-products.ejs', { products, currentPage, qAdminSearchProductName  });
-   } catch (err) {
-       console.log(err);
-        next();
-        
-   }
+
+        res.render('admin/table-products.ejs', {
+            products,
+            currentPage,
+            qAdminSearchProductName,
+        });
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
 }
 
-export async function getDashboardCoupons(req, res, next) {
-   try {
+export async function getDashboardCoupons(
+    req: IReqWithDashboard,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
+    try {
         const { page } = req.query;
-        const qAdminSearchCouponCode = req.query.qAdminSearchCouponCode ?? '';
+        const qAdminSearchCouponCode: string =
+            req.query.qAdminSearchCouponCode?.toString() ?? '';
         const { limit, offset, currentPage } = getPagination(
             parseInt(page),
             parseInt('')
         );
-        
+
         const coupons = await Coupon.findAll({
             where: {
                 code: {
-                    [Op.iLike]: `%${ qAdminSearchCouponCode }%`,
+                    [Op.iLike]: `%${qAdminSearchCouponCode}%`,
                 },
             },
             limit,
             offset,
-            order: [['updatedAt', 'DESC']]
+            order: [['updatedAt', 'DESC']],
         });
-                
-        res.render('admin/table-coupons.ejs', { coupons, currentPage, qAdminSearchCouponCode });
-   } catch (err) {
-       console.log(err);
-        next();
-        
-   }
-}
 
+        res.render('admin/table-coupons.ejs', {
+            coupons,
+            currentPage,
+            qAdminSearchCouponCode,
+        });
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+}

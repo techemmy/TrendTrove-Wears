@@ -52,6 +52,15 @@ export interface IRequestWithGetAllProductsController extends Request {
     };
 }
 
+export interface IReqWithDashboard extends Request {
+    query: {
+        page: string;
+        size: string;
+        qAdminSearchProductName?: string;
+        qAdminSearchCouponCode?: string;
+    };
+}
+
 export type IRequestWithFlashMessages = Request & FlashMessage;
 
 export type IRequestWithUserSignupForm = IRequestWithRequiredName &
