@@ -396,18 +396,26 @@ export async function postCheckout(
             return;
         }
 
-        const checkoutItems = cartItems.map((cartItem) => ({
-            price_data: {
-                unit_amount: (cartItem.Product.price as number) * 100, // unit amount takes in amount in cent by default, hence, multiplying by 100
-                product_data: {
-                    name: cartItem.Product.name,
-                    description: cartItem.Product.shortDescription,
-                    images: [cartItem.Product.imageURL],
+        const checkoutItems = cartItems.map((cartItem) => {
+            const amount = cartItem.Product.price as number;
+            return {
+                price_data: {
+                    unit_amount: parseFloat((amount * 100).toFixed(2)), // unit amount takes in amount in cent by default, hence, multiplying by 100
+                    product_data: {
+                        name: cartItem.Product.name,
+                        description: cartItem.Product.shortDescription,
+                        images: [cartItem.Product.imageURL],
+                    },
+                    currency: 'usd',
                 },
-                currency: 'usd',
-            },
-            quantity: cartItem.quantity,
-        }));
+                quantity: cartItem.quantity,
+            };
+        });
+        console.log(
+            parseFloat((cartItems[0].Product.price as number).toFixed(2)),
+            parseFloat((cartItems[0].Product.price as number).toFixed(2)) * 100
+        );
+        console.log(checkoutItems);
 
         const userCoupon = userActiveCart.Coupon as CouponAttributes | null;
         let coupon;
