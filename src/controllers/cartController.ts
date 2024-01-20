@@ -2,10 +2,19 @@ import 'dotenv/config';
 import type { NextFunction, Response } from 'express';
 import type { IRequestWithAuthenticatedUser } from '../types/requestTypes';
 import db from '../database';
-import { CART_STATES, PRODUCT_SIZES } from '../constants';
+import {
+    CART_STATES,
+    PRODUCT_SIZES,
+    USER_ROLES,
+    successfulCheckoutAdminHtmlFilePath,
+    successfulCheckoutAdminTextFilePath,
+    thankYouCustomerHtmlFilePath,
+    thankYouCustomerTextFilePath,
+} from '../constants';
 import { setFlashMessage } from '../utilities';
 import { appConfig } from '../config';
 import type { CouponAttributes } from '../types/models/couponTypes';
+import { sendEmail } from '../mailer';
 
 const stripe = require('stripe')(appConfig.STRIPE_API_KEY);
 
@@ -13,6 +22,7 @@ const Cart = db.carts;
 const Product = db.products;
 const CartItem = db.cartItems;
 const Coupon = db.coupons;
+const User = db.users;
 
 export async function getCart(
     req: IRequestWithAuthenticatedUser,
@@ -114,15 +124,35 @@ export async function updateCartState(
 ): Promise<void> {
     try {
         const { cartId } = req.params;
-        await Cart.update(
+        const cart = await Cart.findByPk(cartId, { include: User });
+
+        if (cart === null) {
+            setFlashMessage(req, {
+                message: 'Cart does not exist again.',
+                type: 'warning',
+            });
+            res.redirect('back');
+            return;
+        }
+
+        await cart.update(
             { state: CART_STATES.DELIVERED },
             {
                 where: {
                     id: cartId,
                 },
-            },
+            }
         );
-
+        
+        if (cart.state === 'DELIVERED' && cart.User !== undefined) {
+            void sendEmail({
+                receivers: [cart.User.email],
+                subject: 'Thanks for shopping with us!',
+                textFilePath: thankYouCustomerTextFilePath,
+                htmlFilePath: thankYouCustomerHtmlFilePath,
+                htmlData: { APP_DOMAIN: appConfig.APP_DOMAIN },
+            });
+        }
         setFlashMessage(req, {
             message: 'Order state updated succesfully!',
             type: 'success',
@@ -499,6 +529,22 @@ export async function getCheckoutSuccess(
             } - ${req.user.Address?.country ?? ''}`,
         });
 
+        const adminEmails = (
+            await User.findAll({
+                where: {
+                    role: USER_ROLES.admin,
+                },
+                attributes: ['email'],
+            })
+        ).map((user) => user.email);
+
+        void sendEmail({
+            receivers: adminEmails,
+            subject: 'New Trendtrove Order Payed for!',
+            textFilePath: successfulCheckoutAdminTextFilePath,
+            htmlFilePath: successfulCheckoutAdminHtmlFilePath,
+            htmlData: { APP_DOMAIN: appConfig.APP_DOMAIN },
+        });
         res.render('cart/success');
     } catch (err) {
         console.log(err);

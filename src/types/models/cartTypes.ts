@@ -1,4 +1,5 @@
 import type { CouponAttributes } from './couponTypes';
+import type { UserAttributes } from './userTypes';
 
 export interface CartItemAttributes {
     id?: number;
@@ -18,6 +19,7 @@ export interface CartAttributes {
     state: string;
     address?: string;
     Coupon?: CouponAttributes;
+    User?: UserAttributes;
     createdAt?: Date;
     updatedAt?: Date;
     CartItems?: CartItemAttributes[];
