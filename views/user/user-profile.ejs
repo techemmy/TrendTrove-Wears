@@ -150,9 +150,10 @@
                                                                 <td>
                                                                     #<%= cart.id %>
                                                                 </td>
-                                                                <td><%= cart.state %>
+                                                                <td>
+                                                                    <p><%= cart.state %></p>
                                                                     <% if (cart.state === 'PENDING') { %>
-                                                                     (your current cart)
+                                                                        <b>(your current cart)</b>
                                                                     <% } %>
                                                                 </td>
                                                                 <td>
