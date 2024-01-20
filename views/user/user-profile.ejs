@@ -178,7 +178,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <% if (cart.state === 'PENDING' && cart.productNames !== '') { %>
-                                                                        <a href="/cart/clear/<%= cart.id %>/" class="btn btn-primary" title='Clear cart items'>
+                                                                        <a href="/cart/<%= cart.id %>/clear" class="btn btn-primary" title='Clear cart items'>
                                                                             <i class="fa-solid fa-trash"></i>
                                                                         </a>
                                                                     <% } else { %>

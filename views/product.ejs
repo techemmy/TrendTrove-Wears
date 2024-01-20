@@ -41,11 +41,11 @@
                                     <%- product.name %>
                                 </h2>
                                 <% if (req.user && req.user.wishlist.includes(parseInt(product.id))) { %>
-                                    <a href="/wishlist/remove/<%= product.id %>" class="text-danger">
+                                    <a href="/wishlist/<%= product.id %>/remove" class="text-danger">
                                         <i class="icon fa-solid fa-heart like-product"></i>
                                     </a>
                                 <% } else { %>
-                                    <a href="/wishlist/add/<%= product.id %>">
+                                    <a href="/wishlist/<%= product.id %>/add">
                                         <i class="icon fa-regular fa-heart like-product"></i>
                                     </a>
                                 <% } %>
@@ -58,7 +58,7 @@
                                     <%- product.longDescription %>
                                 </p>
                                 <% } %>
-                                    <form method="POST" action="/cart/create/product/<%= product.id %>">
+                                    <form method="POST" action="/cart/product/<%= product.id %>/create">
                                         <p><strong class="text-primary h4">$<%= product.price %></strong></p>
                                         <p class="text-primary mb-0">Sizes</p>
                                         <div class="mb-1 d-flex">

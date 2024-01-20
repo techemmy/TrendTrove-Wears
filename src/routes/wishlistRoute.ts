@@ -6,12 +6,12 @@ const wishlistRouter: Router = router();
 wishlistRouter.get('/', wishlistController.getWishlist);
 
 wishlistRouter.get(
-    '/add/:productId',
+    '/:productId/add',
     wishlistController.getAddProductToWishlist
 );
 
 wishlistRouter.get(
-    '/remove/:productId',
+    '/:productId/remove',
     wishlistController.getRemoveProductFromWishlist
 );
 

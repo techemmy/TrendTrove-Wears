@@ -11,14 +11,14 @@ const cartRouter: Router = router();
 cartRouter.get('/', cartController.getCart);
 
 cartRouter.post(
-    '/create/product/:productId',
+    '/product/:productId/create',
     addProductToCartValidator,
     validationErrorHandlerMiddleware,
     cartController.addProductToCart
 );
 
 cartRouter.get(
-    '/delete/product/:cartItemId',
+    '/product/:cartItemId/delete',
     cartController.removeProductFromCart
 );
 
@@ -26,7 +26,7 @@ cartRouter.get('/:cartId/update', cartController.updateCartState);
 
 cartRouter.post('/update', ensureAdminUserMiddleware, cartController.updateCart);
 
-cartRouter.get('/clear/:cartId', cartController.getClearCart);
+cartRouter.get('/:cartId/clear', cartController.getClearCart);
 
 // add validator to route
 cartRouter.post('/coupon/add', cartController.addCouponToCart);
