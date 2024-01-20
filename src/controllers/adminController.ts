@@ -87,6 +87,8 @@ export async function getDashboard(
     }
 }
 
+// TODO: fix issue of modal not showing up when table products or coupons
+// are updated
 export async function getDashboardProducts(
     req: IReqWithDashboard,
     res: Response,
