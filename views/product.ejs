@@ -40,7 +40,7 @@
                                 <h2 class="text-black">
                                     <%- product.name %>
                                 </h2>
-                                <% if (req.user && req.user.wishlist.includes(parseInt(product.id))) { %>
+                                <% if (req.user && req.user.wishlist?.includes(parseInt(product.id))) { %>
                                     <a href="/wishlist/<%= product.id %>/remove" class="text-danger">
                                         <i class="icon fa-solid fa-heart like-product"></i>
                                     </a>
