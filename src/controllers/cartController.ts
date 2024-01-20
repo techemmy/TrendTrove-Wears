@@ -369,7 +369,6 @@ export async function addCouponToCart(
         res.redirect('back');
     } catch (error) {
         console.log(error);
-
         console.log(error.message);
         next(error);
     }
@@ -468,11 +467,6 @@ export async function postCheckout(
                 quantity: cartItem.quantity,
             };
         });
-        console.log(
-            parseFloat((cartItems[0].Product.price as number).toFixed(2)),
-            parseFloat((cartItems[0].Product.price as number).toFixed(2)) * 100
-        );
-        console.log(checkoutItems);
 
         const userCoupon = userActiveCart.Coupon as CouponAttributes | null;
         let coupon;
