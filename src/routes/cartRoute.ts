@@ -4,6 +4,7 @@ import * as cartController from '../controllers/cartController';
 import * as userController from '../controllers/userController';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
 import { addProductToCartValidator, billingInfoVaidator } from '../validators';
+import { ensureAdminUserMiddleware } from '../middlewares/authenticationMiddlewares';
 
 const cartRouter: Router = router();
 
@@ -21,7 +22,9 @@ cartRouter.get(
     cartController.removeProductFromCart
 );
 
-cartRouter.post('/update', cartController.updateCart);
+cartRouter.get('/:cartId/update', cartController.updateCartState);
+
+cartRouter.post('/update', ensureAdminUserMiddleware, cartController.updateCart);
 
 cartRouter.get('/clear/:cartId', cartController.getClearCart);
 

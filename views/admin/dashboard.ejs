@@ -64,6 +64,82 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-12 py-5">
+                            <div class="card">
+                                <div class="card-body table-items">
+                                    <div class="d-flex flex-column align-items-center my-3 flex-wrap">
+                                        <h4 class="card-title">Orders</h4>
+                                        <p class="card-text">Newly checked out orders (processing)</p>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table align-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th> Order No </th>
+                                                    <th> Total </th>
+                                                    <th> State </th>
+                                                    <th> Items </th>
+                                                    <th> Mark as delivered </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="ordersTable">
+                                                <% if (orders.length <= 0) { %>
+                                                    <tr>
+                                                        <td><b>No Orders found</b></td>
+                                                    </tr>
+                                                    <% } else { %>
+                                                        <% for (const order of orders) { %>
+                                                            <tr 
+                                                                <% if (orders.indexOf(order) + 1 === orders.length && currentPage) { %> 
+                                                                hx-get="/admin/dashboard/orders?page=<%= currentPage + 1 %>"
+                                                                    hx-trigger="intersect once"
+                                                                    hx-swap="afterend"
+                                                                    hx-indicator="#indicator"
+                                                                <% } %>>
+
+                                                                <td> <%= order.id %>
+                                                                </td>
+                                                                <td>
+                                                                    $<%= order.cartTotal %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= order.state %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= order.CartItems.length %>
+                                                                </td>
+                                                                <td>
+                                                                    <% if (order.state === 'DELIVERED') { %>
+                                                                        <a href="#" type="button" class="btn btn-secondary">
+                                                                            <p class="d-inline">Delivered</p> 
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                                                                        </a>
+                                                                    <% } else if (order.state === 'PROCESSING') { %>
+                                                                        <a href="/cart/<%= order.id %>/update" type="button" class="btn btn-primary">
+                                                                            <p class="d-inline">Mark</p> 
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                                                                        </a>
+                                                                    <% } %>
+                                                                </td>
+                                                            </tr>
+
+                                                            <% } %>
+
+                                                                <% } %>
+                                            </tbody>
+                                        </table>
+                                        <section class="row justify-content-center table-spinner">
+                                            <div class="htmx-indicator lds-ellipsis" id="indicator">
+                                                <div></div><div></div><div></div><div></div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-12 py-5">
                             <div class="card">

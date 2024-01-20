@@ -107,6 +107,33 @@ export async function addProductToCart(
     }
 }
 
+export async function updateCartState(
+    req: IRequestWithAuthenticatedUser,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
+    try {
+        const { cartId } = req.params;
+        await Cart.update(
+            { state: CART_STATES.DELIVERED },
+            {
+                where: {
+                    id: cartId,
+                },
+            },
+        );
+
+        setFlashMessage(req, {
+            message: 'Order state updated succesfully!',
+            type: 'success',
+        });
+        res.redirect('back');
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+}
+
 export async function removeProductFromCart(
     req: IRequestWithAuthenticatedUser,
     res: Response,

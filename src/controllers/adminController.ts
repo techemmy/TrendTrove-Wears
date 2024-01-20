@@ -4,6 +4,7 @@ import db from '../database';
 import { getPagination } from '../utilities';
 import type { Response, NextFunction } from 'express';
 import { type IReqWithDashboard } from '../types/requestTypes';
+import { CartItem } from '../models';
 
 const Product = db.products;
 const User = db.users;
@@ -26,6 +27,17 @@ export async function getDashboard(
             limit,
             offset,
             order: [['updatedAt', 'DESC']],
+        });
+        const orders = await Cart.findAll({
+            where: {
+                state: {
+                    [Op.in]: [CART_STATES.PROCESSING, CART_STATES.DELIVERED],
+                },
+            },
+            limit,
+            offset,
+            order: [['updatedAt', 'DESC']],
+            include: CartItem,
         });
         const totalUsers = await User.count();
 
@@ -59,6 +71,7 @@ export async function getDashboard(
         res.render('admin/dashboard', {
             products,
             coupons,
+            orders,
             currentPage: 1,
             productCategories: PRODUCT_CATEGORIES,
             productSizes: PRODUCT_SIZES,
