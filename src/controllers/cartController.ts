@@ -405,6 +405,7 @@ export async function getCheckout(
 
         res.render('cart/checkout', {
             cartItems,
+            orderNote: userActiveCart.orderNote,
             coupon: userActiveCart.Coupon,
             cartTotal: userActiveCart.cartTotal,
         });

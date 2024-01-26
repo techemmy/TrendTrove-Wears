@@ -7,6 +7,7 @@ import {
 } from '../utilities';
 import db from '../database';
 import { matchedData } from 'express-validator';
+import { CART_STATES } from '../constants';
 
 const User = db.users;
 const Cart = db.carts;
@@ -52,7 +53,8 @@ export async function getProfile(
 }
 
 export async function postUpdateProfileInformation(req, res): Promise<void> {
-    const { name, phoneNumber, street, state, country } = matchedData(req);
+    const { name, phoneNumber, street, state, country, activeCartNote } =
+        matchedData(req);
 
     const user = await User.findByPk(req.user.id);
 
@@ -80,6 +82,17 @@ export async function postUpdateProfileInformation(req, res): Promise<void> {
             message: 'Your details were updated successfully!',
         },
     ]);
+
+    const userActiveCart = await Cart.findOne({
+        where: {
+            state: CART_STATES.PENDING,
+            userId: user.id,
+        },
+    });
+
+    if (!['', undefined].includes(activeCartNote) && userActiveCart != null) {
+        await userActiveCart.update({ orderNote: activeCartNote });
+    }
 
     res.redirect('back');
 }

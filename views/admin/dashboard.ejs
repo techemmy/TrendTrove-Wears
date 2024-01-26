@@ -81,6 +81,7 @@
                                                     <th> Total </th>
                                                     <th> State </th>
                                                     <th> Items </th>
+                                                    <th> Note from user </th>
                                                     <th> Mark as delivered </th>
                                                 </tr>
                                             </thead>
@@ -109,6 +110,9 @@
                                                                 </td>
                                                                 <td>
                                                                     <%= order.CartItems.length %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= order.orderNote ?? '-' %>
                                                                 </td>
                                                                 <td>
                                                                     <% if (order.state === 'DELIVERED') { %>

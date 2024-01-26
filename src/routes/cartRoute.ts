@@ -3,7 +3,7 @@ import type { Router } from 'express';
 import * as cartController from '../controllers/cartController';
 import * as userController from '../controllers/userController';
 import validationErrorHandlerMiddleware from '../middlewares/validationErrorHandlerMiddleware';
-import { addProductToCartValidator, billingInfoVaidator } from '../validators';
+import { addProductToCartValidator, billingInfoValidator } from '../validators';
 import { ensureAdminUserMiddleware } from '../middlewares/authenticationMiddlewares';
 
 const cartRouter: Router = router();
@@ -35,7 +35,7 @@ cartRouter.get('/checkout', cartController.getCheckout);
 
 cartRouter.post(
     '/billing/update',
-    billingInfoVaidator,
+    billingInfoValidator,
     validationErrorHandlerMiddleware,
     userController.postUpdateProfileInformation
 );

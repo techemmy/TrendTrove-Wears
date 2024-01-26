@@ -55,7 +55,10 @@ export const addProductToCartValidator = [
         .withMessage('Select a valid size'),
 ];
 
-export const billingInfoVaidator = userProfileFormValidator;
+export const billingInfoValidator = [
+    ...userProfileFormValidator,
+    body('activeCartNote').trim(),
+];
 
 export const newCouponFormValidator: ValidationChain[] = [
     body('code')

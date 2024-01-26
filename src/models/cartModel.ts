@@ -23,6 +23,7 @@ export class Cart extends Model<CartAttributes> implements CartAttributes {
     userId: number;
     state: string;
     address: string;
+    orderNote: string;
     Coupon?: CouponAttributes;
     User?: UserAttributes;
     // TODO: add date properties to all models
@@ -55,6 +56,7 @@ export function cartFactory(sequelize): typeof Cart {
                 defaultValue: CART_STATES.PENDING,
             },
             address: DataTypes.STRING,
+            orderNote: DataTypes.STRING,
         },
         { sequelize }
     );

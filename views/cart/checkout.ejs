@@ -87,8 +87,8 @@
 
                                 <div class="form-group mb-3">
                                     <label for="c_order_notes" class="text-black">Order Notes</label>
-                                    <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5"
-                                        class="form-control" placeholder="Write your notes here..."></textarea>
+                                    <textarea name="activeCartNote" cols="30" rows="5"
+                                        class="form-control" placeholder="Write your notes here..."><% if (orderNote) { %><%= orderNote %><% } %></textarea>
                                 </div>
 
                                 <button type='submit'
