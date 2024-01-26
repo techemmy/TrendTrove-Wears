@@ -6,9 +6,9 @@
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "format": "eslint 'src/**/*.{ts,tsx}' --fix",
-    "build": "npm install; tsc",
+    "build": "tsc",
     "dev": "nodemon src/server.ts",
-    "start": "dist/server.js"
+    "start": "npm install; tsc; node dist/server.js"
   },
   "keywords": [],
   "author": "",
