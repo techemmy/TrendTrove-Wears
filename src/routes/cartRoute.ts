@@ -24,7 +24,11 @@ cartRouter.get(
 
 cartRouter.get('/:cartId/update', cartController.updateCartState);
 
-cartRouter.post('/update', ensureAdminUserMiddleware, cartController.updateCart);
+cartRouter.post(
+    '/update',
+    ensureAdminUserMiddleware,
+    cartController.updateCart
+);
 
 cartRouter.get('/:cartId/clear', cartController.getClearCart);
 

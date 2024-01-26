@@ -25,24 +25,22 @@ export async function sendEmail({
     textFilePath: string;
     htmlFilePath: string;
     htmlData: Record<string, any>;
-}) {
+}): Promise<void> {
     const bodyText = fs.readFileSync(textFilePath);
 
     void ejs.renderFile(htmlFilePath, htmlData, async (err, htmlContent) => {
-        if (err) {
+        if (err != null) {
             console.log('Could not send mail');
             return;
         }
 
         const info = await mailer.sendMail({
-            from: `Trendtrove Wears <${process.env.MAILER_USER}>`,
+            from: `Trendtrove Wears <${process.env.MAILER_USER ?? ''}>`,
             to: receivers,
-            subject: subject,
+            subject,
             html: htmlContent,
             text: bodyText,
         });
         console.log('Message info: ', info);
-
-        return info;
     });
 }

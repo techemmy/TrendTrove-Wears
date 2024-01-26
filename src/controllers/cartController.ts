@@ -143,7 +143,7 @@ export async function updateCartState(
                 },
             }
         );
-        
+
         if (cart.state === 'DELIVERED' && cart.User !== undefined) {
             void sendEmail({
                 receivers: [cart.User.email],

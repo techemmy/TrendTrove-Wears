@@ -26,17 +26,16 @@ export const ONE_MB_IN_BYTES: number = 1000000;
 export const fileUploadLimit: number = 5;
 export const ALLOWED_IMAGE_TYPES: string[] = ['jpg', 'jpeg', 'png', 'gif'];
 
- export const successfulCheckoutAdminHtmlFilePath = path.resolve(
+export const successfulCheckoutAdminHtmlFilePath = path.resolve(
     './views/mails/placedOrder.ejs'
 );
- export const successfulCheckoutAdminTextFilePath  = path.resolve(
+export const successfulCheckoutAdminTextFilePath = path.resolve(
     './views/mails/placedOrder.txt'
 );
 
- export const thankYouCustomerHtmlFilePath = path.resolve(
+export const thankYouCustomerHtmlFilePath = path.resolve(
     './views/mails/orderDelivered.ejs'
 );
- export const thankYouCustomerTextFilePath = path.resolve(
+export const thankYouCustomerTextFilePath = path.resolve(
     './views/mails/orderDelivered.txt'
 );
-

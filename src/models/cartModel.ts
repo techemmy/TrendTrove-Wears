@@ -14,7 +14,7 @@ import type {
 import type { CouponAttributes } from '../types/models/couponTypes';
 import { CART_STATES } from '../constants';
 import type { Coupon, CartItem } from '.';
-import { UserAttributes } from '../types/models/userTypes';
+import { type UserAttributes } from '../types/models/userTypes';
 
 export class Cart extends Model<CartAttributes> implements CartAttributes {
     id: number;
