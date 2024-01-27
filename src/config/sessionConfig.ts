@@ -16,12 +16,14 @@ const productionConfig: SessionOptions = {
         ...baseConfig.cookie,
         secure: true,
     },
-    store: MongoStore.create({
+};
+if (process.env.NODE_ENV === 'production') {
+    productionConfig.store = MongoStore.create({
         mongoUrl: process.env.MONGO_URI,
         dbName: 'trendtrove-session-db',
         stringify: true,
-    }),
-};
+    });
+}
 
 const config: SessionOptions =
     process.env.NODE_ENV === 'production' ? productionConfig : baseConfig;
