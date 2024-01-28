@@ -18,17 +18,20 @@ export async function getDashboard(
 ): Promise<void> {
     try {
         const { limit, offset } = getPagination(1, parseInt(''));
-        const products = await Product.findAll({
-            limit,
-            offset,
-            order: [['updatedAt', 'DESC']],
-        });
-        const coupons = await Coupon.findAll({
-            limit,
-            offset,
-            order: [['updatedAt', 'DESC']],
-        });
-        const orders = await Cart.findAll({
+        const { rows: products, count: productCount } =
+            await Product.findAndCountAll({
+                limit,
+                offset,
+                order: [['updatedAt', 'DESC']],
+            });
+
+        const { rows: coupons, count: couponCount } =
+            await Coupon.findAndCountAll({
+                limit,
+                offset,
+                order: [['updatedAt', 'DESC']],
+            });
+        const { rows: orders, count: orderCount } = await Cart.findAndCountAll({
             where: {
                 state: {
                     [Op.in]: [CART_STATES.PROCESSING, CART_STATES.DELIVERED],
@@ -70,8 +73,11 @@ export async function getDashboard(
 
         res.render('admin/dashboard', {
             products,
+            productCount,
             coupons,
+            couponCount,
             orders,
+            orderCount,
             currentPage: 1,
             productCategories: PRODUCT_CATEGORIES,
             productSizes: PRODUCT_SIZES,
