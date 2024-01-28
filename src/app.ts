@@ -1,4 +1,4 @@
-import type { Application } from 'express';
+import type { Application, Request, Response, NextFunction } from 'express';
 import express from 'express';
 import passport from 'passport';
 import session from 'express-session';
@@ -17,6 +17,7 @@ import {
 import cartRouter from './routes/cartRoute';
 import couponRouter from './routes/couponRoute';
 import wishlistRouter from './routes/wishlistRoute';
+import db from './database';
 
 const app: Application = express();
 
@@ -48,8 +49,17 @@ app.use((req: IRequestWithFlashMessages, res, next) => {
     next();
 });
 
-app.get('/', (req, res) => {
-    res.render('index');
+app.get('/', async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+        const featuredProducts = await db.products.findAll({
+            limit: 5,
+            order: [['price', 'DESC']],
+        });
+        res.render('index', { featuredProducts });
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
 });
 
 app.use('/auth', authRouter);
