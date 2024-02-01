@@ -70,7 +70,7 @@
                             <div class="card">
                                 <div class="card-body table-items">
                                     <div class="d-flex flex-column align-items-center my-3 flex-wrap">
-                                        <h4 class="card-title">Orders (<%= orderCount %>)</h4>
+                                        <h4 class="card-title">Orders (<%= orders.length %>)</h4>
                                         <p class="card-text">Newly checked out orders (processing)</p>
                                     </div>
                                     <div class="table-responsive">
@@ -92,14 +92,7 @@
                                                     </tr>
                                                     <% } else { %>
                                                         <% for (const order of orders) { %>
-                                                            <tr 
-                                                                <% if (orders.indexOf(order) + 1 === orders.length && currentPage) { %> 
-                                                                hx-get="/admin/dashboard/orders?page=<%= currentPage + 1 %>"
-                                                                    hx-trigger="intersect once"
-                                                                    hx-swap="afterend"
-                                                                    hx-indicator="#indicator"
-                                                                <% } %>>
-
+                                                            <tr>
                                                                 <td> <%= order.id %>
                                                                 </td>
                                                                 <td>

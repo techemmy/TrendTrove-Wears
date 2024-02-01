@@ -31,17 +31,15 @@ export async function getDashboard(
                 offset,
                 order: [['updatedAt', 'DESC']],
             });
-        const { rows: orders, count: orderCount } = await Cart.findAndCountAll({
+
+        const orders = await Cart.findAll({
             where: {
-                state: {
-                    [Op.in]: [CART_STATES.PROCESSING, CART_STATES.DELIVERED],
-                },
+                state: CART_STATES.PROCESSING,
             },
-            limit,
-            offset,
             order: [['updatedAt', 'DESC']],
             include: CartItem,
         });
+
         const totalUsers = await User.count();
 
         let now = new Date();
@@ -77,7 +75,6 @@ export async function getDashboard(
             coupons,
             couponCount,
             orders,
-            orderCount,
             currentPage: 1,
             productCategories: PRODUCT_CATEGORIES,
             productSizes: PRODUCT_SIZES,
