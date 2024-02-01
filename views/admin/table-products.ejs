@@ -4,24 +4,28 @@
 	</tr>
 	<% } else { %>
 		<% for (const product of products) { %>
-			<tr <% if (products.indexOf(product) + 1===products.length && currentPage) { %>
-				hx-get="/admin/dashboard/products?page=<%= currentPage + 1 %>&qAdminSearchProductName=<%= qAdminSearchProductName %>"
+			<tr 
+				<% if (products.indexOf(product) + 1===products.length && currentPage) { %>
+					hx-get="/admin/dashboard/products?page=<%= currentPage + 1 %>&qAdminSearchProductName=<%= qAdminSearchProductName %>"
 					hx-trigger="intersect once"
-					hx-swap="afterend" hx-indicator="#indicator"
-					<% } %>>
-						<td>
-							<img src="<%= product.imageURL %>" class="me-2" alt="image">
-							<%- product.name %>
-						</td>
-						<td> $<%= product.price %>
-						</td>
-						<td>
-							<%= product.category %>
-						</td>
-						<td>
-							<% if (product.sizes) { %>
-								<%= product.sizes.join(', ') %> <% } %>
-			</td>
+					hx-target="#productsTable"
+					hx-swap="beforeend"
+					hx-indicator="#indicator"
+				<% } %>
+			>
+				<td>
+					<img src="<%= product.imageURL %>" class="me-2" alt="image">
+					<%- product.name %>
+				</td>
+				<td> $<%= product.price %>
+				</td>
+				<td>
+					<%= product.category %>
+				</td>
+				<td>
+					<% if (product.sizes) { %>
+						<%= product.sizes.join(', ') %> <% } %>
+				</td>
 			<td>
 				<% if (product.available) { %>
 					<label class="badge bg-gradient-success"> Yes
@@ -35,7 +39,7 @@
 				<%= product.updatedAt.toGMTString() %>
 			</td>
 			<td>
-				<a href="#" hx-get="/products/<%= product.id %>/update" hx-trigger="click" hx-target="#update-modal-body" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProduct">
+				<a href="#" hx-get="/products/<%= product.id %>/update" hx-trigger="click" hx-swap="innerHTML" hx-target="#update-product-modal-body" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProductModal">
 				<svg xmlns="http://www.w3.org/2000/svg"
 					width="16" height="16" fill="currentColor"
 					class="bi bi-pencil-square"

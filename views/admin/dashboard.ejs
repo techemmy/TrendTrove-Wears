@@ -187,7 +187,8 @@
                                                                 <% if (products.indexOf(product) + 1 === products.length && currentPage) { %> 
                                                                 hx-get="/admin/dashboard/products?page=<%= currentPage + 1 %>&qAdminSearchProductName=<%= qAdminSearchProductName %>"
                                                                     hx-trigger="intersect once"
-                                                                    hx-swap="afterend"
+                                                                    hx-target="#productsTable"
+                                                                    hx-swap="beforeend"
                                                                     hx-indicator="#indicator"
                                                                 <% } %>>
 
@@ -218,7 +219,7 @@
                                                                     <%= product.updatedAt.toGMTString() %>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="#" hx-get="/products/<%= product.id %>/update" hx-trigger="click" hx-target="#update-product-modal-body"  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProductModal">
+                                                                    <a href="#" hx-get="/products/<%= product.id %>/update" hx-trigger="click" hx-swap="innerHTML" hx-target="#update-product-modal-body"  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProductModal">
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                             width="16" height="16" fill="currentColor"
                                                                             class="bi bi-pencil-square"
