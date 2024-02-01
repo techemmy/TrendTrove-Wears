@@ -25,41 +25,40 @@
             <div class="site-section border-bottom" data-aos="fade">
                 <div class="container px-4">
                     <div class="row h-full">
-                        <div class="col-md-4 mb-3">
-                            <div class="card bg-gradient-danger card-img-holder text-white border-0">
-                                <div class="card-body">
-                                    <img src="/images/circle.svg" class="card-img-absolute" alt="circle-image" />
-                                    <h4 class="font-weight-normal mb-3">Revenue (Week)<i
-                                            class="mdi mdi-chart-line mdi-24px float-right"></i>
-                                    </h4>
-                                    <h2 class="mb-5">$<%= currentMonthRevenue %>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4 stretch-card grid-margin mt-2">
                             <div class="card bg-gradient-info card-img-holder text-white border-0">
                                 <div class="card-body">
-                                    <img src="/images/circle.svg" class="card-img-absolute" alt="circle-image" />
-                                    <h4 class="font-weight-normal mb-3">Completed Orders (Week)<i
-                                            class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
-                                    </h4>
-                                    <h2 class="mb-5">
-                                        <%= currentWeekOrders %>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card bg-gradient-success card-img-holder text-white border-0">
-                                <div class="card-body">
-                                    <img src="/images/circle.svg" class="card-img-absolute" alt="circle-image" />
-                                    <h4 class="font-weight-normal mb-3">Total Users <i
-                                            class="mdi mdi-diamond mdi-24px float-right"></i>
+                                    <img src="/images/circle.svg" class="card-img-absolute" alt="circle-image">
+                                    <h4 class="font-weight-normal mb-3">Total Users <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
                                     </h4>
                                     <h2 class="mb-5">
                                         <%= totalUsers %>
                                     </h2>
+                                    <h6 class="card-text">All time users counter</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 stretch-card grid-margin mt-2">
+                            <div class="card bg-gradient-danger card-img-holder text-white border-0">
+                                <div class="card-body">
+                                    <img src="/images/circle.svg" class="card-img-absolute" alt="circle-image">
+                                    <h4 class="font-weight-normal mb-3">Weekly Revenue<i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                                    </h4>
+                                    <h2 class="mb-5">$<%= currentMonthRevenue %>
+                                    <h6 class="card-text">This week's sales</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 stretch-card grid-margin mt-2">
+                            <div class="card bg-gradient-success card-img-holder text-white border-0">
+                                <div class="card-body">
+                                    <img src="/images/circle.svg" class="card-img-absolute" alt="circle-image">
+                                    <h4 class="font-weight-normal mb-3">Completed orders<i class="mdi mdi-diamond mdi-24px float-right"></i>
+                                    </h4>
+                                    <h2 class="mb-5">
+                                        <%= currentWeekOrders %>
+                                    </h2>
+                                    <h6 class="card-text">This week's delivered orders</h6>
                                 </div>
                             </div>
                         </div>
