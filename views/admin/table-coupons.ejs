@@ -9,7 +9,8 @@
                 <% if (coupons.indexOf(coupon) + 1 === coupons.length && currentPage) { %> 
                 hx-get="/admin/dashboard/coupons?page=<%= currentPage + 1 %>&qAdminSearchCouponCode =<%= qAdminSearchCouponCode  %>"
                     hx-trigger="intersect once"
-                    hx-swap="afterend"
+                    hx-target="#couponsTable"
+                    hx-swap="beforeend"
                     hx-indicator="#indicator"
                 <% } %>>
 
@@ -28,7 +29,7 @@
                     <%= coupon.updatedAt.toGMTString() %>
                 </td>
                 <td>
-                    <a href="#" hx-get="/coupons/<%= coupon.id %>/update" hx-trigger="click" hx-target="#update-coupon-modal-body" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateCouponModal">
+                    <a href="#" hx-get="/coupons/<%= coupon.id %>/update" hx-trigger="click" hx-swap="innerHTML" hx-target="#update-coupon-modal-body" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateCouponModal">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             width="16" height="16" fill="currentColor"
                             class="bi bi-pencil-square"
