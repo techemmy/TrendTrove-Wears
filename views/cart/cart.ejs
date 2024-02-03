@@ -150,7 +150,7 @@
                                                 </div>
                                                 <div class="col-md-6 text-end">
                                                     <% if (cartCoupon && (cartTotal> cartCoupon.amount)) { %>
-                                                        <strong class="text-black">$<%= cartTotal - cartCoupon.amount %>
+                                                        <strong class="text-black">$<%= (cartTotal - cartCoupon.amount).toFixed(2) %>
                                                         </strong>
                                                         <% } else { %>
                                                             <strong class="text-black">$<%= cartTotal %></strong>
