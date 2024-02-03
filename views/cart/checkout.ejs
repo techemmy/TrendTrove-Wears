@@ -144,7 +144,7 @@
                                                 <tr>
                                                     <td><b>Total:</b></td>
                                                     <% if (coupon) { %>
-                                                        <td>$<%= cartTotal - coupon.amount %></td>
+                                                        <td>$<%= (cartTotal - coupon.amount).toFixed(2) %></td>
                                                     <% } else { %>
                                                         <td>$<%= cartTotal %></td>
                                                     <% } %>
