@@ -18,9 +18,11 @@ import cartRouter from './routes/cartRoute';
 import couponRouter from './routes/couponRoute';
 import wishlistRouter from './routes/wishlistRoute';
 import db from './database';
+import cors from 'cors';
 
 const app: Application = express();
 
+app.use(cors({ credentials: true }));
 app.set('view engine', 'ejs');
 
 if (appConfig.ENV === 'production') {
