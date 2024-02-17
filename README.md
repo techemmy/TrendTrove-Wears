@@ -154,7 +154,7 @@ To use the enable the mailer system, make sure you create an App password on goo
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@itechemmy](https://twitter.com/@itechemmy) - emmanueltopea@gmail.com
+Emmanuel Oloyede - [@itechemmy](https://twitter.com/@itechemmy) - emmanueltopea@gmail.com
 
 Project Link: [https://github.com/techemmy/trendTrove-Wears/](https://github.com/techemmy/trendTrove-Wears/)
 
