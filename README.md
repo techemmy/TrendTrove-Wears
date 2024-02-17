@@ -121,6 +121,8 @@ Here's a list of all the softwares you need to install
 - [NodeJs v18](https://nodejs.org/dist/v18.16.0/) for running app
 - [PostgreSQL](https://www.postgresql.org/download/) for the database
 
+To use the enable the mailer system, make sure you create an App password on google and update the `MAILER_USER` with your email and `MAILER_PASSWORD` with the new app's password.
+
 
 ### Installation
 1. Clone the repo
