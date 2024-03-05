@@ -85,7 +85,7 @@ TrendTrove Wears is a functional and user-friendly B-2-C e-commerce app designed
 
 - Wishlist: Giving users the option to add items to a wishlist for future purchases can encourage repeat visits and purchases.
 
-- Email Notification System: Admin users get mailed whenever there's a successful payment. And customers also get mailed after their order gets processed by the admin.
+- Email Notification System: Admin users get mailed whenever there's a successful payment. Customers and admin users get mailed an invoice after their order gets processed by the admin.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
