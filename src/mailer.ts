@@ -19,12 +19,14 @@ export async function sendEmail({
     textFilePath,
     htmlFilePath,
     htmlData = {},
+    cc = [],
 }: {
     receivers: string[];
     subject: string;
     textFilePath: string;
     htmlFilePath: string;
     htmlData: Record<string, any>;
+    cc?: string[];
 }): Promise<void> {
     const bodyText = fs.readFileSync(textFilePath);
 
@@ -40,6 +42,7 @@ export async function sendEmail({
             subject,
             html: htmlContent,
             text: bodyText,
+            cc,
         });
         console.log('Message info: ', info);
     });

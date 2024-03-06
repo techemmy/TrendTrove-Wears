@@ -9,7 +9,6 @@
             crossorigin="anonymous" referrerpolicy="no-referrer" />
         <%- include('../partials/static-head-elements.ejs') %>
         <style>
-          
             :root {
                 --font-family-sans-serif: 'Mukta', -apple-system, BlinkMacSystemFont,
                     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
@@ -38,8 +37,8 @@
                     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
             }
                         
-            .border-top {
-                border-top: 1px solid #edf0f5 !important;
+            .bcart-top {
+                bcart-top: 1px solid #edf0f5 !important;
             }
             .site-navbar .site-logo a {
                 text-transform: uppercase;
@@ -48,7 +47,7 @@
                 font-size: 20px;
                 padding-left: 10px;
                 padding-right: 10px;
-                border: 2px solid #25262a;
+                bcart: 2px solid #25262a;
             }
             .site-navbar .site-logo a:hover {
                 text-decoration: none;
@@ -66,7 +65,7 @@
             }
 
             .site-navbar .site-navbar-top {
-                border-bottom: 1px solid #f3f3f4;
+                bcart-bottom: 1px solid #f3f3f4;
                 padding-top: 20px;
                 padding-bottom: 20px;
                 margin-bottom: 0px;
@@ -114,7 +113,7 @@
                 letter-spacing: 0.2em;
                 color: #fff;
                 background-color: #7971ea;
-                border-color: #7971ea;
+                bcart-color: #7971ea;
             }
             .btn:hover {
                 -webkit-box-shadow: 0 5px 20px -7px rgba(0, 0, 0, 0.9) !important;
@@ -125,7 +124,7 @@
             .btn-primary:hover {
                 color: #fff;
                 background-color: #5a50e5;
-                border-color: #4f45e3;
+                bcart-color: #4f45e3;
             }
             .btn-primary.focus,
             .btn-primary:focus {
@@ -136,20 +135,46 @@
             .btn-primary:disabled {
                 color: #fff;
                 background-color: #7971ea;
-                border-color: #7971ea;
+                bcart-color: #7971ea;
             }
             .btn-primary:not(:disabled):not(.disabled).active,
             .btn-primary:not(:disabled):not(.disabled):active,
             .show > .btn-primary.dropdown-toggle {
                 color: #fff;
                 background-color: #4f45e3;
-                border-color: #4539e2;
+                bcart-color: #4539e2;
             }
             .btn-primary:not(:disabled):not(.disabled).active:focus,
             .btn-primary:not(:disabled):not(.disabled):active:focus,
             .show > .btn-primary.dropdown-toggle:focus {
                 -webkit-box-shadow: 0 0 0 0.2rem rgba(121, 113, 234, 0.5);
                 box-shadow: 0 0 0 0.2rem rgba(121, 113, 234, 0.5);
+            }
+
+            .text-primary {
+                color: #7971ea !important;
+            }
+            a.text-primary:focus,
+            a.text-primary:hover {
+                color: #e43939 !important;
+            }
+
+            .site-blocks-table thead th {
+                padding: 30px;
+                text-align: center;
+                border-width: 1px !important;
+                vertical-align: middle;
+                color: #212529;
+                font-size: 18px;
+            }
+            .site-blocks-table td {
+                padding: 20px;
+                text-align: center;
+                vertical-align: middle;
+                color: #212529;
+            
+            .site-blocks-table tbody tr:first-child td {
+                border-top: 1px solid #7971ea !important;
             }
 
             .block-5 ul,
@@ -226,8 +251,56 @@
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <h2 class="display-3 text-black">Thank you for shopping with us!</h2>
-                        <p class="lead mb-5">Your order has been delivered succesfully.</p>
-                        <p><a href="<%= APP_DOMAIN %>/products" class="btn btn-sm btn-primary">Check out new products</a></p>
+                        <p class="lead mb-5">Your cart has been delivered succesfully.</p>
+                        
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="text-primary">Here's your Invoice</h2>
+                              <table class="table site-blocks-table">
+                                <thead>
+                                  <tr>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% for (const cartItem of cartItems) { %>
+                                  <tr>
+                                    <td><%- cartItem.Product.name %></td>
+                                    <td><%= cartItem.quantity %></td>
+                                    <td>$<%= cartItem.Product.price %></td>
+                                    <td>$<%= cartItem.totalPrice %></td>
+                                  </tr>
+                                  <% } %>
+                                </tbody>
+                                <tfoot>
+                                  <% if (cart.Coupon) { %> 
+                                  <tr>
+                                    <td colspan="3">
+                                        <strong>Coupon:</strong>
+                                    </td>
+                                    <td><strong>-$<%= cart.Coupon.amount %></strong></td> 
+                                  </tr>
+                                  <% }  %>
+                                  <tr>
+                                    <td colspan="3">
+                                        <strong>Grand Total:</strong>
+                                    </td>
+                                    <% if (cart.Coupon) { %> 
+                                        <td><strong>$<%= (cart.cartTotal - cart.Coupon.amount).toFixed(2) %></strong></td> 
+                                    <% } else { %>
+                                        <td><strong>$<%= cart.cartTotal %></strong></td> 
+                                    <% } %>
+
+                                  </tr>
+                                </tfoot>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -242,7 +315,7 @@
                             <ul class="list-unstyled">
                                 <li class="address">My address here - it's a side project</li>
                                 <li class="phone"><a href="tel://07014364771">+234 701 4364 771</a></li>
-                                <li class="email">emailaddress@domain.com</li>
+                                <li class="email">emmanueltopea@gmail.com</li>
                             </ul>
                         </div>
 

@@ -124,7 +124,7 @@ export async function updateCartState(
 ): Promise<void> {
     try {
         const { cartId } = req.params;
-        const cart = await Cart.findByPk(cartId, { include: User });
+        const cart = await Cart.findByPk(cartId, { include: [User, Coupon] });
 
         if (cart === null) {
             setFlashMessage(req, {
@@ -144,17 +144,31 @@ export async function updateCartState(
             }
         );
 
+        const cartItems = await cart?.getCartItems({
+            include: Product,
+        });
+
+        const adminEmails = (
+            await User.findAll({
+                where: {
+                    role: USER_ROLES.admin,
+                },
+                attributes: ['email'],
+            })
+        ).map((user) => user.email);
+
         if (cart.state === 'DELIVERED' && cart.User !== undefined) {
             void sendEmail({
                 receivers: [cart.User.email],
-                subject: 'Thanks for shopping with us!',
+                subject: 'Invoice: Thanks for shopping with us!',
                 textFilePath: thankYouCustomerTextFilePath,
                 htmlFilePath: thankYouCustomerHtmlFilePath,
-                htmlData: { APP_DOMAIN: appConfig.APP_DOMAIN },
+                htmlData: { APP_DOMAIN: appConfig.APP_DOMAIN, cart, cartItems },
+                cc: adminEmails,
             });
         }
         setFlashMessage(req, {
-            message: 'Order state updated succesfully!',
+            message: 'Order completed succesfully!',
             type: 'success',
         });
         res.redirect('back');
