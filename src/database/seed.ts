@@ -21,21 +21,19 @@ for (let i = 0; i < 5; i++) {
 }
 
 (async () => {
-    const mailerAccountExists = await db.users.findOne({
-        where: {
-            email: mailerConfig.MAILER_USER,
-        },
-    });
-    if (mailerAccountExists != null) {
-        await db.users.update(
-            { role: UserRoleEnum.admin },
-            {
-                where: {
-                    email: mailerConfig.MAILER_USER,
-                },
-            }
-        );
+    const adminEmail = mailerConfig.MAILER_USER;
+    if (adminEmail === '' || adminEmail == null) {
+        throw Error('No mailer user/email has been set');
     }
+
+    await db.users.update(
+        { role: UserRoleEnum.admin },
+        {
+            where: {
+                email: mailerConfig.MAILER_USER,
+            },
+        }
+    );
 
     await db.products.bulkCreate(products);
 })()
