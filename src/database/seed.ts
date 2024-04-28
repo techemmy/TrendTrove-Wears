@@ -7,7 +7,7 @@ import { faker } from '@faker-js/faker';
 import { UserRoleEnum } from '../types/models/userTypes';
 
 const products = [] as ProductAttributes[];
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 15; i++) {
     products.push({
         name: faker.commerce.productName(),
         price: faker.number.float({ min: 5, max: 1000, fractionDigits: 2 }),
