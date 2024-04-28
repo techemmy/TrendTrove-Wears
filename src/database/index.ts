@@ -10,6 +10,7 @@ import {
 } from '../models';
 
 let sequelize;
+
 if (typeof dbConfig.url !== 'undefined') {
     sequelize = new Sequelize(dbConfig.url, dbConfig.options);
 } else {

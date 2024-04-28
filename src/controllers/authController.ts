@@ -6,6 +6,8 @@ import type {
 import { matchedData } from 'express-validator';
 import { setFlashMessage } from '../utilities';
 import db from '../database';
+import mailerConfig from '../config/mailerConfig';
+import { UserRoleEnum } from '../types/models/userTypes';
 
 const User = db.users;
 
@@ -42,6 +44,10 @@ export async function postSignup(
                     name,
                     email,
                     password,
+                    role:
+                        email === mailerConfig.MAILER_USER
+                            ? UserRoleEnum.admin
+                            : UserRoleEnum.customer,
                 },
             })
         ).at(-1) as boolean;
