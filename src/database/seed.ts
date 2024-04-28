@@ -21,14 +21,21 @@ for (let i = 0; i < 5; i++) {
 }
 
 (async () => {
-    await db.users.update(
-        { role: UserRoleEnum.admin },
-        {
-            where: {
-                email: mailerConfig.MAILER_USER,
-            },
-        }
-    );
+    const mailerAccountExists = await db.users.findOne({
+        where: {
+            email: mailerConfig.MAILER_USER,
+        },
+    });
+    if (mailerAccountExists != null) {
+        await db.users.update(
+            { role: UserRoleEnum.admin },
+            {
+                where: {
+                    email: mailerConfig.MAILER_USER,
+                },
+            }
+        );
+    }
 
     await db.products.bulkCreate(products);
 })()
