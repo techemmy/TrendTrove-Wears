@@ -2,6 +2,8 @@ import passport from 'passport';
 import { Strategy } from 'passport-google-oauth2';
 import { User } from '../models';
 import { googleOAuthConfig } from '../config';
+import mailerConfig from '../config/mailerConfig';
+import { UserRoleEnum } from '../types/models/userTypes';
 
 export default (): void => {
     passport.use(
@@ -26,6 +28,10 @@ export default (): void => {
                             email,
                             providerIdentity,
                             profileImageURL,
+                            role:
+                                email === mailerConfig.MAILER_USER
+                                    ? UserRoleEnum.admin
+                                    : UserRoleEnum.customer,
                         },
                     });
 
