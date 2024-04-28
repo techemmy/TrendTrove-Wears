@@ -10,7 +10,7 @@ const products = [] as ProductAttributes[];
 for (let i = 0; i < 5; i++) {
     products.push({
         name: faker.commerce.productName(),
-        price: faker.number.float({ min: 5, max: 1500, fractionDigits: 2 }),
+        price: faker.number.float({ min: 5, max: 1000, fractionDigits: 2 }),
         category: faker.helpers.arrayElement(PRODUCT_CATEGORIES),
         sizes: faker.helpers.arrayElements(Object.keys(PRODUCT_SIZES)),
         shortDescription: faker.word.words({ count: { min: 3, max: 10 } }),
